@@ -88,21 +88,21 @@ export function unpack(content: string): EcosystemHealthItem[] {
 		}
 
 		const fields = line.split(",");
+		if (fields.length < 8) {
+			continue;
+		}
+
 		const [
 			createdTs,
 			score,
-			prKeyB64,
-			status,
+			prKeyB64 = "",
+			status = "",
 			userCreatedTs,
 			publicRepos,
 			events,
 			repoIdx,
 			isBounty,
 		] = fields;
-
-		if (fields.length < 8) {
-			continue;
-		}
 
 		const numCreatedTs = Number(createdTs);
 		const numUserCreatedTs = Number(userCreatedTs);
@@ -123,8 +123,8 @@ export function unpack(content: string): EcosystemHealthItem[] {
 		results.push({
 			created_at: fromUnixSecs(numCreatedTs),
 			score: Number(score),
-			pr_key: base64UrlToHex(prKeyB64!),
-			pr_status: (STATUS_DECODE[status!] ?? status!) as PrStatus,
+			pr_key: base64UrlToHex(prKeyB64),
+			pr_status: (STATUS_DECODE[status] ?? status) as PrStatus,
 			user_created_at: fromUnixSecs(numUserCreatedTs),
 			user_public_repos_count: numPublicRepos,
 			events_count: numEvents,

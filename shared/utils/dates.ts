@@ -39,7 +39,7 @@ export function formatDateRange({
 	const start = new Date(startDate);
 	const end = new Date(endDate);
 
-	if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+	if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
 		return "";
 	}
 

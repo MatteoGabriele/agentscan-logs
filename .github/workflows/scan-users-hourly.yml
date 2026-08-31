@@ -41,6 +41,7 @@ jobs:
           --output=hourly-window-scan-results.txt
           --max-scans=30
           --daily-output=daily-scan-results.json
+          --repo-scores-output=daily-repo-scores.json
           --automation-ids-output=automation-ids.json
 
       - name: Commit and push results
@@ -52,7 +53,7 @@ jobs:
           git config --local user.name "GitHub Action"
 
           # Staged-diff check, so the first run picks up the still-untracked files.
-          git add data/hourly-window-scan-results.txt data/daily-scan-results.json data/automation-ids.json
+          git add data/hourly-window-scan-results.txt data/daily-scan-results.json data/daily-repo-scores.json data/automation-ids.json
 
           # A day is only rolled up once its last hour is scanned, so this file
           # changes once a day — that is the Discord notification's trigger.

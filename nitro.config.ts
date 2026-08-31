@@ -12,7 +12,7 @@ export default defineConfig({
 			baseName: "data",
 			dir: "./data",
 			pattern:
-				"{daily-scan-results.json,hourly-window-scan-results.txt,automation-ids.json}",
+				"{daily-scan-results.json,daily-repo-scores.json,hourly-window-scan-results.txt,automation-ids.json}",
 		},
 	],
 

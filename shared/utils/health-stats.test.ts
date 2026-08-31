@@ -38,8 +38,13 @@ describe("classifyByScore", () => {
 describe("getHealthStats", () => {
 	it("returns a classified dataset from ecosystem data", () => {
 		const result = getHealthStats(MOCK_ECOSYSTEM_HEALTH_ITEMS);
-		expect(result).not.toBeNull();
-		Object.values(result!).forEach((value) => {
+		if (!result) {
+			throw new Error("expected stats for the mock dataset");
+		}
+
+		expect(Object.keys(result)).not.toHaveLength(0);
+
+		Object.values(result).forEach((value) => {
 			expect(value).toEqual(
 				expect.objectContaining({
 					count: expect.any(Number),
@@ -58,9 +63,9 @@ describe("getHealthStats", () => {
 
 		const result = getHealthStats(items);
 
-		expect(result!.organic).toEqual({ count: 1, percentage: "50.0" });
-		expect(result!.automation).toEqual({ count: 1, percentage: "50.0" });
-		expect(result!.mixed).toEqual({ count: 0, percentage: "0.0" });
+		expect(result?.organic).toEqual({ count: 1, percentage: "50.0" });
+		expect(result?.automation).toEqual({ count: 1, percentage: "50.0" });
+		expect(result?.mixed).toEqual({ count: 0, percentage: "0.0" });
 	});
 
 	it("returns null when every entry is insufficient-data", () => {

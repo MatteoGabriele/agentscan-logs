@@ -201,14 +201,14 @@ describe("getDailyCountsByDate", () => {
 	it("reads a stored day exactly as the scan pipeline reads the same rows", () => {
 		const [entry] = foldIntoStoredEntries(rows);
 
-		expect(getDailyCountsByDate([entry!])).toEqual(
+		expect(getDailyCountsByDate([entry])).toEqual(
 			getClassificationStatsByDate(rows),
 		);
 	});
 
 	it("leaves insufficient-data out of the total and the percentages", () => {
 		const [entry] = foldIntoStoredEntries(rows);
-		const counts = getDailyCountsByDate([entry!])["2026-06-10"];
+		const counts = getDailyCountsByDate([entry])["2026-06-10"];
 
 		// 11 rows were measured, but only the 10 scored ones are aggregated.
 		expect(entry?.classifications["insufficient-data"].count).toBe(1);
