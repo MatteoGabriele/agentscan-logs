@@ -57,7 +57,7 @@ async function main({ dryRun = false }: MainOptions = {}) {
 	}
 
 	function statLabel(value: number | null, suffix = ""): string {
-		if (value == null || !isFinite(value)) {
+		if (value == null || !Number.isFinite(value)) {
 			return "N/A";
 		}
 		const arrow = value > 0 ? "↑" : value < 0 ? "↓" : "→";

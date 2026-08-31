@@ -1,4 +1,4 @@
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -43,7 +43,7 @@ describe("User Hash Anonymization", () => {
 
 		// Try to "reverse" by hashing the hash itself
 		const doubleHash = createHash("sha256")
-			.update(hash + ":" + STATIC_SALT)
+			.update(`${hash}:${STATIC_SALT}`)
 			.digest("hex");
 
 		// The double hash should NOT match the original ID

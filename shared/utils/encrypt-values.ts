@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv, createHash } from "crypto";
+import { createCipheriv, createDecipheriv, createHash } from "node:crypto";
 
 function deriveKey(): Buffer {
 	const secret = process.env.PR_HASH_SECRET;

@@ -113,7 +113,7 @@ export function previousHourWindow(now: Date): { start: Date; end: Date } {
 }
 
 async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
-	let lastError: Error;
+	let lastError: Error | undefined;
 	for (let attempt = 1; attempt <= RETRY_MAX_ATTEMPT + 1; attempt++) {
 		try {
 			return await fn();
@@ -127,7 +127,7 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
 			}
 		}
 	}
-	throw lastError!;
+	throw lastError;
 }
 
 // The curated list is maintained in the app repo, where the report issues and

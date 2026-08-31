@@ -65,11 +65,11 @@ describe("getClassificationStatsByDate", () => {
 		]);
 
 		expect(Object.keys(result)).toEqual(["2026-06-10"]);
-		expect(result["2026-06-10"]!.total.count).toBe(2);
-		expect(result["2026-06-10"]!.organic.count).toBe(1);
-		expect(result["2026-06-10"]!.organic.percentage).toBe(50);
-		expect(result["2026-06-10"]!.automation.count).toBe(1);
-		expect(result["2026-06-10"]!.automation.percentage).toBe(50);
+		expect(result["2026-06-10"].total.count).toBe(2);
+		expect(result["2026-06-10"].organic.count).toBe(1);
+		expect(result["2026-06-10"].organic.percentage).toBe(50);
+		expect(result["2026-06-10"].automation.count).toBe(1);
+		expect(result["2026-06-10"].automation.percentage).toBe(50);
 	});
 
 	it("returns counts, percentages, and default trends for each date", () => {
@@ -861,7 +861,7 @@ describe("fillEmptyHourlyBuckets", () => {
 		]);
 
 		// Zeroed because there was nothing to classify, not because of a score.
-		expectClassificationCounts(result["2026-08-08T06:00:00.000Z"]!, {
+		expectClassificationCounts(result["2026-08-08T06:00:00.000Z"], {
 			organic: { count: 0, trend: 0, percentage: 0 },
 			mixed: { count: 0, trend: 0, percentage: 0 },
 			automation: { count: 0, trend: 0, percentage: 0 },
@@ -877,7 +877,7 @@ describe("fillEmptyHourlyBuckets", () => {
 
 		const result = fillEmptyHourlyBuckets({ countsByHour });
 
-		expectClassificationCounts(result["2026-08-08T07:00:00.000Z"]!, {
+		expectClassificationCounts(result["2026-08-08T07:00:00.000Z"], {
 			organic: { count: 0, trend: 0, percentage: 0 },
 			mixed: { count: 0, trend: 0, percentage: 0 },
 			automation: { count: 1, trend: 0, percentage: 100 },
@@ -919,19 +919,19 @@ describe("fillEmptyHourlyBuckets", () => {
 
 		// Both 06:xx scans belong to the same clock hour, so their counts add up
 		// instead of splitting into two buckets.
-		expectClassificationCounts(result["2026-08-08T06:00:00.000Z"]!, {
+		expectClassificationCounts(result["2026-08-08T06:00:00.000Z"], {
 			organic: { count: 0, trend: 0, percentage: 0 },
 			mixed: { count: 0, trend: 0, percentage: 0 },
 			automation: { count: 2, trend: 0, percentage: 100 },
 			total: { count: 2, trend: 0, percentage: 100 },
 		});
 
-		expect(result["2026-08-08T06:00:00.000Z"]!.createdAt).toBe(
+		expect(result["2026-08-08T06:00:00.000Z"].createdAt).toBe(
 			"2026-08-08T06:14:47.000Z",
 		);
 
 		// The hour with no scan at all is still an empty placeholder.
-		expectClassificationCounts(result["2026-08-08T07:00:00.000Z"]!, {
+		expectClassificationCounts(result["2026-08-08T07:00:00.000Z"], {
 			organic: { count: 0, trend: 0, percentage: 0 },
 			mixed: { count: 0, trend: 0, percentage: 0 },
 			automation: { count: 0, trend: 0, percentage: 0 },
