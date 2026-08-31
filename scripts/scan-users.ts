@@ -1,8 +1,8 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import type { GitHubEvent, IdentifyUser } from "@unveil/identity";
 import { identify } from "@unveil/identity";
-import { readFileSync, writeFileSync } from "fs";
 import { Octokit } from "octokit";
-import { join } from "path";
 import { isKnownBot } from "../shared/cicd-known-bots";
 import { libraries } from "../shared/daily-scan";
 import type {
@@ -11,6 +11,11 @@ import type {
 } from "../shared/types/automation";
 import type { PrStatus } from "../shared/types/ecosystem-health";
 import { pack, unpack } from "../shared/utils/compactor";
+import type { DailyRepoScores } from "../shared/utils/daily-repo-scores";
+import {
+	getRepoScoresByDate,
+	mergeRepoScores,
+} from "../shared/utils/daily-repo-scores";
 import type { DailyScanEntry } from "../shared/utils/daily-rollup";
 import {
 	getCompletedDailyEntries,
@@ -66,6 +71,12 @@ interface ScanOptions {
 	 * re-run never rewrites a day it already measured.
 	 */
 	dailyOutputFile?: string;
+	/**
+	 * Where this run writes the per-repo breakdown of the same days it rolls
+	 * up, kept in its own file because it is far bigger than the daily totals
+	 * and read by its own endpoint.
+	 */
+	repoScoresOutputFile?: string;
 	/**
 	 * Where the run records the accounts it scored as automations, as
 	 * `[hashedId, prCount]` pairs. Unlike every other output this one only
@@ -195,6 +206,30 @@ function saveDailyEntries(
 	}
 	const filePath = join(process.cwd(), "data", outputFile);
 	writeFileSync(filePath, `${JSON.stringify(entries, null, 2)}\n`);
+}
+
+function loadRepoScores(outputFile: string): DailyRepoScores {
+	const filePath = join(process.cwd(), "data", outputFile);
+	try {
+		return JSON.parse(readFileSync(filePath, "utf-8"));
+	} catch (err) {
+		if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+			return {};
+		}
+		throw err;
+	}
+}
+
+function saveRepoScores(
+	scores: DailyRepoScores,
+	outputFile: string,
+	dryRun: boolean = false,
+): void {
+	if (dryRun) {
+		return;
+	}
+	const filePath = join(process.cwd(), "data", outputFile);
+	writeFileSync(filePath, `${JSON.stringify(scores, null, 2)}\n`);
 }
 
 function loadAutomationIds(outputFile: string): AutomationTally[] {
@@ -436,6 +471,7 @@ export async function main(options: ScanOptions) {
 		outputFile,
 		maxScans,
 		dailyOutputFile,
+		repoScoresOutputFile,
 		automationIdsOutputFile,
 	} = options;
 
@@ -605,6 +641,22 @@ export async function main(options: ScanOptions) {
 
 		saveDailyEntries(dailyEntries, dailyOutputFile, dryRun);
 		console.log(`Daily: ${measured.length} day(s) rolled up from the window`);
+
+		// Same days, same rows, split out by repo — written from the daily
+		// rollup so a day can never land in one file and miss the other.
+		if (repoScoresOutputFile) {
+			const storedScores = dryRun ? {} : loadRepoScores(repoScoresOutputFile);
+			const measuredScores = getRepoScoresByDate(
+				scanResults,
+				measured.map((entry) => entry.date),
+			);
+			const repoScoresByDate = mergeRepoScores(storedScores, measuredScores);
+
+			saveRepoScores(repoScoresByDate, repoScoresOutputFile, dryRun);
+			console.log(
+				`Repo scores: ${Object.keys(measuredScores).length} day(s) written`,
+			);
+		}
 	}
 
 	if (automationIdsOutputFile) {
@@ -653,6 +705,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 		? dailyOutputArg.split("=")[1]
 		: undefined;
 
+	const repoScoresOutputArg = args.find((a) =>
+		a.startsWith("--repo-scores-output="),
+	);
+	const repoScoresOutputFile = repoScoresOutputArg
+		? repoScoresOutputArg.split("=")[1]
+		: undefined;
+
 	const automationIdsOutputPrefix = "--automation-ids-output=";
 	const automationIdsOutputArg = args.find((a) =>
 		a.startsWith(automationIdsOutputPrefix),
@@ -666,6 +725,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 		outputFile,
 		...(maxScans != null && { maxScans }),
 		...(dailyOutputFile && { dailyOutputFile }),
+		...(repoScoresOutputFile && { repoScoresOutputFile }),
 		...(automationIdsOutputFile && { automationIdsOutputFile }),
 	}).catch((error) => {
 		console.error("Fatal error:", error.message);
