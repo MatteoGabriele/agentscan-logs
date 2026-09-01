@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 import type { EcosystemHealthItem } from "../types/ecosystem-health";
 import {
 	type DailyRepoScores,
+	getDatesInRange,
 	getRepoScoresByDate,
+	isValidScoreDate,
 	mergeRepoScores,
+	sumRepoScoresOverDates,
 } from "./daily-repo-scores";
 import { INSUFFICIENT_DATA_SCORE } from "./health-stats";
 
@@ -104,5 +107,94 @@ describe("mergeRepoScores", () => {
 		});
 
 		expect(merged).toEqual(stored);
+	});
+});
+
+describe("getDatesInRange", () => {
+	const dates = ["2026-06-09", "2026-06-10", "2026-06-11", "2026-06-12"];
+
+	it("keeps the days inside an inclusive range", () => {
+		expect(
+			getDatesInRange({ dates, from: "2026-06-10", to: "2026-06-11" }),
+		).toEqual(["2026-06-10", "2026-06-11"]);
+	});
+
+	it("answers with the days it holds when the range asks for more", () => {
+		expect(
+			getDatesInRange({ dates, from: "2026-06-01", to: "2026-12-31" }),
+		).toEqual(dates);
+	});
+
+	it("is empty when no measured day falls in the range", () => {
+		expect(
+			getDatesInRange({ dates, from: "2026-07-01", to: "2026-07-05" }),
+		).toEqual([]);
+	});
+});
+
+describe("sumRepoScoresOverDates", () => {
+	const scoresByDate: DailyRepoScores = {
+		"2026-06-10": {
+			"nuxt/nuxt": { count: 2, scoredCount: 2, scoreSum: 140 },
+			"vuejs/core": { count: 1, scoredCount: 1, scoreSum: 10 },
+		},
+		"2026-06-11": {
+			"nuxt/nuxt": { count: 3, scoredCount: 1, scoreSum: 60 },
+		},
+		"2026-06-12": {
+			"vuejs/core": { count: 5, scoredCount: 5, scoreSum: 400 },
+		},
+	};
+
+	it("sums a repo across the days it was given", () => {
+		expect(
+			sumRepoScoresOverDates({
+				scoresByDate,
+				dates: ["2026-06-10", "2026-06-11"],
+			}),
+		).toEqual({
+			"nuxt/nuxt": { count: 5, scoredCount: 3, scoreSum: 200 },
+			"vuejs/core": { count: 1, scoredCount: 1, scoreSum: 10 },
+		});
+	});
+
+	it("ignores a day that was never measured", () => {
+		expect(
+			sumRepoScoresOverDates({
+				scoresByDate,
+				dates: ["2026-06-10", "2026-06-30"],
+			}),
+		).toEqual(scoresByDate["2026-06-10"]);
+	});
+
+	it("leaves the stored days untouched", () => {
+		sumRepoScoresOverDates({
+			scoresByDate,
+			dates: ["2026-06-10", "2026-06-11"],
+		});
+
+		expect(scoresByDate["2026-06-10"]["nuxt/nuxt"]).toEqual({
+			count: 2,
+			scoredCount: 2,
+			scoreSum: 140,
+		});
+	});
+});
+
+describe("isValidScoreDate", () => {
+	it("accepts an ISO calendar date", () => {
+		expect(isValidScoreDate("2026-06-10")).toBe(true);
+	});
+
+	it("rejects anything that is not one", () => {
+		[
+			"2026-6-10",
+			"10-06-2026",
+			"2026-06-10T00:00:00Z",
+			"2026-13-10",
+			"",
+		].forEach((value) => {
+			expect(isValidScoreDate(value)).toBe(false);
+		});
 	});
 });

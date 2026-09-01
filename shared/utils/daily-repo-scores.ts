@@ -85,3 +85,60 @@ export function mergeRepoScores(
 		Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)),
 	);
 }
+
+/** ISO calendar dates only, so a string compare is a date compare. */
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+export function isValidScoreDate(date: string): boolean {
+	return (
+		DATE_PATTERN.test(date) && !Number.isNaN(Date.parse(`${date}T00:00:00Z`))
+	);
+}
+
+/**
+ * The days on file that fall inside an inclusive `from`..`to` range. A range
+ * naming days that were never measured is not an error — it just answers with
+ * the days that were.
+ */
+export function getDatesInRange({
+	dates,
+	from,
+	to,
+}: {
+	dates: string[];
+	from: string;
+	to: string;
+}): string[] {
+	return dates.filter((date) => date >= from && date <= to).sort();
+}
+
+/**
+ * Folds several days into one per-repo total. The file stores sums precisely
+ * so this works: a range re-rolls into the same shape a single day has, and
+ * the mean over the range is the summed score over the summed scored count —
+ * not an average of daily averages, which would weight a quiet day like a
+ * busy one.
+ */
+export function sumRepoScoresOverDates({
+	scoresByDate,
+	dates,
+}: {
+	scoresByDate: DailyRepoScores;
+	dates: string[];
+}): Record<string, DailyRepoScore> {
+	const totals: Record<string, DailyRepoScore> = {};
+
+	dates.forEach((date) => {
+		Object.entries(scoresByDate[date] ?? {}).forEach(([name, score]) => {
+			const total = totals[name] ?? { count: 0, scoredCount: 0, scoreSum: 0 };
+
+			totals[name] = total;
+
+			total.count += score.count;
+			total.scoredCount += score.scoredCount;
+			total.scoreSum += score.scoreSum;
+		});
+	});
+
+	return totals;
+}
