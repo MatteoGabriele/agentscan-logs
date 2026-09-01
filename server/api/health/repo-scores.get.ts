@@ -5,8 +5,6 @@ import {
 	isValidScoreDate,
 	sumRepoScoresOverDates,
 } from "../../../shared/utils/daily-repo-scores";
-import { classifyByScore } from "../../../shared/utils/health-stats";
-import { round } from "../../../shared/utils/numbers";
 import { readTextAsset } from "../../utils/read-text-asset";
 
 /**
@@ -76,20 +74,7 @@ export default defineHandler(async (event) => {
 
 		const repos = Object.entries(totals)
 			.filter(([name]) => !repoName || name === repoName)
-			.map(([name, [count, scoreSum]]) => {
-				// A repo is on file only once it has a scored PR, so the pair always
-				// divides. The mean is on the same 0-100 scale a single scan uses, so
-				// it reads back through the same thresholds.
-				const averageScore = round(scoreSum / count, 1);
-
-				return {
-					repo_name: name,
-					count,
-					scoreSum,
-					averageScore,
-					classification: classifyByScore(averageScore),
-				};
-			})
+			.map(([name, [count, scoreSum]]) => ({ name, count, scoreSum }))
 			.sort((a, b) => b.count - a.count);
 
 		if (date) {
@@ -99,8 +84,6 @@ export default defineHandler(async (event) => {
 		return {
 			from: rangeStart,
 			to: rangeEnd,
-			// The days inside the range that were actually measured, so a caller
-			// can tell a quiet repo from a range that only covers two days.
 			rangeDates,
 			dates,
 			repos,
