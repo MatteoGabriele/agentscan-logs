@@ -6,6 +6,7 @@ import {
 	getRepoScoresByDate,
 	isValidScoreDate,
 	mergeRepoScores,
+	stringifyRepoScores,
 	sumRepoScoresOverDates,
 } from "./daily-repo-scores";
 import { INSUFFICIENT_DATA_SCORE } from "./health-stats";
@@ -48,13 +49,13 @@ describe("getRepoScoresByDate", () => {
 
 		expect(scores).toEqual({
 			"2026-06-10": {
-				"nuxt/nuxt": { count: 2, scoredCount: 2, scoreSum: 140 },
-				"vuejs/core": { count: 1, scoredCount: 1, scoreSum: 10 },
+				"nuxt/nuxt": [2, 140],
+				"vuejs/core": [1, 10],
 			},
 		});
 	});
 
-	it("counts an insufficient-data row without scoring it", () => {
+	it("leaves an insufficient-data row out of the count", () => {
 		const scores = getRepoScoresByDate(
 			[
 				createEcosystemHealthItem({ score: 80 }),
@@ -63,11 +64,16 @@ describe("getRepoScoresByDate", () => {
 			["2026-06-10"],
 		);
 
-		expect(scores["2026-06-10"]["nuxt/nuxt"]).toEqual({
-			count: 2,
-			scoredCount: 1,
-			scoreSum: 80,
-		});
+		expect(scores["2026-06-10"]["nuxt/nuxt"]).toEqual([1, 80]);
+	});
+
+	it("keeps a repo off the day when nothing it opened was scored", () => {
+		const scores = getRepoScoresByDate(
+			[createEcosystemHealthItem({ score: INSUFFICIENT_DATA_SCORE })],
+			["2026-06-10"],
+		);
+
+		expect(scores).toEqual({});
 	});
 
 	it("keeps only the days it was asked for", () => {
@@ -85,16 +91,12 @@ describe("getRepoScoresByDate", () => {
 
 describe("mergeRepoScores", () => {
 	const stored: DailyRepoScores = {
-		"2026-06-10": { "nuxt/nuxt": { count: 2, scoredCount: 2, scoreSum: 140 } },
+		"2026-06-10": { "nuxt/nuxt": [2, 140] },
 	};
 
 	it("adds a new day and sorts the file by date", () => {
 		const merged = mergeRepoScores(
-			{
-				"2026-06-11": {
-					"nuxt/nuxt": { count: 1, scoredCount: 1, scoreSum: 10 },
-				},
-			},
+			{ "2026-06-11": { "nuxt/nuxt": [1, 10] } },
 			stored,
 		);
 
@@ -103,7 +105,7 @@ describe("mergeRepoScores", () => {
 
 	it("never rewrites a day it already holds", () => {
 		const merged = mergeRepoScores(stored, {
-			"2026-06-10": { "nuxt/nuxt": { count: 9, scoredCount: 9, scoreSum: 9 } },
+			"2026-06-10": { "nuxt/nuxt": [9, 9] },
 		});
 
 		expect(merged).toEqual(stored);
@@ -135,14 +137,14 @@ describe("getDatesInRange", () => {
 describe("sumRepoScoresOverDates", () => {
 	const scoresByDate: DailyRepoScores = {
 		"2026-06-10": {
-			"nuxt/nuxt": { count: 2, scoredCount: 2, scoreSum: 140 },
-			"vuejs/core": { count: 1, scoredCount: 1, scoreSum: 10 },
+			"nuxt/nuxt": [2, 140],
+			"vuejs/core": [1, 10],
 		},
 		"2026-06-11": {
-			"nuxt/nuxt": { count: 3, scoredCount: 1, scoreSum: 60 },
+			"nuxt/nuxt": [1, 60],
 		},
 		"2026-06-12": {
-			"vuejs/core": { count: 5, scoredCount: 5, scoreSum: 400 },
+			"vuejs/core": [5, 400],
 		},
 	};
 
@@ -153,8 +155,8 @@ describe("sumRepoScoresOverDates", () => {
 				dates: ["2026-06-10", "2026-06-11"],
 			}),
 		).toEqual({
-			"nuxt/nuxt": { count: 5, scoredCount: 3, scoreSum: 200 },
-			"vuejs/core": { count: 1, scoredCount: 1, scoreSum: 10 },
+			"nuxt/nuxt": [3, 200],
+			"vuejs/core": [1, 10],
 		});
 	});
 
@@ -173,11 +175,39 @@ describe("sumRepoScoresOverDates", () => {
 			dates: ["2026-06-10", "2026-06-11"],
 		});
 
-		expect(scoresByDate["2026-06-10"]["nuxt/nuxt"]).toEqual({
-			count: 2,
-			scoredCount: 2,
-			scoreSum: 140,
-		});
+		expect(scoresByDate["2026-06-10"]["nuxt/nuxt"]).toEqual([2, 140]);
+	});
+});
+
+describe("stringifyRepoScores", () => {
+	it("writes one repo per line as a pair", () => {
+		expect(
+			stringifyRepoScores({
+				"2026-06-10": { "nuxt/nuxt": [2, 140], "vuejs/core": [1, 10] },
+				"2026-06-11": { "nuxt/nuxt": [1, 60] },
+			}),
+		).toBe(
+			[
+				"{",
+				'  "2026-06-10": {',
+				'    "nuxt/nuxt": [2, 140],',
+				'    "vuejs/core": [1, 10]',
+				"  },",
+				'  "2026-06-11": {',
+				'    "nuxt/nuxt": [1, 60]',
+				"  }",
+				"}",
+				"",
+			].join("\n"),
+		);
+	});
+
+	it("round-trips through JSON.parse", () => {
+		const scores: DailyRepoScores = {
+			"2026-06-10": { "nuxt/nuxt": [2, 140] },
+		};
+
+		expect(JSON.parse(stringifyRepoScores(scores))).toEqual(scores);
 	});
 });
 

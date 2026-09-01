@@ -1,769 +1,152 @@
 {
   "2026-08-31": {
-    "vitejs/vite": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 100
-    },
-    "biomejs/biome": {
-      "count": 10,
-      "scoredCount": 10,
-      "scoreSum": 803
-    },
-    "rolldown/rolldown": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 190
-    },
-    "astral-sh/ruff": {
-      "count": 26,
-      "scoredCount": 23,
-      "scoreSum": 1895
-    },
-    "microsoft/playwright": {
-      "count": 8,
-      "scoredCount": 8,
-      "scoreSum": 470
-    },
-    "tanstack/query": {
-      "count": 8,
-      "scoredCount": 8,
-      "scoreSum": 700
-    },
-    "supabase/supabase": {
-      "count": 43,
-      "scoredCount": 40,
-      "scoreSum": 3685
-    },
-    "oven-sh/bun": {
-      "count": 58,
-      "scoredCount": 58,
-      "scoreSum": 4607
-    },
-    "openclaw/openclaw": {
-      "count": 601,
-      "scoredCount": 590,
-      "scoreSum": 29485
-    },
-    "browser-use/browser-use": {
-      "count": 4,
-      "scoredCount": 3,
-      "scoreSum": 146
-    },
-    "react/react-native": {
-      "count": 11,
-      "scoredCount": 10,
-      "scoreSum": 465
-    },
-    "apache/airflow": {
-      "count": 34,
-      "scoredCount": 29,
-      "scoreSum": 2400
-    },
-    "sveltejs/kit": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 275
-    },
-    "cypress-io/cypress": {
-      "count": 7,
-      "scoredCount": 7,
-      "scoreSum": 700
-    },
-    "remix-run/remix": {
-      "count": 7,
-      "scoredCount": 7,
-      "scoreSum": 460
-    },
-    "home-assistant/core": {
-      "count": 75,
-      "scoredCount": 68,
-      "scoreSum": 6425
-    },
-    "ggerganov/llama.cpp": {
-      "count": 46,
-      "scoredCount": 29,
-      "scoreSum": 2825
-    },
-    "facebook/react-native": {
-      "count": 11,
-      "scoredCount": 10,
-      "scoreSum": 465
-    },
-    "react-hook-form/react-hook-form": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 17
-    },
-    "facebook/relay": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "ClickHouse/ClickHouse": {
-      "count": 158,
-      "scoredCount": 157,
-      "scoreSum": 11526
-    },
-    "lobehub/lobe-chat": {
-      "count": 57,
-      "scoredCount": 56,
-      "scoreSum": 5225
-    },
-    "langgenius/dify": {
-      "count": 32,
-      "scoredCount": 29,
-      "scoreSum": 2569
-    },
-    "zed-industries/zed": {
-      "count": 32,
-      "scoredCount": 27,
-      "scoreSum": 2655
-    },
-    "vercel/next.js": {
-      "count": 25,
-      "scoredCount": 23,
-      "scoreSum": 1535
-    },
-    "withastro/astro": {
-      "count": 9,
-      "scoredCount": 9,
-      "scoreSum": 820
-    },
-    "solidjs/solid": {
-      "count": 7,
-      "scoredCount": 7,
-      "scoreSum": 700
-    },
-    "astral-sh/uv": {
-      "count": 17,
-      "scoredCount": 17,
-      "scoreSum": 1415
-    },
-    "flutter/flutter": {
-      "count": 26,
-      "scoredCount": 25,
-      "scoreSum": 1010
-    },
-    "nodejs/node": {
-      "count": 15,
-      "scoredCount": 15,
-      "scoreSum": 1500
-    },
-    "pytest-dev/pytest": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "denoland/deno": {
-      "count": 6,
-      "scoredCount": 6,
-      "scoreSum": 509
-    },
-    "n8n-io/n8n": {
-      "count": 52,
-      "scoredCount": 51,
-      "scoreSum": 4426
-    },
-    "elastic/elasticsearch": {
-      "count": 63,
-      "scoredCount": 63,
-      "scoreSum": 6142
-    },
-    "tensorflow/tensorflow": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 230
-    },
-    "expo/expo": {
-      "count": 27,
-      "scoredCount": 25,
-      "scoreSum": 2295
-    },
-    "crewAIInc/crewAI": {
-      "count": 18,
-      "scoredCount": 16,
-      "scoreSum": 1274
-    },
-    "neovim/neovim": {
-      "count": 11,
-      "scoredCount": 10,
-      "scoreSum": 855
-    },
-    "freeCodeCamp/freeCodeCamp": {
-      "count": 13,
-      "scoredCount": 10,
-      "scoreSum": 910
-    },
-    "codecrafters-io/build-your-own-x": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "godotengine/godot": {
-      "count": 31,
-      "scoredCount": 28,
-      "scoreSum": 2800
-    },
-    "kubernetes/website": {
-      "count": 54,
-      "scoredCount": 53,
-      "scoreSum": 3277
-    },
-    "StarRocks/starrocks": {
-      "count": 26,
-      "scoredCount": 20,
-      "scoreSum": 1985
-    },
-    "prettier/prettier": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "microsoft/vscode": {
-      "count": 83,
-      "scoredCount": 80,
-      "scoreSum": 7123
-    },
-    "apache/spark": {
-      "count": 17,
-      "scoredCount": 17,
-      "scoreSum": 1530
-    },
-    "kubernetes/kubernetes": {
-      "count": 34,
-      "scoredCount": 33,
-      "scoreSum": 2974
-    },
-    "containerd/containerd": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 342
-    },
-    "vuejs/core": {
-      "count": 8,
-      "scoredCount": 7,
-      "scoreSum": 640
-    },
-    "python/cpython": {
-      "count": 44,
-      "scoredCount": 43,
-      "scoreSum": 2720
-    },
-    "aquasecurity/trivy": {
-      "count": 6,
-      "scoredCount": 5,
-      "scoreSum": 484
-    },
-    "huggingface/diffusers": {
-      "count": 12,
-      "scoredCount": 12,
-      "scoreSum": 1100
-    },
-    "public-apis/public-apis": {
-      "count": 24,
-      "scoredCount": 14,
-      "scoreSum": 412
-    },
-    "anthropics/skills": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 249
-    },
-    "apache/flink": {
-      "count": 13,
-      "scoredCount": 13,
-      "scoreSum": 1300
-    },
-    "caddyserver/caddy": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 400
-    },
-    "comfyanonymous/ComfyUI": {
-      "count": 6,
-      "scoredCount": 5,
-      "scoreSum": 455
-    },
-    "modelscope/FunASR": {
-      "count": 9,
-      "scoredCount": 9,
-      "scoreSum": 135
-    },
-    "makeplane/plane": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 340
-    },
-    "grafana/grafana": {
-      "count": 8,
-      "scoredCount": 5,
-      "scoreSum": 500
-    },
-    "gatsbyjs/gatsby": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "typescript-eslint/typescript-eslint": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 300
-    },
-    "dotnet/aspnetcore": {
-      "count": 11,
-      "scoredCount": 6,
-      "scoreSum": 540
-    },
-    "ClementTsang/bottom": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "coollabsio/coolify": {
-      "count": 7,
-      "scoredCount": 4,
-      "scoreSum": 355
-    },
-    "microsoft/TypeScript": {
-      "count": 3,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "golang/go": {
-      "count": 5,
-      "scoredCount": 3,
-      "scoreSum": 259
-    },
-    "vuejs/vitepress": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 55
-    },
-    "honojs/hono": {
-      "count": 3,
-      "scoredCount": 2,
-      "scoreSum": 129
-    },
-    "microsoft/autogen": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 122
-    },
-    "langchain-ai/langchain": {
-      "count": 19,
-      "scoredCount": 16,
-      "scoreSum": 1037
-    },
-    "angular/angular": {
-      "count": 10,
-      "scoredCount": 9,
-      "scoreSum": 875
-    },
-    "ollama/ollama": {
-      "count": 13,
-      "scoredCount": 13,
-      "scoreSum": 875
-    },
-    "redis/redis": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 400
-    },
-    "symfony/symfony": {
-      "count": 23,
-      "scoredCount": 21,
-      "scoreSum": 1055
-    },
-    "labstack/echo": {
-      "count": 1,
-      "scoredCount": 0,
-      "scoreSum": 0
-    },
-    "dotnet/runtime": {
-      "count": 12,
-      "scoredCount": 12,
-      "scoreSum": 1130
-    },
-    "apache/pulsar": {
-      "count": 6,
-      "scoredCount": 6,
-      "scoreSum": 600
-    },
-    "duckdb/duckdb": {
-      "count": 26,
-      "scoredCount": 25,
-      "scoreSum": 2500
-    },
-    "bitwarden/server": {
-      "count": 13,
-      "scoredCount": 13,
-      "scoreSum": 1050
-    },
-    "rust-lang/cargo": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "strapi/strapi": {
-      "count": 6,
-      "scoredCount": 5,
-      "scoreSum": 466
-    },
-    "tailwindlabs/tailwindcss": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "storybookjs/storybook": {
-      "count": 18,
-      "scoredCount": 18,
-      "scoreSum": 1775
-    },
-    "axios/axios": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 131
-    },
-    "mrdoob/three.js": {
-      "count": 8,
-      "scoredCount": 8,
-      "scoreSum": 760
-    },
-    "pnpm/pnpm": {
-      "count": 23,
-      "scoredCount": 23,
-      "scoreSum": 2270
-    },
-    "vueuse/vueuse": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 39
-    },
-    "nuxt/nuxt": {
-      "count": 6,
-      "scoredCount": 6,
-      "scoreSum": 600
-    },
-    "simplex-chat/simplex-chat": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "fastify/fastify": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 0
-    },
-    "shadcn-ui/ui": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "huggingface/transformers": {
-      "count": 11,
-      "scoredCount": 8,
-      "scoreSum": 775
-    },
-    "jestjs/jest": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 222
-    },
-    "immich-app/immich": {
-      "count": 7,
-      "scoredCount": 5,
-      "scoreSum": 500
-    },
-    "goauthentik/authentik": {
-      "count": 13,
-      "scoredCount": 11,
-      "scoreSum": 1100
-    },
-    "traefik/traefik": {
-      "count": 6,
-      "scoredCount": 6,
-      "scoreSum": 500
-    },
-    "run-llama/llama_index": {
-      "count": 11,
-      "scoredCount": 8,
-      "scoreSum": 622
-    },
-    "tanstack/router": {
-      "count": 8,
-      "scoredCount": 8,
-      "scoreSum": 521
-    },
-    "reduxjs/redux": {
-      "count": 1,
-      "scoredCount": 0,
-      "scoreSum": 0
-    },
-    "sequelize/sequelize": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "rails/rails": {
-      "count": 8,
-      "scoredCount": 5,
-      "scoreSum": 470
-    },
-    "vitest-dev/vitest": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 200
-    },
-    "Automattic/mongoose": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "bluesky-social/social-app": {
-      "count": 9,
-      "scoredCount": 9,
-      "scoreSum": 750
-    },
-    "webpack/webpack": {
-      "count": 24,
-      "scoredCount": 24,
-      "scoreSum": 1100
-    },
-    "trpc/trpc": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 132
-    },
-    "istio/istio": {
-      "count": 7,
-      "scoredCount": 7,
-      "scoreSum": 700
-    },
-    "argoproj/argo-cd": {
-      "count": 9,
-      "scoredCount": 7,
-      "scoreSum": 635
-    },
-    "charmbracelet/bubbletea": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "sveltejs/svelte": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "bluesky-social/atproto": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 400
-    },
-    "npm/cli": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 84
-    },
-    "laravel/laravel": {
-      "count": 2,
-      "scoredCount": 0,
-      "scoreSum": 0
-    },
-    "docker/compose": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "helm/helm": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 500
-    },
-    "eslint/eslint": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 100
-    },
-    "moby/moby": {
-      "count": 6,
-      "scoredCount": 6,
-      "scoreSum": 600
-    },
-    "npmx-dev/npmx.dev": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "pallets/flask": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "gin-gonic/gin": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "yairm210/Unciv": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 400
-    },
-    "nitrojs/nitro": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "prisma/prisma": {
-      "count": 4,
-      "scoredCount": 4,
-      "scoreSum": 45
-    },
-    "hashicorp/terraform": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "emberjs/ember.js": {
-      "count": 5,
-      "scoredCount": 5,
-      "scoreSum": 500
-    },
-    "typeorm/typeorm": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 185
-    },
-    "webpro-nl/knip": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "n0-computer/iroh": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "yt-dlp/yt-dlp": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 75
-    },
-    "django/django": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "etcd-io/etcd": {
-      "count": 3,
-      "scoredCount": 3,
-      "scoreSum": 300
-    },
-    "calcom/cal.diy": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "expressjs/express": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 0
-    },
-    "ionic-team/ionic-framework": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "evanw/esbuild": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 63
-    },
-    "SerenityOS/serenity": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "rollup/rollup": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 74
-    },
-    "GoogleChrome/lighthouse": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "processing/p5.js": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "continuedev/continue": {
-      "count": 1,
-      "scoredCount": 0,
-      "scoreSum": 0
-    },
-    "sharkdp/bat": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 35
-    },
-    "helix-editor/helix": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "SeleniumHQ/selenium": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "apollographql/apollo-client": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "jesseduffield/lazygit": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "react/react": {
-      "count": 2,
-      "scoredCount": 2,
-      "scoreSum": 200
-    },
-    "babel/babel": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "swc-project/swc": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "reduxjs/redux-toolkit": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 85
-    },
-    "invoke-ai/InvokeAI": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 100
-    },
-    "getzep/graphiti": {
-      "count": 1,
-      "scoredCount": 1,
-      "scoreSum": 90
-    },
-    "projectdiscovery/nuclei": {
-      "count": 1,
-      "scoredCount": 0,
-      "scoreSum": 0
-    }
+    "vitejs/vite": [2, 100],
+    "biomejs/biome": [10, 803],
+    "rolldown/rolldown": [2, 190],
+    "astral-sh/ruff": [23, 1895],
+    "microsoft/playwright": [8, 470],
+    "tanstack/query": [8, 700],
+    "supabase/supabase": [40, 3685],
+    "oven-sh/bun": [58, 4607],
+    "openclaw/openclaw": [590, 29485],
+    "browser-use/browser-use": [3, 146],
+    "react/react-native": [10, 465],
+    "apache/airflow": [29, 2400],
+    "sveltejs/kit": [3, 275],
+    "cypress-io/cypress": [7, 700],
+    "remix-run/remix": [7, 460],
+    "home-assistant/core": [68, 6425],
+    "ggerganov/llama.cpp": [29, 2825],
+    "facebook/react-native": [10, 465],
+    "react-hook-form/react-hook-form": [1, 17],
+    "facebook/relay": [1, 0],
+    "ClickHouse/ClickHouse": [157, 11526],
+    "lobehub/lobe-chat": [56, 5225],
+    "langgenius/dify": [29, 2569],
+    "zed-industries/zed": [27, 2655],
+    "vercel/next.js": [23, 1535],
+    "withastro/astro": [9, 820],
+    "solidjs/solid": [7, 700],
+    "astral-sh/uv": [17, 1415],
+    "flutter/flutter": [25, 1010],
+    "nodejs/node": [15, 1500],
+    "pytest-dev/pytest": [1, 0],
+    "denoland/deno": [6, 509],
+    "n8n-io/n8n": [51, 4426],
+    "elastic/elasticsearch": [63, 6142],
+    "tensorflow/tensorflow": [5, 230],
+    "expo/expo": [25, 2295],
+    "crewAIInc/crewAI": [16, 1274],
+    "neovim/neovim": [10, 855],
+    "freeCodeCamp/freeCodeCamp": [10, 910],
+    "codecrafters-io/build-your-own-x": [1, 100],
+    "godotengine/godot": [28, 2800],
+    "kubernetes/website": [53, 3277],
+    "StarRocks/starrocks": [20, 1985],
+    "prettier/prettier": [2, 200],
+    "microsoft/vscode": [80, 7123],
+    "apache/spark": [17, 1530],
+    "kubernetes/kubernetes": [33, 2974],
+    "containerd/containerd": [5, 342],
+    "vuejs/core": [7, 640],
+    "python/cpython": [43, 2720],
+    "aquasecurity/trivy": [5, 484],
+    "huggingface/diffusers": [12, 1100],
+    "public-apis/public-apis": [14, 412],
+    "anthropics/skills": [4, 249],
+    "apache/flink": [13, 1300],
+    "caddyserver/caddy": [4, 400],
+    "comfyanonymous/ComfyUI": [5, 455],
+    "modelscope/FunASR": [9, 135],
+    "makeplane/plane": [5, 340],
+    "grafana/grafana": [5, 500],
+    "gatsbyjs/gatsby": [1, 0],
+    "typescript-eslint/typescript-eslint": [4, 300],
+    "dotnet/aspnetcore": [6, 540],
+    "ClementTsang/bottom": [1, 100],
+    "coollabsio/coolify": [4, 355],
+    "microsoft/TypeScript": [2, 200],
+    "golang/go": [3, 259],
+    "vuejs/vitepress": [1, 55],
+    "honojs/hono": [2, 129],
+    "microsoft/autogen": [4, 122],
+    "langchain-ai/langchain": [16, 1037],
+    "angular/angular": [9, 875],
+    "ollama/ollama": [13, 875],
+    "redis/redis": [4, 400],
+    "symfony/symfony": [21, 1055],
+    "dotnet/runtime": [12, 1130],
+    "apache/pulsar": [6, 600],
+    "duckdb/duckdb": [25, 2500],
+    "bitwarden/server": [13, 1050],
+    "rust-lang/cargo": [3, 300],
+    "strapi/strapi": [5, 466],
+    "tailwindlabs/tailwindcss": [3, 300],
+    "storybookjs/storybook": [18, 1775],
+    "axios/axios": [5, 131],
+    "mrdoob/three.js": [8, 760],
+    "pnpm/pnpm": [23, 2270],
+    "vueuse/vueuse": [1, 39],
+    "nuxt/nuxt": [6, 600],
+    "simplex-chat/simplex-chat": [3, 300],
+    "fastify/fastify": [2, 0],
+    "shadcn-ui/ui": [1, 100],
+    "huggingface/transformers": [8, 775],
+    "jestjs/jest": [3, 222],
+    "immich-app/immich": [5, 500],
+    "goauthentik/authentik": [11, 1100],
+    "traefik/traefik": [6, 500],
+    "run-llama/llama_index": [8, 622],
+    "tanstack/router": [8, 521],
+    "sequelize/sequelize": [2, 200],
+    "rails/rails": [5, 470],
+    "vitest-dev/vitest": [4, 200],
+    "Automattic/mongoose": [1, 0],
+    "bluesky-social/social-app": [9, 750],
+    "webpack/webpack": [24, 1100],
+    "trpc/trpc": [2, 132],
+    "istio/istio": [7, 700],
+    "argoproj/argo-cd": [7, 635],
+    "charmbracelet/bubbletea": [1, 100],
+    "sveltejs/svelte": [3, 300],
+    "bluesky-social/atproto": [4, 400],
+    "npm/cli": [2, 84],
+    "docker/compose": [1, 100],
+    "helm/helm": [5, 500],
+    "eslint/eslint": [2, 100],
+    "moby/moby": [6, 600],
+    "npmx-dev/npmx.dev": [1, 100],
+    "pallets/flask": [1, 0],
+    "gin-gonic/gin": [1, 100],
+    "yairm210/Unciv": [4, 400],
+    "nitrojs/nitro": [2, 200],
+    "prisma/prisma": [4, 45],
+    "hashicorp/terraform": [2, 200],
+    "emberjs/ember.js": [5, 500],
+    "typeorm/typeorm": [2, 185],
+    "webpro-nl/knip": [1, 100],
+    "n0-computer/iroh": [1, 100],
+    "yt-dlp/yt-dlp": [1, 75],
+    "django/django": [3, 300],
+    "etcd-io/etcd": [3, 300],
+    "calcom/cal.diy": [2, 200],
+    "expressjs/express": [1, 0],
+    "ionic-team/ionic-framework": [1, 100],
+    "evanw/esbuild": [2, 63],
+    "SerenityOS/serenity": [1, 100],
+    "rollup/rollup": [1, 74],
+    "GoogleChrome/lighthouse": [2, 200],
+    "processing/p5.js": [1, 100],
+    "sharkdp/bat": [1, 35],
+    "helix-editor/helix": [1, 100],
+    "SeleniumHQ/selenium": [1, 100],
+    "apollographql/apollo-client": [1, 100],
+    "jesseduffield/lazygit": [1, 100],
+    "react/react": [2, 200],
+    "babel/babel": [1, 100],
+    "swc-project/swc": [1, 100],
+    "reduxjs/redux-toolkit": [1, 85],
+    "invoke-ai/InvokeAI": [1, 100],
+    "getzep/graphiti": [1, 90]
   }
 }

@@ -2,22 +2,18 @@ import type { EcosystemHealthItem } from "../types/ecosystem-health";
 import { INSUFFICIENT_DATA_SCORE } from "./health-stats";
 
 /**
- * What one repo did on one day. Kept out of daily-scan-results.json on
- * purpose: ~80 repos a day would multiply that file by two orders of
- * magnitude, and nothing reading the health graph needs the breakdown.
+ * What one repo did on one day, as `[count, scoreSum]`. Kept out of
+ * daily-scan-results.json on purpose: ~80 repos a day would multiply that
+ * file by two orders of magnitude, and nothing reading the health graph needs
+ * the breakdown. A tuple rather than an object because the file is written
+ * once a day for every repo, and the keys would outweigh the numbers.
+ *
+ * `count` is the scored PRs only — an insufficient-data row is not counted at
+ * all, so the pair always divides into a mean. `scoreSum` is summed rather
+ * than averaged, like the daily rollup: a sum re-rolls and merges without
+ * carrying the weight it was taken over.
  */
-export type DailyRepoScore = {
-	/** PRs opened in the repo that day, scored or not. */
-	count: number;
-	/** The scored ones — an insufficient-data row carries a sentinel, not a score. */
-	scoredCount: number;
-	/**
-	 * Summed rather than averaged, like the daily rollup: a sum re-rolls and
-	 * merges without carrying the weight it was taken over. Divide by
-	 * `scoredCount` for the day's mean score.
-	 */
-	scoreSum: number;
-};
+export type DailyRepoScore = [count: number, scoreSum: number];
 
 /**
  * Keyed by date first so a lookup is `file[date][repo]` — the whole point of
@@ -45,26 +41,17 @@ export function getRepoScoresByDate(
 	results.forEach((result) => {
 		const date = getDate(result.created_at);
 
-		if (!wanted.has(date)) {
+		// An unscored row says nothing about the repo's day, so it is dropped
+		// rather than stored as a count it can never be divided into.
+		if (!wanted.has(date) || result.score === INSUFFICIENT_DATA_SCORE) {
 			return;
 		}
 
 		const repos = scores[date] ?? {};
-		const repo = repos[result.repo_name] ?? {
-			count: 0,
-			scoredCount: 0,
-			scoreSum: 0,
-		};
+		const [count, scoreSum] = repos[result.repo_name] ?? [0, 0];
 
 		scores[date] = repos;
-		repos[result.repo_name] = repo;
-
-		repo.count += 1;
-
-		if (result.score !== INSUFFICIENT_DATA_SCORE) {
-			repo.scoredCount += 1;
-			repo.scoreSum += result.score;
-		}
+		repos[result.repo_name] = [count + 1, scoreSum + result.score];
 	});
 
 	return scores;
@@ -84,6 +71,23 @@ export function mergeRepoScores(
 	return Object.fromEntries(
 		Object.entries(merged).sort(([a], [b]) => a.localeCompare(b)),
 	);
+}
+
+/**
+ * One repo per line. `JSON.stringify(scores, null, 2)` would spend three
+ * lines on every pair, which is the opposite of what the tuple is for.
+ */
+export function stringifyRepoScores(scores: DailyRepoScores): string {
+	const days = Object.entries(scores).map(([date, repos]) => {
+		const rows = Object.entries(repos).map(
+			([name, [count, scoreSum]]) =>
+				`    ${JSON.stringify(name)}: [${count}, ${scoreSum}]`,
+		);
+
+		return `  ${JSON.stringify(date)}: {\n${rows.join(",\n")}\n  }`;
+	});
+
+	return `{\n${days.join(",\n")}\n}\n`;
 }
 
 /** ISO calendar dates only, so a string compare is a date compare. */
@@ -115,9 +119,8 @@ export function getDatesInRange({
 /**
  * Folds several days into one per-repo total. The file stores sums precisely
  * so this works: a range re-rolls into the same shape a single day has, and
- * the mean over the range is the summed score over the summed scored count —
- * not an average of daily averages, which would weight a quiet day like a
- * busy one.
+ * the mean over the range is the summed score over the summed count — not an
+ * average of daily averages, which would weight a quiet day like a busy one.
  */
 export function sumRepoScoresOverDates({
 	scoresByDate,
@@ -129,15 +132,13 @@ export function sumRepoScoresOverDates({
 	const totals: Record<string, DailyRepoScore> = {};
 
 	dates.forEach((date) => {
-		Object.entries(scoresByDate[date] ?? {}).forEach(([name, score]) => {
-			const total = totals[name] ?? { count: 0, scoredCount: 0, scoreSum: 0 };
+		Object.entries(scoresByDate[date] ?? {}).forEach(
+			([name, [count, scoreSum]]) => {
+				const [total, sum] = totals[name] ?? [0, 0];
 
-			totals[name] = total;
-
-			total.count += score.count;
-			total.scoredCount += score.scoredCount;
-			total.scoreSum += score.scoreSum;
-		});
+				totals[name] = [total + count, sum + scoreSum];
+			},
+		);
 	});
 
 	return totals;

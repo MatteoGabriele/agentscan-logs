@@ -76,22 +76,20 @@ export default defineHandler(async (event) => {
 
 		const repos = Object.entries(totals)
 			.filter(([name]) => !repoName || name === repoName)
-			.map(([name, score]) => ({
-				repo_name: name,
-				...score,
-				// The mean of the range's PRs, on the same 0-100 scale a single scan
-				// uses, so it reads back through the same thresholds.
-				averageScore: score.scoredCount
-					? round(score.scoreSum / score.scoredCount, 1)
-					: null,
-			}))
-			.map((entry) => ({
-				...entry,
-				classification:
-					entry.averageScore == null
-						? null
-						: classifyByScore(entry.averageScore),
-			}))
+			.map(([name, [count, scoreSum]]) => {
+				// A repo is on file only once it has a scored PR, so the pair always
+				// divides. The mean is on the same 0-100 scale a single scan uses, so
+				// it reads back through the same thresholds.
+				const averageScore = round(scoreSum / count, 1);
+
+				return {
+					repo_name: name,
+					count,
+					scoreSum,
+					averageScore,
+					classification: classifyByScore(averageScore),
+				};
+			})
 			.sort((a, b) => b.count - a.count);
 
 		if (date) {

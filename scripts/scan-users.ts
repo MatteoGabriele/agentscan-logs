@@ -15,6 +15,7 @@ import type { DailyRepoScores } from "../shared/utils/daily-repo-scores";
 import {
 	getRepoScoresByDate,
 	mergeRepoScores,
+	stringifyRepoScores,
 } from "../shared/utils/daily-repo-scores";
 import type { DailyScanEntry } from "../shared/utils/daily-rollup";
 import {
@@ -229,7 +230,7 @@ function saveRepoScores(
 		return;
 	}
 	const filePath = join(process.cwd(), "data", outputFile);
-	writeFileSync(filePath, `${JSON.stringify(scores, null, 2)}\n`);
+	writeFileSync(filePath, stringifyRepoScores(scores));
 }
 
 function loadAutomationIds(outputFile: string): AutomationTally[] {
