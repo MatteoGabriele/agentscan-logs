@@ -1,6 +1,11 @@
 name: Hourly User Scan
 
 on:
+  # Netlify's scheduled function stays the primary trigger. GitHub's scheduler
+  # is late and lossy, but as a backstop it only has to catch the hours Netlify
+  # drops, and the guard job below makes sure we don't have duplicates..
+  schedule:
+    - cron: "0 * * * *"
   workflow_dispatch: # Allow manual trigger
 
 # Serialised so a re-dispatch never races the run already pushing to main.
@@ -9,8 +14,34 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  scan:
+  guard:
     if: github.repository == 'MatteoGabriele/agentscan-logs'
+    runs-on: ubuntu-latest
+    outputs:
+      should-scan: ${{ steps.check.outputs.should-scan }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check whether this hour is already recorded
+        id: check
+        run: |
+          window_start=$(( $(date -u +%s) / 3600 * 3600 - 3600 ))
+
+          git fetch --depth=1 origin main
+
+          if git show FETCH_HEAD:data/hourly-window-scan-results.txt 2>/dev/null \
+            | cut -d, -f1 | grep -qx "$window_start"; then
+            echo "Window $window_start is already recorded - skipping this run."
+            echo "should-scan=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Window $window_start is not recorded yet - scanning."
+            echo "should-scan=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  scan:
+    needs: guard
+    if: needs.guard.outputs.should-scan == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,6 +50,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
