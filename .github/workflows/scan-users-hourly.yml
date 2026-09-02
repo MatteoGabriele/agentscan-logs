@@ -5,7 +5,7 @@ on:
   # is late and lossy, but as a backstop it only has to catch the hours Netlify
   # drops, and the guard job below makes sure we don't have duplicates..
   schedule:
-    - cron: "0 * * * *"
+    - cron: "10 * * * *"
   workflow_dispatch: # Allow manual trigger
 
 # Serialised so a re-dispatch never races the run already pushing to main.
