@@ -2,8 +2,8 @@ import { defineHandler, HTTPError } from "nitro";
 import type { DailyRepoScores } from "../../../shared/utils/daily-repo-scores";
 import {
 	getDatesInRange,
+	getRepoScoresPerDate,
 	isValidScoreDate,
-	sumRepoScoresOverDates,
 } from "../../../shared/utils/daily-repo-scores";
 import { readTextAsset } from "../../utils/read-text-asset";
 
@@ -11,26 +11,21 @@ import { readTextAsset } from "../../utils/read-text-asset";
  * The per-repo half of the daily rollup, served on its own so the health
  * endpoint stays the size it is.
  *
- *   /api/health/repo-scores                              → the dates on file
- *   /api/health/repo-scores?date=2026-08-29              → every repo that day
- *   /api/health/repo-scores?date=2026-08-29&repo=x/y     → one repo that day
- *   /api/health/repo-scores?from=2026-08-25&to=2026-08-29
- *                                → every repo, summed across the whole range
- *   /api/health/repo-scores?from=…&to=…&repo=x/y → one repo across the range
+ *   ?                          → the dates on file
+ *   ?date=2026-08-29           → that day's repos
+ *   ?from=…&to=…               → one entry per measured day in the range
+ *   &repo=x/y                  → narrows either shape to one repo
  *
- * `from` and `to` are inclusive and either may stand alone: a missing `from`
- * runs from the first day on file, a missing `to` to the last. A day appears
- * here only once the daily rollup has completed it, so a date that is missing
- * is a day still being measured, not an error — a range simply answers with
- * the days it does hold.
+ * `from` and `to` are inclusive and either may stand alone. A range answers
+ * with the measured days it holds; a missing day is one still being measured,
+ * not an error.
  */
 export default defineHandler(async (event) => {
 	const date = event.url.searchParams.get("date");
 	const from = event.url.searchParams.get("from");
 	const to = event.url.searchParams.get("to");
 
-	// Validated before the read so a bad query answers 400 rather than falling
-	// into the catch below, which reports every failure as ours.
+	// Before the read, so a bad query answers 400 instead of the catch's 500.
 	[date, from, to].forEach((value) => {
 		if (value !== null && !isValidScoreDate(value)) {
 			throw new HTTPError({
@@ -56,8 +51,7 @@ export default defineHandler(async (event) => {
 			return { dates };
 		}
 
-		// A single `date` is the range that starts and ends on it, so both
-		// shapes fold through the same summing path.
+		// A single `date` is the range starting and ending on it.
 		const rangeStart = date ?? from ?? dates[0] ?? "";
 		const rangeEnd = date ?? to ?? dates[dates.length - 1] ?? "";
 		const rangeDates = getDatesInRange({
@@ -66,27 +60,21 @@ export default defineHandler(async (event) => {
 			to: rangeEnd,
 		});
 
-		const repoName = event.url.searchParams.get("repo");
-		const totals = sumRepoScoresOverDates({
+		const days = getRepoScoresPerDate({
 			scoresByDate,
 			dates: rangeDates,
+			repo: event.url.searchParams.get("repo"),
 		});
 
-		const repos = Object.entries(totals)
-			.filter(([name]) => !repoName || name === repoName)
-			.map(([name, [count, scoreSum]]) => ({ name, count, scoreSum }))
-			.sort((a, b) => b.count - a.count);
-
 		if (date) {
-			return { date, dates, repos };
+			return { date, dates, repos: days[0]?.repos ?? [] };
 		}
 
 		return {
 			from: rangeStart,
 			to: rangeEnd,
-			rangeDates,
 			dates,
-			repos,
+			days,
 		};
 	} catch (error) {
 		console.error("Daily repo scores fetch error:", error);
