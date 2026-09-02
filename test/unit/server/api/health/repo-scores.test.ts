@@ -55,15 +55,41 @@ describe("GET /api/health/repo-scores", () => {
 		});
 	});
 
-	it("answers a range with the days it covers and the summed repos", async () => {
+	it("answers a range with one entry per day, never a single total", async () => {
 		await expect(request("?from=2026-08-27&to=2026-08-28")).resolves.toEqual({
 			from: "2026-08-27",
 			to: "2026-08-28",
-			rangeDates: ["2026-08-27", "2026-08-28"],
 			dates: DATES,
-			repos: [
-				{ name: "nuxt/nuxt", count: 3, scoreSum: 190 },
-				{ name: "vuejs/core", count: 1, scoreSum: 90 },
+			days: [
+				{
+					date: "2026-08-27",
+					repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 40 }],
+				},
+				{
+					date: "2026-08-28",
+					repos: [
+						{ name: "nuxt/nuxt", count: 2, scoreSum: 150 },
+						{ name: "vuejs/core", count: 1, scoreSum: 90 },
+					],
+				},
+			],
+		});
+	});
+
+	it("keeps one entry per day when narrowed to a repo, quiet days included", async () => {
+		await expect(
+			request("?from=2026-08-27&to=2026-08-29&repo=nuxt/nuxt"),
+		).resolves.toMatchObject({
+			days: [
+				{
+					date: "2026-08-27",
+					repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 40 }],
+				},
+				{
+					date: "2026-08-28",
+					repos: [{ name: "nuxt/nuxt", count: 2, scoreSum: 150 }],
+				},
+				{ date: "2026-08-29", repos: [] },
 			],
 		});
 	});
@@ -72,13 +98,23 @@ describe("GET /api/health/repo-scores", () => {
 		await expect(request("?from=2026-08-29")).resolves.toMatchObject({
 			from: "2026-08-29",
 			to: "2026-08-29",
-			rangeDates: ["2026-08-29"],
+			days: [
+				{
+					date: "2026-08-29",
+					repos: [{ name: "vuejs/core", count: 3, scoreSum: 240 }],
+				},
+			],
 		});
 
 		await expect(request("?to=2026-08-27")).resolves.toMatchObject({
 			from: "2026-08-27",
 			to: "2026-08-27",
-			rangeDates: ["2026-08-27"],
+			days: [
+				{
+					date: "2026-08-27",
+					repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 40 }],
+				},
+			],
 		});
 	});
 
@@ -86,8 +122,12 @@ describe("GET /api/health/repo-scores", () => {
 		await expect(
 			request("?from=2026-01-01&to=2026-08-27"),
 		).resolves.toMatchObject({
-			rangeDates: ["2026-08-27"],
-			repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 40 }],
+			days: [
+				{
+					date: "2026-08-27",
+					repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 40 }],
+				},
+			],
 		});
 	});
 
@@ -108,10 +148,8 @@ describe("GET /api/health/repo-scores", () => {
 	});
 
 	it("reports a missing or unreadable asset as ours", async () => {
-		// The handler logs the cause before answering 500. Stubbed rather than
-		// left alone so the deliberate failure does not print a stack trace
-		// into a passing run, and asserted so the log stays part of the
-		// contract: a 500 the server never wrote down is not debuggable.
+		// Stubbed so the deliberate failure prints no stack trace, and asserted
+		// because a 500 the server never logged is not debuggable.
 		const logged = vi.spyOn(console, "error").mockImplementation(() => {});
 		const cause = new Error("gone");
 

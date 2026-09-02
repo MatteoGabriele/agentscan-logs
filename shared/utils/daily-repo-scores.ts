@@ -2,24 +2,13 @@ import type { EcosystemHealthItem } from "../types/ecosystem-health";
 import { INSUFFICIENT_DATA_SCORE } from "./health-stats";
 
 /**
- * What one repo did on one day, as `[count, scoreSum]`. Kept out of
- * daily-scan-results.json on purpose: ~80 repos a day would multiply that
- * file by two orders of magnitude, and nothing reading the health graph needs
- * the breakdown. A tuple rather than an object because the file is written
- * once a day for every repo, and the keys would outweigh the numbers.
- *
- * `count` is the scored PRs only — an insufficient-data row is not counted at
- * all, so the pair always divides into a mean. `scoreSum` is summed rather
- * than averaged, like the daily rollup: a sum re-rolls and merges without
- * carrying the weight it was taken over.
+ * One repo's day as `[count, scoreSum]`. A tuple because the file holds a row
+ * per repo per day and the keys would outweigh the numbers. `count` is scored
+ * PRs only, so the pair always divides into a mean.
  */
 export type DailyRepoScore = [count: number, scoreSum: number];
 
-/**
- * Keyed by date first so a lookup is `file[date][repo]` — the whole point of
- * the split file is answering "what did nuxt score on the 29th" without
- * reading a day's PR rows back.
- */
+/** Keyed by date first, so a lookup is `file[date][repo]`. */
 export type DailyRepoScores = Record<string, Record<string, DailyRepoScore>>;
 
 function getDate(timestamp: string): string {
@@ -28,8 +17,8 @@ function getDate(timestamp: string): string {
 
 /**
  * Folds the hourly rows into per-repo day totals, for the days named in
- * `dates` and no others. The caller passes the days the daily rollup just
- * completed, so both files always agree on which days exist.
+ * `dates` and no others — the days the daily rollup just completed, so both
+ * files agree on which days exist.
  */
 export function getRepoScoresByDate(
 	results: EcosystemHealthItem[],
@@ -41,8 +30,6 @@ export function getRepoScoresByDate(
 	results.forEach((result) => {
 		const date = getDate(result.created_at);
 
-		// An unscored row says nothing about the repo's day, so it is dropped
-		// rather than stored as a count it can never be divided into.
 		if (!wanted.has(date) || result.score === INSUFFICIENT_DATA_SCORE) {
 			return;
 		}
@@ -73,10 +60,7 @@ export function mergeRepoScores(
 	);
 }
 
-/**
- * One repo per line. `JSON.stringify(scores, null, 2)` would spend three
- * lines on every pair, which is the opposite of what the tuple is for.
- */
+/** One repo per line — `JSON.stringify(…, null, 2)` spends three per pair. */
 export function stringifyRepoScores(scores: DailyRepoScores): string {
 	const days = Object.entries(scores).map(([date, repos]) => {
 		const rows = Object.entries(repos).map(
@@ -99,11 +83,7 @@ export function isValidScoreDate(date: string): boolean {
 	);
 }
 
-/**
- * The days on file that fall inside an inclusive `from`..`to` range. A range
- * naming days that were never measured is not an error — it just answers with
- * the days that were.
- */
+/** The measured days inside an inclusive `from`..`to` range. */
 export function getDatesInRange({
 	dates,
 	from,
@@ -116,30 +96,28 @@ export function getDatesInRange({
 	return dates.filter((date) => date >= from && date <= to).sort();
 }
 
+export type RepoScoreRow = { name: string; count: number; scoreSum: number };
+
+export type RepoScoreDay = { date: string; repos: RepoScoreRow[] };
+
 /**
- * Folds several days into one per-repo total. The file stores sums precisely
- * so this works: a range re-rolls into the same shape a single day has, and
- * the mean over the range is the summed score over the summed count — not an
- * average of daily averages, which would weight a quiet day like a busy one.
+ * One row per repo per day, never folded into a total. A day is kept even
+ * when `repo` filters it empty, so a quiet day reads as quiet, not as a gap.
  */
-export function sumRepoScoresOverDates({
+export function getRepoScoresPerDate({
 	scoresByDate,
 	dates,
+	repo,
 }: {
 	scoresByDate: DailyRepoScores;
 	dates: string[];
-}): Record<string, DailyRepoScore> {
-	const totals: Record<string, DailyRepoScore> = {};
-
-	dates.forEach((date) => {
-		Object.entries(scoresByDate[date] ?? {}).forEach(
-			([name, [count, scoreSum]]) => {
-				const [total, sum] = totals[name] ?? [0, 0];
-
-				totals[name] = [total + count, sum + scoreSum];
-			},
-		);
-	});
-
-	return totals;
+	repo?: string | null;
+}): RepoScoreDay[] {
+	return dates.map((date) => ({
+		date,
+		repos: Object.entries(scoresByDate[date] ?? {})
+			.filter(([name]) => !repo || name === repo)
+			.map(([name, [count, scoreSum]]) => ({ name, count, scoreSum }))
+			.sort((a, b) => b.count - a.count),
+	}));
 }

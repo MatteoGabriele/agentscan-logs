@@ -4,10 +4,10 @@ import {
 	type DailyRepoScores,
 	getDatesInRange,
 	getRepoScoresByDate,
+	getRepoScoresPerDate,
 	isValidScoreDate,
 	mergeRepoScores,
 	stringifyRepoScores,
-	sumRepoScoresOverDates,
 } from "./daily-repo-scores";
 import { INSUFFICIENT_DATA_SCORE } from "./health-stats";
 
@@ -134,7 +134,7 @@ describe("getDatesInRange", () => {
 	});
 });
 
-describe("sumRepoScoresOverDates", () => {
+describe("getRepoScoresPerDate", () => {
 	const scoresByDate: DailyRepoScores = {
 		"2026-06-10": {
 			"nuxt/nuxt": [2, 140],
@@ -148,32 +148,55 @@ describe("sumRepoScoresOverDates", () => {
 		},
 	};
 
-	it("sums a repo across the days it was given", () => {
+	it("keeps every day apart instead of folding them into a total", () => {
 		expect(
-			sumRepoScoresOverDates({
+			getRepoScoresPerDate({
 				scoresByDate,
 				dates: ["2026-06-10", "2026-06-11"],
 			}),
-		).toEqual({
-			"nuxt/nuxt": [3, 200],
-			"vuejs/core": [1, 10],
-		});
+		).toEqual([
+			{
+				date: "2026-06-10",
+				repos: [
+					{ name: "nuxt/nuxt", count: 2, scoreSum: 140 },
+					{ name: "vuejs/core", count: 1, scoreSum: 10 },
+				],
+			},
+			{
+				date: "2026-06-11",
+				repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 60 }],
+			},
+		]);
 	});
 
-	it("ignores a day that was never measured", () => {
+	it("answers one entry per day asked for, empty on a day the repo was quiet", () => {
 		expect(
-			sumRepoScoresOverDates({
+			getRepoScoresPerDate({
 				scoresByDate,
-				dates: ["2026-06-10", "2026-06-30"],
+				dates: ["2026-06-10", "2026-06-11", "2026-06-12"],
+				repo: "nuxt/nuxt",
 			}),
-		).toEqual(scoresByDate["2026-06-10"]);
+		).toEqual([
+			{
+				date: "2026-06-10",
+				repos: [{ name: "nuxt/nuxt", count: 2, scoreSum: 140 }],
+			},
+			{
+				date: "2026-06-11",
+				repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 60 }],
+			},
+			{ date: "2026-06-12", repos: [] },
+		]);
+	});
+
+	it("answers a day that was never measured as an empty day", () => {
+		expect(
+			getRepoScoresPerDate({ scoresByDate, dates: ["2026-06-30"] }),
+		).toEqual([{ date: "2026-06-30", repos: [] }]);
 	});
 
 	it("leaves the stored days untouched", () => {
-		sumRepoScoresOverDates({
-			scoresByDate,
-			dates: ["2026-06-10", "2026-06-11"],
-		});
+		getRepoScoresPerDate({ scoresByDate, dates: ["2026-06-10"] });
 
 		expect(scoresByDate["2026-06-10"]["nuxt/nuxt"]).toEqual([2, 140]);
 	});
