@@ -9,7 +9,7 @@ vi.mock("../../../../../server/utils/read-text-asset", () => ({
 }));
 
 const repoScores = (
-	await import("../../../../../server/api/health/repo-scores.get")
+	await import("../../../../../server/api/activity/repo-scores.get")
 ).default;
 
 const SCORES: DailyRepoScores = {
@@ -22,7 +22,7 @@ const DATES = ["2026-08-27", "2026-08-28", "2026-08-29"];
 
 function request(query = "") {
 	return repoScores({
-		url: new URL(`http://localhost/api/health/repo-scores${query}`),
+		url: new URL(`http://localhost/api/activity/repo-scores${query}`),
 	} as never);
 }
 
@@ -31,7 +31,7 @@ beforeEach(() => {
 	readTextAsset.mockResolvedValue(JSON.stringify(SCORES));
 });
 
-describe("GET /api/health/repo-scores", () => {
+describe("GET /api/activity/repo-scores", () => {
 	it("answers with the dates on file and nothing else", async () => {
 		await expect(request()).resolves.toEqual({ dates: DATES });
 	});

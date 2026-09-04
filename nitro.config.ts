@@ -16,6 +16,19 @@ export default defineConfig({
 		},
 	],
 
-	// No route caching here on purpose: the endpoints only read bundled files,
-	// and the consuming app already caches them at its own edge.
+	// /api/health was renamed to /api/activity
+	routeRules: {
+		"/api/health": {
+			redirect: {
+				to: "/api/activity",
+				status: 308,
+			},
+		},
+		"/api/health/**": {
+			redirect: {
+				to: "/api/activity/**",
+				status: 308,
+			},
+		},
+	},
 });
