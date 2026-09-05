@@ -51,15 +51,15 @@ export const libraries = [
 	"vuetifyjs/vuetify",
 	"element-plus/element-plus",
 	"tusen-ai/naive-ui",
-	"primefaces/primevue",
-	"formkit/formkit",
-	"logaretm/vee-validate",
+	"unjs/unhead",
+	"nuxt/fonts",
+	"nuxt/test-utils",
 
 	// UI components & design systems
 	"shadcn-ui/ui",
 	"radix-ui/primitives",
-	"tailwindlabs/headlessui",
-	"tailwindlabs/heroicons",
+	"heroui-inc/heroui",
+	"lucide-icons/lucide",
 	"chakra-ui/chakra-ui",
 	"mantinedev/mantine",
 	"ant-design/ant-design",
@@ -100,7 +100,6 @@ export const libraries = [
 	"oxc-project/oxc",
 	"privatenumber/tsx",
 	"rolldown/tsdown",
-	"unjs/unbuild",
 
 	// Linting, formatting & monorepo tooling
 	"biomejs/biome",
@@ -114,13 +113,14 @@ export const libraries = [
 	"nrwl/nx",
 	"vercel/turborepo",
 	"changesets/changesets",
+	"moonrepo/moon",
 
 	// Package & version managers
 	"pnpm/pnpm",
 	"npm/cli",
 	"yarnpkg/berry",
 	"npmx-dev/npmx.dev",
-	"volta-cli/volta",
+	"jdx/mise",
 	"Schniz/fnm",
 	"nvm-sh/nvm",
 	"asdf-vm/asdf",
@@ -136,21 +136,21 @@ export const libraries = [
 	"puppeteer/puppeteer",
 	"SeleniumHQ/selenium",
 	"testing-library/react-testing-library",
-	"mswjs/msw",
+	"wiremock/wiremock",
 	"grafana/k6",
 
 	// Backend frameworks
 	"expressjs/express",
 	"fastify/fastify",
 	"koajs/koa",
-	"hapijs/hapi",
+	"micronaut-projects/micronaut-core",
 	"adonisjs/core",
 	"feathersjs/feathers",
 	"honojs/hono",
 	"elysiajs/elysia",
 	"nestjs/nest",
 	"loopbackio/loopback-next",
-	"balderdashy/sails",
+	"fastapi/fastapi",
 	"h3js/h3",
 	"django/django",
 	"pallets/flask",
@@ -168,7 +168,7 @@ export const libraries = [
 	"tokio-rs/tokio",
 	"tokio-rs/axum",
 	"vapor/vapor",
-	"nitrictech/nitric",
+	"quarkusio/quarkus",
 
 	// APIs & networking
 	"trpc/trpc",
@@ -201,7 +201,7 @@ export const libraries = [
 	"duckdb/duckdb",
 	"StarRocks/starrocks",
 	"elastic/elasticsearch",
-	"minio/minio",
+	"pingcap/tidb",
 	"seaweedfs/seaweedfs",
 
 	// ORMs & query builders
@@ -305,7 +305,7 @@ export const libraries = [
 	"ollama/ollama",
 	"ggml-org/llama.cpp",
 	"vllm-project/vllm",
-	"huggingface/text-generation-inference",
+	"sgl-project/sglang",
 	"BerriAI/litellm",
 
 	// LLM apps & agent frameworks
@@ -339,11 +339,11 @@ export const libraries = [
 	"openai/whisper",
 	"ggml-org/whisper.cpp",
 	"modelscope/FunASR",
-	"coqui-ai/TTS",
+	"espnet/espnet",
 	"Comfy-Org/ComfyUI",
 	"AUTOMATIC1111/stable-diffusion-webui",
 	"invoke-ai/InvokeAI",
-	"lllyasviel/Fooocus",
+	"vladmandic/sdnext",
 	"LibreTranslate/LibreTranslate",
 
 	// Data science & notebooks
@@ -363,8 +363,8 @@ export const libraries = [
 	"playcanvas/engine",
 	"pmndrs/react-three-fiber",
 	"pmndrs/drei",
-	"greensock/GSAP",
-	"d3/d3",
+	"CesiumGS/cesium",
+	"plotly/plotly.js",
 	"chartjs/Chart.js",
 	"processing/p5.js",
 	"remotion-dev/remotion",
@@ -471,5 +471,5 @@ export const libraries = [
 	"freeCodeCamp/freeCodeCamp",
 	"codecrafters-io/build-your-own-x",
 	"public-apis/public-apis",
-	"mikeroyal/Self-Hosting-Guide",
+	"kamranahmedse/developer-roadmap",
 ] as const;
