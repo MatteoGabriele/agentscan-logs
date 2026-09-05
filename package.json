@@ -9,6 +9,7 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"scan:users:hourly": "pnpm exec tsx --env-file=.env scripts/scan-users.ts --output=hourly-window-scan-results.txt --max-scans=30 --daily-output=daily-scan-results.json --repo-scores-output=daily-repo-scores.json --automation-ids-output=automation-ids.json",
+		"liveness": "pnpm exec tsx --env-file=.env scripts/repo-liveness.ts",
 		"read:encrypted": "pnpm exec tsx --env-file=.env scripts/read-encrypted.ts",
 		"trigger:discord": "pnpm exec tsx --env-file=.env scripts/notify-discord.ts",
 		"trigger:discord:dry-run": "pnpm exec tsx --env-file=.env scripts/notify-discord.ts --dry-run",
