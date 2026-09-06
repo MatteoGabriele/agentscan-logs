@@ -11,6 +11,7 @@ export const libraries = [
 	"bytecodealliance/wasmtime",
 	"emscripten-core/emscripten",
 	"SerenityOS/serenity",
+	"dotnet/roslyn",
 
 	// Frontend frameworks
 	"vuejs/core",
@@ -30,14 +31,13 @@ export const libraries = [
 	"sveltejs/kit",
 	"remix-run/remix",
 	"gatsbyjs/gatsby",
-	"freshframework/fresh",
 	"nitrojs/nitro",
 	"quasarframework/quasar",
+	"remix-run/react-router",
+	"analogjs/analog",
 
 	// Vue & Nuxt ecosystem
 	"vuejs/router",
-	"vuejs/pinia",
-	"vuejs/devtools",
 	"vuejs/vitepress",
 	"vuejs/language-tools",
 	"vuejs/test-utils",
@@ -46,7 +46,6 @@ export const libraries = [
 	"nuxt/ui",
 	"nuxt/content",
 	"nuxt/image",
-	"nuxt-modules/i18n",
 	"unovue/reka-ui",
 	"vuetifyjs/vuetify",
 	"element-plus/element-plus",
@@ -63,8 +62,8 @@ export const libraries = [
 	"chakra-ui/chakra-ui",
 	"mantinedev/mantine",
 	"ant-design/ant-design",
-	"arco-design/arco-design",
 	"storybookjs/storybook",
+	"mui/material-ui",
 
 	// CSS & styling
 	"tailwindlabs/tailwindcss",
@@ -78,14 +77,11 @@ export const libraries = [
 	"TanStack/table",
 	"TanStack/router",
 	"react-hook-form/react-hook-form",
-	"reduxjs/redux",
 	"reduxjs/redux-toolkit",
-	"mobxjs/mobx",
-	"pmndrs/zustand",
-	"pmndrs/jotai",
-	"facebook/relay",
 	"apollographql/apollo-client",
 	"vercel/swr",
+	"apollographql/router",
+	"TanStack/form",
 
 	// Build tools & bundlers
 	"vitejs/vite",
@@ -96,16 +92,15 @@ export const libraries = [
 	"swc-project/swc",
 	"babel/babel",
 	"web-infra-dev/rspack",
-	"parcel-bundler/parcel",
 	"oxc-project/oxc",
-	"privatenumber/tsx",
 	"rolldown/tsdown",
+	"bazelbuild/bazel",
+	"gradle/gradle",
 
 	// Linting, formatting & monorepo tooling
 	"biomejs/biome",
 	"eslint/eslint",
 	"typescript-eslint/typescript-eslint",
-	"antfu/eslint-config",
 	"prettier/prettier",
 	"webpro-nl/knip",
 	"astral-sh/ruff",
@@ -114,18 +109,18 @@ export const libraries = [
 	"vercel/turborepo",
 	"changesets/changesets",
 	"moonrepo/moon",
+	"rust-lang/rust-clippy",
 
 	// Package & version managers
 	"pnpm/pnpm",
 	"npm/cli",
-	"yarnpkg/berry",
 	"npmx-dev/npmx.dev",
 	"jdx/mise",
-	"Schniz/fnm",
-	"nvm-sh/nvm",
 	"asdf-vm/asdf",
 	"astral-sh/uv",
 	"rust-lang/cargo",
+	"Homebrew/brew",
+	"pypa/pip",
 
 	// Testing & browser automation
 	"vitest-dev/vitest",
@@ -135,17 +130,14 @@ export const libraries = [
 	"microsoft/playwright",
 	"puppeteer/puppeteer",
 	"SeleniumHQ/selenium",
-	"testing-library/react-testing-library",
 	"wiremock/wiremock",
 	"grafana/k6",
+	"robotframework/robotframework",
 
 	// Backend frameworks
 	"expressjs/express",
 	"fastify/fastify",
-	"koajs/koa",
 	"micronaut-projects/micronaut-core",
-	"adonisjs/core",
-	"feathersjs/feathers",
 	"honojs/hono",
 	"elysiajs/elysia",
 	"nestjs/nest",
@@ -155,13 +147,11 @@ export const libraries = [
 	"django/django",
 	"pallets/flask",
 	"rails/rails",
-	"laravel/laravel",
 	"symfony/symfony",
 	"spring-projects/spring-boot",
 	"dotnet/aspnetcore",
 	"gin-gonic/gin",
 	"labstack/echo",
-	"beego/beego",
 	"gofiber/fiber",
 	"go-chi/chi",
 	"actix/actix-web",
@@ -169,33 +159,34 @@ export const libraries = [
 	"tokio-rs/axum",
 	"vapor/vapor",
 	"quarkusio/quarkus",
+	"laravel/framework",
+	"spring-projects/spring-framework",
+	"apache/dubbo",
 
 	// APIs & networking
 	"trpc/trpc",
 	"socketio/socket.io",
 	"axios/axios",
-	"unjs/ofetch",
-	"seanmonstar/reqwest",
 	"n0-computer/iroh",
 	"bluesky-social/atproto",
+	"grpc/grpc",
+	"grpc/grpc-go",
+	"nginx/nginx",
+	"googleapis/google-cloud-go",
 
 	// Utilities & validation
 	"colinhacks/zod",
-	"jquense/yup",
 	"date-fns/date-fns",
-	"serde-rs/serde",
+	"pydantic/pydantic",
 
 	// Databases & data stores
-	"mongodb/mongo",
 	"redis/redis",
 	"valkey-io/valkey",
 	"MariaDB/server",
 	"cockroachdb/cockroach",
 	"tikv/tikv",
-	"surrealdb/surrealdb",
 	"yugabyte/yugabyte-db",
 	"vitessio/vitess",
-	"neo4j/neo4j",
 	"influxdata/influxdb",
 	"ClickHouse/ClickHouse",
 	"duckdb/duckdb",
@@ -203,14 +194,19 @@ export const libraries = [
 	"elastic/elasticsearch",
 	"pingcap/tidb",
 	"seaweedfs/seaweedfs",
+	"apache/doris",
+	"apache/iceberg",
+	"apache/druid",
+	"questdb/questdb",
 
 	// ORMs & query builders
 	"prisma/orm",
 	"sequelize/sequelize",
 	"typeorm/typeorm",
-	"knex/knex",
 	"drizzle-team/drizzle-orm",
 	"Automattic/mongoose",
+	"diesel-rs/diesel",
+	"sqlalchemy/sqlalchemy",
 
 	// Data & streaming infrastructure
 	"apache/kafka",
@@ -250,11 +246,12 @@ export const libraries = [
 
 	// Infrastructure as code
 	"hashicorp/terraform",
-	"hashicorp/packer",
 	"hashicorp/nomad",
 	"hashicorp/consul",
 	"pulumi/pulumi",
 	"ansible/ansible",
+	"hashicorp/terraform-provider-aws",
+	"opentofu/opentofu",
 
 	// Observability & analytics
 	"prometheus/prometheus",
@@ -265,12 +262,15 @@ export const libraries = [
 	"open-telemetry/opentelemetry-collector",
 	"jaegertracing/jaeger",
 	"getsentry/sentry",
-	"highlight/highlight",
 	"PostHog/posthog",
 	"umami-software/umami",
 	"plausible/analytics",
 	"matomo-org/matomo",
 	"GoogleChrome/lighthouse",
+	"grafana/mimir",
+	"grafana/alloy",
+	"VictoriaMetrics/VictoriaMetrics",
+	"open-telemetry/opentelemetry-python",
 
 	// Security, auth & identity
 	"hashicorp/vault",
@@ -278,15 +278,15 @@ export const libraries = [
 	"falcosecurity/falco",
 	"aquasecurity/trivy",
 	"projectdiscovery/nuclei",
-	"data-privacy-stack/presidio",
 	"goauthentik/authentik",
 	"authelia/authelia",
 	"zitadel/zitadel",
 	"keycloak/keycloak",
-	"ory/kratos",
 	"supertokens/supertokens-core",
 	"bitwarden/server",
 	"dani-garcia/vaultwarden",
+	"wazuh/wazuh",
+	"crowdsecurity/crowdsec",
 
 	// AI/ML frameworks & training
 	"pytorch/pytorch",
@@ -316,7 +316,6 @@ export const libraries = [
 	"microsoft/autogen",
 	"crewAIInc/crewAI",
 	"microsoft/semantic-kernel",
-	"guidance-ai/guidance",
 	"browser-use/browser-use",
 	"getzep/graphiti",
 	"mem0ai/mem0",
@@ -325,26 +324,28 @@ export const libraries = [
 	"lobehub/lobehub",
 	"open-webui/open-webui",
 	"continuedev/continue",
-	"khoj-ai/khoj",
 	"onyx-dot-app/onyx",
+	"vercel/ai",
+	"cline/cline",
+	"block/goose",
+	"All-Hands-AI/OpenHands",
+	"microsoft/markitdown",
 
 	// Vector databases & retrieval
 	"chroma-core/chroma",
 	"qdrant/qdrant",
 	"milvus-io/milvus",
 	"weaviate/weaviate",
-	"pgvector/pgvector",
+	"lancedb/lancedb",
 
 	// Speech, audio & generative media
-	"openai/whisper",
 	"ggml-org/whisper.cpp",
 	"modelscope/FunASR",
 	"espnet/espnet",
 	"Comfy-Org/ComfyUI",
-	"AUTOMATIC1111/stable-diffusion-webui",
 	"invoke-ai/InvokeAI",
 	"vladmandic/sdnext",
-	"LibreTranslate/LibreTranslate",
+	"k2-fsa/sherpa-onnx",
 
 	// Data science & notebooks
 	"pandas-dev/pandas",
@@ -355,6 +356,7 @@ export const libraries = [
 	"pola-rs/polars",
 	"gradio-app/gradio",
 	"streamlit/streamlit",
+	"apache/superset",
 
 	// Graphics, 3D & visualization
 	"mrdoob/three.js",
@@ -365,18 +367,19 @@ export const libraries = [
 	"pmndrs/drei",
 	"CesiumGS/cesium",
 	"plotly/plotly.js",
-	"chartjs/Chart.js",
 	"processing/p5.js",
 	"remotion-dev/remotion",
 	"excalidraw/excalidraw",
 	"tldraw/tldraw",
+	"visgl/deck.gl",
+	"apache/echarts",
 
 	// Game engines & games
 	"godotengine/godot",
 	"bevyengine/bevy",
 	"libgdx/libgdx",
-	"phaserjs/phaser",
 	"yairm210/Unciv",
+	"openrct2/OpenRCT2",
 
 	// Desktop & mobile
 	"flutter/flutter",
@@ -394,21 +397,17 @@ export const libraries = [
 	"neovim/neovim",
 	"zed-industries/zed",
 	"helix-editor/helix",
-	"lapce/lapce",
 	"rust-lang/rust-analyzer",
 	"sveltejs/language-tools",
-	"alacritty/alacritty",
 	"wezterm/wezterm",
 	"zellij-org/zellij",
 	"starship/starship",
 	"atuinsh/atuin",
+	"ghostty-org/ghostty",
 
 	// CLI & TUI tools
 	"sharkdp/bat",
 	"sharkdp/fd",
-	"sharkdp/hyperfine",
-	"BurntSushi/ripgrep",
-	"eza-community/eza",
 	"ClementTsang/bottom",
 	"dandavison/delta",
 	"jesseduffield/lazygit",
@@ -418,11 +417,11 @@ export const libraries = [
 	"charmbracelet/glow",
 	"charmbracelet/gum",
 	"charmbracelet/lipgloss",
-	"spf13/cobra",
-	"spf13/viper",
 	"urfave/cli",
 	"clap-rs/clap",
 	"yt-dlp/yt-dlp",
+	"nushell/nushell",
+	"cli/cli",
 
 	// CMS, commerce & backend platforms
 	"strapi/strapi",
@@ -456,7 +455,6 @@ export const libraries = [
 	"linkwarden/linkwarden",
 	"karakeep-app/karakeep",
 	"gethomepage/homepage",
-	"glanceapp/glance",
 	"home-assistant/core",
 	"outline/outline",
 	"toeverything/AFFiNE",
@@ -466,10 +464,12 @@ export const libraries = [
 	"bluesky-social/social-app",
 	"binwiederhier/ntfy",
 	"juanfont/headscale",
+	"nextcloud/server",
+	"Stirling-Tools/Stirling-PDF",
 
 	// Learning resources & collections
 	"freeCodeCamp/freeCodeCamp",
-	"codecrafters-io/build-your-own-x",
 	"public-apis/public-apis",
 	"kamranahmedse/developer-roadmap",
+	"EbookFoundation/free-programming-books",
 ] as const;
