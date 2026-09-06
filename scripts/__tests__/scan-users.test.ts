@@ -44,6 +44,8 @@ type PrFixture = {
 	created_at: string;
 	state?: "open" | "closed";
 	merged_at?: string | null;
+	/** GitHub's account type. "Bot" is how it labels a GitHub App. */
+	type?: string;
 };
 
 const userProfile = (username: string) => ({
@@ -67,7 +69,7 @@ function makeOctokit(pages: PrFixture[][]) {
 						created_at: pr.created_at,
 						state: pr.state ?? "open",
 						merged_at: pr.merged_at ?? null,
-						user: { login: pr.login },
+						user: { login: pr.login, type: pr.type ?? "User" },
 					})),
 				})),
 			},
@@ -117,7 +119,7 @@ function makeMultiRepoOctokit(
 					created_at: pr.created_at,
 					state: pr.state ?? "open",
 					merged_at: pr.merged_at ?? null,
-					user: { login: pr.login },
+					user: { login: pr.login, type: pr.type ?? "User" },
 				})),
 			};
 		},
@@ -143,12 +145,13 @@ const inWindowPrs = (count: number, from: number, login = "ada"): PrFixture[] =>
 		created_at: "2026-08-07T07:30:00Z",
 	}));
 
-// Bots are filtered out, so they fill a page without filling the cap.
-const botPrs = (count: number, from: number): PrFixture[] =>
+// Apps are filtered out, so they fill a page without filling the cap.
+const appPrs = (count: number, from: number): PrFixture[] =>
 	Array.from({ length: count }, (_, i) => ({
 		number: from - i,
 		login: "dependabot[bot]",
 		created_at: "2026-08-07T07:30:00Z",
+		type: "Bot",
 	}));
 
 describe("previousHourWindow", () => {
@@ -364,16 +367,16 @@ describe("collectPrs", () => {
 		expect(octokit.rest.pulls.list).toHaveBeenCalledTimes(1);
 	});
 
-	it("does not let bots eat into the cap", async () => {
+	it("does not let GitHub Apps eat into the cap", async () => {
 		// A full page carrying only 25 real PRs, then a page of scorable ones.
 		const { octokit } = makeOctokit([
-			[...botPrs(25, 200), ...inWindowPrs(25, 175)],
+			[...appPrs(25, 200), ...inWindowPrs(25, 175)],
 			inWindowPrs(50, 150),
 		]);
 
 		const { windowed } = await collectPrs(octokit, WINDOW);
 
-		// The bots do not count toward the cap, so page 2 is still fetched and
+		// The apps do not count toward the cap, so page 2 is still fetched and
 		// the repo reaches a full 30 scorable rows.
 		expect(octokit.rest.pulls.list).toHaveBeenCalledTimes(2);
 		expect(windowed).toHaveLength(30);
@@ -426,13 +429,14 @@ describe("collectPrs", () => {
 		expect(userCalls).toEqual(["ada", "bob"]);
 	});
 
-	it("skips known bots", async () => {
-		const { octokit } = makeOctokit([
+	it("skips accounts GitHub labels as apps", async () => {
+		const { octokit, userCalls } = makeOctokit([
 			[
 				{
 					number: 3,
 					login: "dependabot[bot]",
 					created_at: "2026-08-07T07:50:00Z",
+					type: "Bot",
 				},
 				{ number: 2, login: "ada", created_at: "2026-08-07T07:40:00Z" },
 				{ number: 1, login: "bob", created_at: "2026-08-07T07:30:00Z" },
@@ -442,6 +446,30 @@ describe("collectPrs", () => {
 		const { windowed } = await collectPrs(octokit, WINDOW);
 
 		expect(windowed.map((pr) => pr.login)).toEqual(["ada", "bob"]);
+		// Dropped before it costs a profile fetch.
+		expect(userCalls).toEqual(["ada", "bob"]);
+	});
+
+	it("keeps an account whose login merely looks like a bot", async () => {
+		// The curated name list is gone: only GitHub's own label decides, so a
+		// person working on bot tooling is scored like anyone else.
+		const { octokit } = makeOctokit([
+			[
+				{
+					number: 2,
+					login: "renovate-maintainer",
+					created_at: "2026-08-07T07:50:00Z",
+				},
+				{ number: 1, login: "ada", created_at: "2026-08-07T07:30:00Z" },
+			],
+		]);
+
+		const { windowed } = await collectPrs(octokit, WINDOW);
+
+		expect(windowed.map((pr) => pr.login)).toEqual([
+			"renovate-maintainer",
+			"ada",
+		]);
 	});
 });
 

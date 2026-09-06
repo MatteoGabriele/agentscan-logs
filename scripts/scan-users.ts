@@ -1,9 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { GitHubEvent, IdentifyUser } from "@unveil/identity";
-import { identify } from "@unveil/identity";
+import { identify, isGitHubAppAccount } from "@unveil/identity";
 import { Octokit } from "octokit";
-import { isKnownBot } from "../shared/cicd-known-bots";
 import { libraries } from "../shared/daily-scan";
 import type {
 	AutomationTally,
@@ -343,14 +342,14 @@ export async function collectPrs(
 
 	function countsTowardCap(pr: {
 		created_at: string;
-		user?: { login?: string } | null;
+		user?: { login?: string; type?: string } | null;
 	}) {
 		const createdAt = new Date(pr.created_at);
 		return (
 			createdAt >= window.start &&
 			createdAt < window.end &&
 			!!pr.user?.login &&
-			!isKnownBot(pr.user.login)
+			!isGitHubAppAccount(pr.user)
 		);
 	}
 
@@ -417,8 +416,13 @@ export async function collectPrs(
 					continue;
 				}
 
-				if (isKnownBot(pr.user.login)) {
-					console.log(`  ${repoFullName}: skipping known bot`);
+				// GitHub already labels its apps, so the obvious ones are dropped
+				// before they cost a profile fetch. The rest are caught after the
+				// analysis, which also reads the account's events.
+				if (isGitHubAppAccount(pr.user)) {
+					console.log(
+						`  ${repoFullName}: skipping GitHub App ${pr.user.login}`,
+					);
 					continue;
 				}
 
@@ -533,7 +537,12 @@ export async function main(options: ScanOptions) {
 	// the analysis looks at the user's events, not at the individual PR.
 	const scoredUsers = new Map<
 		string,
-		{ score: number; events_count: number; is_bounty: boolean }
+		{
+			score: number;
+			events_count: number;
+			is_bounty: boolean;
+			is_github_app: boolean;
+		}
 	>();
 
 	const automationIds: string[] = [];
@@ -581,6 +590,9 @@ export async function main(options: ScanOptions) {
 			score,
 			events_count: events.length,
 			is_bounty: analysis.isBountyHunter,
+			// GitHub's own label, not a score: an app is not a person having a
+			// good or bad day, so it is left out of the measurement entirely.
+			is_github_app: analysis.isGitHubApp,
 		};
 		scoredUsers.set(pr.login, scored);
 
@@ -608,6 +620,7 @@ export async function main(options: ScanOptions) {
 	}
 
 	let completedCount = 0;
+	let appCount = 0;
 	const repoScores: Map<string, number> = new Map();
 
 	for (const pr of windowed) {
@@ -616,6 +629,17 @@ export async function main(options: ScanOptions) {
 		);
 
 		const scored = await scoreUser(pr);
+
+		// Only the analysis can tell that an account whose profile reads as a
+		// user is really an app, so the PR is dropped here rather than during
+		// collection. The events it cost are already spent; the row is not
+		// written, so the hour measures people only.
+		if (scored.is_github_app) {
+			appCount++;
+			console.log(`  ${pr.repo_name}: skipping GitHub App ${pr.login}`);
+			continue;
+		}
+
 		scanResults.push(toResult(pr, windowAt, scored));
 		recordAutomationPr(pr, scored.score);
 
@@ -631,7 +655,11 @@ export async function main(options: ScanOptions) {
 		maxScans != null ? trimToRecentScans(scanResults, maxScans) : scanResults;
 
 	saveScanResults(finalResults, outputFile, dryRun);
-	console.log(`Window: ${windowed.length} PRs opened in the previous hour`);
+	console.log(
+		`Window: ${windowed.length - appCount} PRs opened in the previous hour${
+			appCount ? ` (${appCount} dropped as GitHub Apps)` : ""
+		}`,
+	);
 
 	// Rolled up from the untrimmed rows: retention can drop a day's first hour
 	// on the very run that completes that day.
