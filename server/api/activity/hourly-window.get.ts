@@ -12,23 +12,11 @@ import { readTextAsset } from "../../utils/read-text-asset";
 export default defineHandler(async () => {
 	try {
 		const content = await readTextAsset("hourly-window-scan-results.txt");
-
-		//   created_at: fromUnixSecs(numCreatedTs)
-		//   score: Number(score)
-		//   pr_key: base64UrlToHex(prKeyB64!)
-		//   pr_status: (STATUS_DECODE[status!] ?? status!) as PrStatus
-		//   user_created_at: fromUnixSecs(numUserCreatedTs)
-		//   user_public_repos_count: numPublicRepos
-		//   events_count: numEvents
-		//   repo_name: repos[numRepoIdx] ?? ''
-		//   is_bounty: isBounty === '1'
 		const results = unpack(content).map((entry) => ({
 			...entry,
 			created_at: roundToClosestHour(entry.created_at),
 		}));
 
-		// An hour with no PR opened writes no row at all, so it has to be
-		// added as an empty bucket instead of being skipped by the chart.
 		const countsByScanTime = fillEmptyHourlyBuckets({
 			countsByHour: getClassificationStatsByScanTime(results),
 			maxHours: WINDOW_MAX_HOURS,

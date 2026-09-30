@@ -54,6 +54,8 @@ interface ScanResult {
 	pr_key: string;
 	pr_status: PrStatus;
 	is_bounty: boolean;
+	additions?: number;
+	deletions?: number;
 }
 
 interface ScanOptions {
@@ -96,6 +98,7 @@ interface CollectedPr {
 	public_repos: number;
 	profile: IdentifyUser;
 	repo_name: string;
+	pr_number: number;
 	pr_key: string;
 	pr_status: PrStatus;
 }
@@ -435,6 +438,7 @@ export async function collectPrs(
 					id: profile.id,
 					login: profile.login,
 					created_at: profile.created_at,
+					pr_number: pr.number,
 					pr_key: encryptValue(repoFullName, pr.number),
 					pr_status: pr.merged_at ? "merged" : (pr.state as PrStatus),
 					public_repos: profile.public_repos,
@@ -601,10 +605,26 @@ export async function main(options: ScanOptions) {
 		return scored;
 	}
 
+	// The PR list leaves out line counts, so each PR costs one more call.
+	async function fetchPrSize(pr: CollectedPr) {
+		const [owner, repo] = pr.repo_name.split("/");
+		const { data } = await withRetry(
+			() => octokit.rest.pulls.get({ owner, repo, pull_number: pr.pr_number }),
+			`${pr.repo_name}: fetch PR size`,
+		);
+
+		await new Promise((resolve) =>
+			setTimeout(resolve, DELAY_BETWEEN_GITHUB_CALLS),
+		);
+
+		return { additions: data.additions, deletions: data.deletions };
+	}
+
 	function toResult(
 		pr: CollectedPr,
 		createdAt: string,
 		scored: Awaited<ReturnType<typeof scoreUser>>,
+		size: Awaited<ReturnType<typeof fetchPrSize>>,
 	): ScanResult {
 		return {
 			created_at: createdAt,
@@ -616,6 +636,7 @@ export async function main(options: ScanOptions) {
 			events_count: scored.events_count,
 			repo_name: pr.repo_name,
 			is_bounty: scored.is_bounty,
+			...size,
 		};
 	}
 
@@ -640,7 +661,9 @@ export async function main(options: ScanOptions) {
 			continue;
 		}
 
-		scanResults.push(toResult(pr, windowAt, scored));
+		const size = await fetchPrSize(pr);
+
+		scanResults.push(toResult(pr, windowAt, scored, size));
 		recordAutomationPr(pr, scored.score);
 
 		if (scored.score !== INSUFFICIENT_DATA_SCORE) {

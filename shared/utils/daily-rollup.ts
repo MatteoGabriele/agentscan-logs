@@ -16,6 +16,8 @@ export type DailyClassificationCounts = {
 	count: number;
 	bountyCount: number;
 	prStatusCounts: Record<PrStatus, number>;
+	additions?: number;
+	deletions?: number;
 };
 
 export type DailyScanEntry = {
@@ -67,6 +69,15 @@ function collectBucketsByDate(
 			classifications: createClassifications(),
 		};
 		const counts = bucket.classifications[classifyByScore(result.score)];
+		const isComplete = counts.count === 0 || counts.additions != null;
+
+		if (isComplete && result.additions != null && result.deletions != null) {
+			counts.additions = (counts.additions ?? 0) + result.additions;
+			counts.deletions = (counts.deletions ?? 0) + result.deletions;
+		} else {
+			delete counts.additions;
+			delete counts.deletions;
+		}
 
 		counts.count += 1;
 		counts.bountyCount += result.is_bounty ? 1 : 0;

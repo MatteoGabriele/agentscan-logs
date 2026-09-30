@@ -5,13 +5,14 @@ import type { EcosystemHealthItem, PrStatus } from "../types/ecosystem-health";
 // Compact CSV format for scan results — ~72% smaller than pretty-printed JSON.
 //
 // Line 0:  REPOS:<comma-separated repo names>   (index lookup)
-// Lines 1+: <created_ts>,<score>,<pr_key_b64url>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>
+// Lines 1+: <created_ts>,<score>,<pr_key_b64url>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>]
 //
 //   created_ts / user_ts : unix seconds (drops sub-second precision)
 //   pr_key               : base64url, no padding  (64 hex → 43 chars)
 //   status               : "o" = open | "c" = closed | "m" = merged
 //   repo_idx             : index into the REPOS header
 //   is_bounty            : 1 = bounty hunter | 0 = not
+//   additions/deletions  : lines changed by the PR
 
 const STATUS_ENCODE: Record<string, string> = {
 	open: "o",
@@ -65,6 +66,9 @@ export function pack(results: EcosystemHealthItem[]): string {
 				r.events_count,
 				repoIndex.get(r.repo_name),
 				r.is_bounty ? 1 : 0,
+				...(r.additions != null && r.deletions != null
+					? [r.additions, r.deletions]
+					: []),
 			].join(","),
 		);
 	}
@@ -102,6 +106,8 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			events,
 			repoIdx,
 			isBounty,
+			additions,
+			deletions,
 		] = fields;
 
 		const numCreatedTs = Number(createdTs);
@@ -130,6 +136,11 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			events_count: numEvents,
 			repo_name: repos[numRepoIdx] ?? "",
 			is_bounty: isBounty === "1",
+			...(additions &&
+				deletions && {
+					additions: Number(additions),
+					deletions: Number(deletions),
+				}),
 		});
 	}
 
