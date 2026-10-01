@@ -201,11 +201,7 @@ describe("collectPrs", () => {
 
 		const { windowed } = await collectPrs(octokit, WINDOW);
 
-		expect(windowed.map((pr) => pr.pr_key)).toEqual([
-			"acme/lib#4",
-			"acme/lib#3",
-			"acme/lib#2",
-		]);
+		expect(windowed.map((pr) => pr.pr_number)).toEqual([4, 3, 2]);
 		expect(windowed.map((pr) => pr.pr_status)).toEqual([
 			"closed",
 			"merged",
@@ -225,7 +221,7 @@ describe("collectPrs", () => {
 		const { windowed } = await collectPrs(octokit, WINDOW);
 
 		// 08:00:00 belongs to the next window, 07:00:00 to this one.
-		expect(windowed.map((pr) => pr.pr_key)).toEqual(["acme/lib#2"]);
+		expect(windowed.map((pr) => pr.pr_number)).toEqual([2]);
 	});
 
 	it("returns an empty window for a quiet hour without throwing", async () => {
@@ -350,8 +346,8 @@ describe("collectPrs", () => {
 
 		expect(windowed).toHaveLength(30);
 		// Newest-first, so the cap keeps #40 down to #11.
-		expect(windowed.at(0)?.pr_key).toBe("acme/lib#40");
-		expect(windowed.at(-1)?.pr_key).toBe("acme/lib#11");
+		expect(windowed.at(0)?.pr_number).toBe(40);
+		expect(windowed.at(-1)?.pr_number).toBe(11);
 	});
 
 	it("stops paging once the cap can already be filled", async () => {
@@ -480,7 +476,6 @@ describe("daily rollup at the first midnight rollover", () => {
 		return {
 			created_at: createdAt,
 			score: 90,
-			pr_key: `acme/lib#${createdAt}`,
 			pr_status: "open",
 			user_created_at: "2020-01-01T00:00:00Z",
 			user_public_repos_count: 3,

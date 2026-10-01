@@ -13,7 +13,8 @@ export type EcosystemHealthCategory = Exclude<
 export type EcosystemHealthItem = {
 	created_at: string;
 	score: number;
-	pr_key: string;
+	/** Null when the PR number is unknow due to older data corruption or other changes. */
+	pr: number | null;
 	pr_status: PrStatus;
 	user_created_at: string;
 	user_public_repos_count: number;

@@ -51,7 +51,7 @@ interface ScanResult {
 	user_public_repos_count: number;
 	events_count: number;
 	repo_name: string;
-	pr_key: string;
+	pr: number;
 	pr_status: PrStatus;
 	is_bounty: boolean;
 	additions?: number;
@@ -99,7 +99,6 @@ interface CollectedPr {
 	profile: IdentifyUser;
 	repo_name: string;
 	pr_number: number;
-	pr_key: string;
 	pr_status: PrStatus;
 }
 
@@ -439,7 +438,6 @@ export async function collectPrs(
 					login: profile.login,
 					created_at: profile.created_at,
 					pr_number: pr.number,
-					pr_key: encryptValue(repoFullName, pr.number),
 					pr_status: pr.merged_at ? "merged" : (pr.state as PrStatus),
 					public_repos: profile.public_repos,
 					profile,
@@ -550,19 +548,21 @@ export async function main(options: ScanOptions) {
 	>();
 
 	const automationIds: string[] = [];
-	const countedPrKeys = new Set<string>();
+	const countedPrs = new Set<string>();
 
 	// Each run covers a distinct hour, so a PR reaches this tally exactly once.
 	function recordAutomationPr(pr: CollectedPr, score: number) {
+		// PR numbers repeat across repos.
+		const prId = `${pr.repo_name}#${pr.pr_number}`;
 		// Thresholds live in the identity config, so read the classification back
 		// rather than comparing against a number spelled out here.
 		if (
 			classifyByScore(score) !== "automation" ||
-			countedPrKeys.has(pr.pr_key)
+			countedPrs.has(prId)
 		) {
 			return;
 		}
-		countedPrKeys.add(pr.pr_key);
+		countedPrs.add(prId);
 		automationIds.push(encryptValue(pr.id));
 	}
 
@@ -629,7 +629,7 @@ export async function main(options: ScanOptions) {
 		return {
 			created_at: createdAt,
 			score: scored.score,
-			pr_key: pr.pr_key,
+			pr: pr.pr_number,
 			pr_status: pr.pr_status,
 			user_created_at: pr.created_at,
 			user_public_repos_count: pr.public_repos,

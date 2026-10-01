@@ -6,7 +6,7 @@ const ITEMS: EcosystemHealthItem[] = [
 	{
 		created_at: "2026-05-26T19:27:30.000Z",
 		score: 100,
-		pr_key: "a1b2c3d4",
+		pr: 1,
 		pr_status: "open",
 		user_created_at: "2017-05-15T12:06:30.000Z",
 		user_public_repos_count: 869,
@@ -17,7 +17,7 @@ const ITEMS: EcosystemHealthItem[] = [
 	{
 		created_at: "2026-05-26T19:27:30.000Z",
 		score: 40,
-		pr_key: "e5f6a7b8",
+		pr: 2,
 		pr_status: "closed",
 		user_created_at: "2026-05-23T17:48:23.000Z",
 		user_public_repos_count: 2,
@@ -28,7 +28,7 @@ const ITEMS: EcosystemHealthItem[] = [
 	{
 		created_at: "2026-05-26T19:27:30.000Z",
 		score: 40,
-		pr_key: "c9d0e1f2",
+		pr: 3,
 		pr_status: "merged",
 		user_created_at: "2026-05-23T17:48:23.000Z",
 		user_public_repos_count: 2,
@@ -53,5 +53,11 @@ describe("pack / unpack", () => {
 		expect(lines[1]?.split(",")[3]).toBe("o");
 		expect(lines[2]?.split(",")[3]).toBe("c");
 		expect(lines[3]?.split(",")[3]).toBe("m");
+	});
+
+	it("round-trips a missing PR as null", () => {
+		const items: EcosystemHealthItem[] = [{ ...ITEMS[0], pr: null }];
+
+		expect(unpack(pack(items))).toEqual(items);
 	});
 });

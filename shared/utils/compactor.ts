@@ -5,10 +5,10 @@ import type { EcosystemHealthItem, PrStatus } from "../types/ecosystem-health";
 // Compact CSV format for scan results — ~72% smaller than pretty-printed JSON.
 //
 // Line 0:  REPOS:<comma-separated repo names>   (index lookup)
-// Lines 1+: <created_ts>,<score>,<pr_key_b64url>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>]
+// Lines 1+: <created_ts>,<score>,<pr>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>]
 //
 //   created_ts / user_ts : unix seconds (drops sub-second precision)
-//   pr_key               : base64url, no padding  (64 hex → 43 chars)
+//   pr                   : PR number (empty when unknown, unpacks as null)
 //   status               : "o" = open | "c" = closed | "m" = merged
 //   repo_idx             : index into the REPOS header
 //   is_bounty            : 1 = bounty hunter | 0 = not
@@ -24,14 +24,6 @@ const STATUS_DECODE: Record<string, string> = {
 	c: "closed",
 	m: "merged",
 };
-
-function hexToBase64Url(hex: string): string {
-	return Buffer.from(hex, "hex").toString("base64url");
-}
-
-function base64UrlToHex(b64: string): string {
-	return Buffer.from(b64, "base64url").toString("hex");
-}
 
 function toUnixSecs(isoDate: string): number {
 	return Math.floor(new Date(isoDate).getTime() / 1000);
@@ -55,25 +47,33 @@ export function pack(results: EcosystemHealthItem[]): string {
 	const lines: string[] = [`REPOS:${repoList.join(",")}`];
 
 	for (const r of results) {
-		lines.push(
-			[
-				toUnixSecs(r.created_at),
-				r.score,
-				hexToBase64Url(r.pr_key),
-				STATUS_ENCODE[r.pr_status] ?? r.pr_status,
-				toUnixSecs(r.user_created_at),
-				r.user_public_repos_count,
-				r.events_count,
-				repoIndex.get(r.repo_name),
-				r.is_bounty ? 1 : 0,
-				...(r.additions != null && r.deletions != null
-					? [r.additions, r.deletions]
-					: []),
-			].join(","),
-		);
+		lines.push(packRow(r, repoIndex.get(r.repo_name)));
 	}
 
 	return lines.join("\n");
+}
+
+function packRow(
+	row: EcosystemHealthItem,
+	repoIdx: number | undefined,
+): string {
+	const fields: (string | number | undefined)[] = [
+		toUnixSecs(row.created_at),
+		row.score,
+		row.pr ?? "",
+		STATUS_ENCODE[row.pr_status] ?? row.pr_status,
+		toUnixSecs(row.user_created_at),
+		row.user_public_repos_count,
+		row.events_count,
+		repoIdx,
+		row.is_bounty ? 1 : 0,
+	];
+
+	if (row.additions != null && row.deletions != null) {
+		fields.push(row.additions, row.deletions);
+	}
+
+	return fields.join(",");
 }
 
 export function unpack(content: string): EcosystemHealthItem[] {
@@ -99,7 +99,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 		const [
 			createdTs,
 			score,
-			prKeyB64 = "",
+			pr = "",
 			status = "",
 			userCreatedTs,
 			publicRepos,
@@ -129,7 +129,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 		results.push({
 			created_at: fromUnixSecs(numCreatedTs),
 			score: Number(score),
-			pr_key: base64UrlToHex(prKeyB64),
+			pr: pr ? Number(pr) : null,
 			pr_status: (STATUS_DECODE[status] ?? status) as PrStatus,
 			user_created_at: fromUnixSecs(numUserCreatedTs),
 			user_public_repos_count: numPublicRepos,

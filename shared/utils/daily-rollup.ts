@@ -12,22 +12,27 @@ import {
 } from "./count-classification-by-date";
 import { classifyByScore, formatPercentage } from "./health-stats";
 
-export type DailyClassificationCounts = {
-	count: number;
-	bountyCount: number;
-	prStatusCounts: Record<PrStatus, number>;
+// Lines changed by the PRs counted. Only present when every one of them was
+// sized: a partial sum would read as a smaller number, not a missing one.
+type LineCounts = {
 	additions?: number;
 	deletions?: number;
 };
 
-export type DailyScanEntry = {
+export type DailyClassificationCounts = LineCounts & {
+	count: number;
+	bountyCount: number;
+	prStatusCounts: Record<PrStatus, number>;
+};
+
+export type DailyScanEntry = LineCounts & {
 	date: string;
 	createdAt: string;
 	hours: number;
 	classifications: Record<IdentityClassification, DailyClassificationCounts>;
 };
 
-type DailyScanBucket = Omit<DailyScanEntry, "date" | "hours"> & {
+type DailyScanBucket = Pick<DailyScanEntry, "createdAt" | "classifications"> & {
 	hours: Set<string>;
 };
 
@@ -95,6 +100,33 @@ function collectBucketsByDate(
 	return bucketsByDate;
 }
 
+// The whole day across every classification, insufficient data included.
+function sumLineCounts(
+	classifications: DailyScanEntry["classifications"],
+): LineCounts {
+	const counted = Object.values(classifications).filter(
+		(counts) => counts.count > 0,
+	);
+
+	if (
+		counted.length === 0 ||
+		counted.some((counts) => counts.additions == null)
+	) {
+		return {};
+	}
+
+	return {
+		additions: counted.reduce(
+			(sum, counts) => sum + (counts.additions ?? 0),
+			0,
+		),
+		deletions: counted.reduce(
+			(sum, counts) => sum + (counts.deletions ?? 0),
+			0,
+		),
+	};
+}
+
 function toDailyEntry(
 	date: string,
 	bucket: DailyScanBucket,
@@ -104,6 +136,7 @@ function toDailyEntry(
 		date,
 		createdAt: bucket.createdAt,
 		hours,
+		...sumLineCounts(bucket.classifications),
 		classifications: bucket.classifications,
 	};
 }

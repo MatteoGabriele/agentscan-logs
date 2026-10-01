@@ -182,6 +182,83 @@ describe("getCompletedDailyEntries", () => {
 
 		expect(result).toEqual([]);
 	});
+
+	it("sums lines changed per classification and for the whole day", () => {
+		const [entry] = getCompletedDailyEntries(
+			[
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T00:00:00.000Z",
+					score: 90,
+					additions: 100,
+					deletions: 10,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T01:00:00.000Z",
+					score: 90,
+					additions: 50,
+					deletions: 5,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T02:00:00.000Z",
+					score: 10,
+					additions: 200,
+					deletions: 20,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T03:00:00.000Z",
+					score: -1,
+					additions: 1,
+					deletions: 1,
+				}),
+			],
+			"2026-06-10T23:00:00.000Z",
+		);
+
+		expect(entry?.classifications.organic).toMatchObject({
+			additions: 150,
+			deletions: 15,
+		});
+		expect(entry?.classifications.automation).toMatchObject({
+			additions: 200,
+			deletions: 20,
+		});
+		expect(entry?.classifications["insufficient-data"]).toMatchObject({
+			additions: 1,
+			deletions: 1,
+		});
+		expect(entry?.classifications.mixed.additions).toBeUndefined();
+		expect(entry?.additions).toBe(351);
+		expect(entry?.deletions).toBe(36);
+	});
+
+	it("leaves lines out wherever a PR was never sized", () => {
+		const [entry] = getCompletedDailyEntries(
+			[
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T00:00:00.000Z",
+					score: 90,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T01:00:00.000Z",
+					score: 90,
+					additions: 50,
+					deletions: 5,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T02:00:00.000Z",
+					score: 10,
+					additions: 200,
+					deletions: 20,
+				}),
+			],
+			"2026-06-10T23:00:00.000Z",
+		);
+
+		expect(entry?.classifications.organic.additions).toBeUndefined();
+		expect(entry?.classifications.automation.additions).toBe(200);
+		expect(entry).not.toHaveProperty("additions");
+		expect(entry).not.toHaveProperty("deletions");
+	});
 });
 
 describe("getDailyCountsByDate", () => {
