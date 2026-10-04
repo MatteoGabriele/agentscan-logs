@@ -2,13 +2,14 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { GitHubEvent, IdentifyUser } from "@unveil/identity";
 import { identify, isGitHubAppAccount } from "@unveil/identity";
+import { analyzeText } from "@unveil/interlinked";
 import { Octokit } from "octokit";
 import { libraries } from "../shared/daily-scan";
 import type {
 	AutomationTally,
 	VerifiedAutomation,
 } from "../shared/types/automation";
-import type { PrStatus } from "../shared/types/ecosystem-health";
+import type { PrStatus, TextVerdict } from "../shared/types/ecosystem-health";
 import { pack, unpack } from "../shared/utils/compactor";
 import type { DailyRepoScores } from "../shared/utils/daily-repo-scores";
 import {
@@ -56,6 +57,10 @@ interface ScanResult {
 	is_bounty: boolean;
 	additions?: number;
 	deletions?: number;
+	text_verdict?: TextVerdict;
+	text_confidence?: number;
+	text_probability?: number;
+	text_template_found?: boolean;
 }
 
 interface ScanOptions {
@@ -310,6 +315,37 @@ async function fetchUserEvents(
 }
 
 /**
+ * The repo's PR template, found the way interlinked's calibration corpus found
+ * it, so headings and checklists the template asks for don't read as AI.
+ * Missing or unreadable templates analyze without one rather than failing.
+ */
+async function fetchPrTemplate(
+	octokit: Octokit,
+	repoFullName: string,
+): Promise<string | undefined> {
+	const [owner, repo] = repoFullName.split("/");
+
+	try {
+		const { data: profile } =
+			await octokit.rest.repos.getCommunityProfileMetrics({ owner, repo });
+		const url = profile.files?.pull_request_template?.url;
+		if (!url) {
+			return undefined;
+		}
+
+		const { data } = await octokit.request(`GET ${url}`, {
+			headers: { accept: "application/vnd.github.raw+json" },
+		});
+		return typeof data === "string" ? data : undefined;
+	} catch (error) {
+		console.warn(
+			`  ${repoFullName}: no PR template — ${(error as Error).message}`,
+		);
+		return undefined;
+	}
+}
+
+/**
  * Walks each repo's PR list and collects the PRs *opened* inside `window`
  * however many that is, often zero for quiet repos.
  */
@@ -556,10 +592,7 @@ export async function main(options: ScanOptions) {
 		const prId = `${pr.repo_name}#${pr.pr_number}`;
 		// Thresholds live in the identity config, so read the classification back
 		// rather than comparing against a number spelled out here.
-		if (
-			classifyByScore(score) !== "automation" ||
-			countedPrs.has(prId)
-		) {
+		if (classifyByScore(score) !== "automation" || countedPrs.has(prId)) {
 			return;
 		}
 		countedPrs.add(prId);
@@ -606,25 +639,63 @@ export async function main(options: ScanOptions) {
 	}
 
 	// The PR list leaves out line counts, so each PR costs one more call.
-	async function fetchPrSize(pr: CollectedPr) {
+	async function fetchPrDetails(pr: CollectedPr) {
 		const [owner, repo] = pr.repo_name.split("/");
 		const { data } = await withRetry(
 			() => octokit.rest.pulls.get({ owner, repo, pull_number: pr.pr_number }),
-			`${pr.repo_name}: fetch PR size`,
+			`${pr.repo_name}: fetch PR details`,
 		);
 
 		await new Promise((resolve) =>
 			setTimeout(resolve, DELAY_BETWEEN_GITHUB_CALLS),
 		);
 
-		return { additions: data.additions, deletions: data.deletions };
+		return {
+			size: { additions: data.additions, deletions: data.deletions },
+			body: data.body ?? "",
+		};
+	}
+
+	// Once per repo per run, and only for repos that had a PR this hour.
+	const templates = new Map<string, Promise<string | undefined>>();
+
+	function getTemplate(repoName: string): Promise<string | undefined> {
+		let template = templates.get(repoName);
+
+		if (!template) {
+			template = fetchPrTemplate(octokit, repoName);
+			templates.set(repoName, template);
+		}
+
+		return template;
+	}
+
+	async function analyzeDescription(pr: CollectedPr, body: string) {
+		// An empty description reads as confidently human, which says nothing
+		// about the author — leave it unmeasured instead.
+		if (!body.trim()) {
+			return {};
+		}
+
+		const template = await getTemplate(pr.repo_name);
+		const { verdict, confidence, probability } = analyzeText(body, {
+			template,
+		});
+
+		return {
+			text_verdict: verdict,
+			text_confidence: confidence,
+			text_probability: probability,
+			text_template_found: template !== undefined,
+		};
 	}
 
 	function toResult(
 		pr: CollectedPr,
 		createdAt: string,
 		scored: Awaited<ReturnType<typeof scoreUser>>,
-		size: Awaited<ReturnType<typeof fetchPrSize>>,
+		size: Awaited<ReturnType<typeof fetchPrDetails>>["size"],
+		text: Awaited<ReturnType<typeof analyzeDescription>>,
 	): ScanResult {
 		return {
 			created_at: createdAt,
@@ -637,6 +708,7 @@ export async function main(options: ScanOptions) {
 			repo_name: pr.repo_name,
 			is_bounty: scored.is_bounty,
 			...size,
+			...text,
 		};
 	}
 
@@ -661,9 +733,10 @@ export async function main(options: ScanOptions) {
 			continue;
 		}
 
-		const size = await fetchPrSize(pr);
+		const { size, body } = await fetchPrDetails(pr);
+		const text = await analyzeDescription(pr, body);
 
-		scanResults.push(toResult(pr, windowAt, scored, size));
+		scanResults.push(toResult(pr, windowAt, scored, size, text));
 		recordAutomationPr(pr, scored.score);
 
 		if (scored.score !== INSUFFICIENT_DATA_SCORE) {

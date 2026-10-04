@@ -259,6 +259,70 @@ describe("getCompletedDailyEntries", () => {
 		expect(entry).not.toHaveProperty("additions");
 		expect(entry).not.toHaveProperty("deletions");
 	});
+
+	it("summarizes the day's description verdicts, skipping unread PRs", () => {
+		const [entry] = getCompletedDailyEntries(
+			[
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T00:00:00.000Z",
+					text_verdict: "ai",
+					text_confidence: 0.9,
+					text_probability: 0.9,
+					text_template_found: true,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T01:00:00.000Z",
+					text_verdict: "ai",
+					text_confidence: 0.6,
+					text_probability: 0.6,
+					text_template_found: false,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T02:00:00.000Z",
+					text_verdict: "human",
+					text_confidence: 0.75,
+					text_probability: 0.25,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T03:00:00.000Z",
+				}),
+			],
+			"2026-06-10T23:00:00.000Z",
+		);
+
+		expect(entry?.text).toEqual({
+			count: 3,
+			verdicts: { ai: 2, human: 1 },
+			topVerdict: "ai",
+			avgConfidence: 0.75,
+			avgProbability: 0.583,
+			templateFoundCount: 1,
+		});
+	});
+
+	it("reads a tied day as human and leaves out days with nothing read", () => {
+		const [tied, unread] = getCompletedDailyEntries(
+			[
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T00:00:00.000Z",
+					text_verdict: "ai",
+					text_confidence: 0.7,
+					text_probability: 0.7,
+				}),
+				createEcosystemHealthItem({
+					created_at: "2026-06-10T01:00:00.000Z",
+					text_verdict: "human",
+					text_confidence: 0.7,
+					text_probability: 0.3,
+				}),
+				...createFullDay("2026-06-11", 90),
+			],
+			"2026-06-11T23:00:00.000Z",
+		);
+
+		expect(tied?.text?.topVerdict).toBe("human");
+		expect(unread).not.toHaveProperty("text");
+	});
 });
 
 describe("getDailyCountsByDate", () => {

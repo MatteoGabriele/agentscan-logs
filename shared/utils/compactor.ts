@@ -1,18 +1,28 @@
 /// <reference types="node" />
 
-import type { EcosystemHealthItem, PrStatus } from "../types/ecosystem-health";
+import type {
+	EcosystemHealthItem,
+	PrStatus,
+	TextVerdict,
+} from "../types/ecosystem-health";
 
 // Compact CSV format for scan results — ~72% smaller than pretty-printed JSON.
 //
 // Line 0:  REPOS:<comma-separated repo names>   (index lookup)
-// Lines 1+: <created_ts>,<score>,<pr>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>]
+// Lines 1+: <created_ts>,<score>,<pr>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>[,<verdict>,<confidence>,<probability>[,<template>]]]
 //
 //   created_ts / user_ts : unix seconds (drops sub-second precision)
 //   pr                   : PR number (empty when unknown, unpacks as null)
 //   status               : "o" = open | "c" = closed | "m" = merged
 //   repo_idx             : index into the REPOS header
 //   is_bounty            : 1 = bounty hunter | 0 = not
-//   additions/deletions  : lines changed by the PR
+//   additions/deletions  : lines changed by the PR (empty when unsized but the
+//                          text columns follow)
+//   verdict              : "a" = ai | "h" = human, @unveil/interlinked's read of
+//                          the PR description
+//   confidence           : confidence in the verdict, 0.5 to 1
+//   probability          : probability the description is agent-written, 0 to 1
+//   template             : 1 = read with the repo's PR template | 0 = without
 
 const STATUS_ENCODE: Record<string, string> = {
 	open: "o",
@@ -24,6 +34,9 @@ const STATUS_DECODE: Record<string, string> = {
 	c: "closed",
 	m: "merged",
 };
+
+const VERDICT_ENCODE: Record<TextVerdict, string> = { ai: "a", human: "h" };
+const VERDICT_DECODE: Record<string, TextVerdict> = { a: "ai", h: "human" };
 
 function toUnixSecs(isoDate: string): number {
 	return Math.floor(new Date(isoDate).getTime() / 1000);
@@ -69,8 +82,26 @@ function packRow(
 		row.is_bounty ? 1 : 0,
 	];
 
-	if (row.additions != null && row.deletions != null) {
-		fields.push(row.additions, row.deletions);
+	const isSized = row.additions != null && row.deletions != null;
+	const hasText =
+		row.text_verdict != null &&
+		row.text_confidence != null &&
+		row.text_probability != null;
+
+	if (isSized || hasText) {
+		fields.push(row.additions ?? "", row.deletions ?? "");
+	}
+
+	if (hasText) {
+		fields.push(
+			VERDICT_ENCODE[row.text_verdict as TextVerdict],
+			row.text_confidence,
+			row.text_probability,
+		);
+
+		if (row.text_template_found != null) {
+			fields.push(row.text_template_found ? 1 : 0);
+		}
 	}
 
 	return fields.join(",");
@@ -108,6 +139,10 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			isBounty,
 			additions,
 			deletions,
+			verdict = "",
+			confidence,
+			probability,
+			templateFound = "",
 		] = fields;
 
 		const numCreatedTs = Number(createdTs);
@@ -140,6 +175,16 @@ export function unpack(content: string): EcosystemHealthItem[] {
 				deletions && {
 					additions: Number(additions),
 					deletions: Number(deletions),
+				}),
+			...(VERDICT_DECODE[verdict] &&
+				confidence &&
+				probability && {
+					text_verdict: VERDICT_DECODE[verdict],
+					text_confidence: Number(confidence),
+					text_probability: Number(probability),
+					...(templateFound !== "" && {
+						text_template_found: templateFound === "1",
+					}),
 				}),
 		});
 	}

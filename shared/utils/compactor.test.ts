@@ -60,4 +60,75 @@ describe("pack / unpack", () => {
 
 		expect(unpack(pack(items))).toEqual(items);
 	});
+
+	it("round-trips the description verdict after the line counts", () => {
+		const items: EcosystemHealthItem[] = [
+			{
+				...ITEMS[0],
+				additions: 12,
+				deletions: 3,
+				text_verdict: "ai",
+				text_confidence: 0.897,
+				text_probability: 0.897,
+				text_template_found: true,
+			},
+			{
+				...ITEMS[1],
+				additions: 1,
+				deletions: 0,
+				text_verdict: "human",
+				text_confidence: 0.8,
+				text_probability: 0.2,
+				text_template_found: false,
+			},
+		];
+		const packed = pack(items);
+
+		expect(packed.split("\n")[1]?.split(",").slice(9)).toEqual([
+			"12",
+			"3",
+			"a",
+			"0.897",
+			"0.897",
+			"1",
+		]);
+		expect(unpack(packed)).toEqual(items);
+	});
+
+	it("keeps the verdict of an unsized PR in its own columns", () => {
+		const items: EcosystemHealthItem[] = [
+			{
+				...ITEMS[0],
+				text_verdict: "human",
+				text_confidence: 0.9,
+				text_probability: 0.1,
+			},
+		];
+
+		expect(unpack(pack(items))).toEqual(items);
+	});
+
+	it("reads verdicts written before the template column existed", () => {
+		const items: EcosystemHealthItem[] = [
+			{
+				...ITEMS[0],
+				text_verdict: "ai",
+				text_confidence: 0.7,
+				text_probability: 0.7,
+			},
+		];
+		const packed = pack(items);
+
+		expect(packed.split("\n")[1]?.split(",")).toHaveLength(14);
+		expect(unpack(packed)[0]).not.toHaveProperty("text_template_found");
+	});
+
+	it("reads rows written before the description columns existed", () => {
+		const items: EcosystemHealthItem[] = [
+			{ ...ITEMS[0], additions: 5, deletions: 2 },
+		];
+
+		expect(unpack(pack(items))).toEqual(items);
+		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(11);
+	});
 });

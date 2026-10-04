@@ -3,6 +3,8 @@ import type { calcLinearProgression } from "../utils/calc-linear-progression";
 
 export type PrStatus = "open" | "closed" | "merged";
 
+export type TextVerdict = "ai" | "human";
+
 // Categories plotted on the health graph. "insufficient-data" scans are stored
 // with a negative score and excluded from every aggregate.
 export type EcosystemHealthCategory = Exclude<
@@ -23,6 +25,20 @@ export type EcosystemHealthItem = {
 	is_bounty: boolean;
 	additions?: number;
 	deletions?: number;
+	/**
+	 * @unveil/interlinked's read of the PR description. Absent when the PR had
+	 * no description to read, or was scanned before the analysis was added.
+	 */
+	text_verdict?: TextVerdict;
+	/** Confidence in `text_verdict`, 0.5 to 1. */
+	text_confidence?: number;
+	/** Probability the description is agent-written, 0 to 1. */
+	text_probability?: number;
+	/**
+	 * Whether the repo's PR template was found and paired with the description
+	 * when it was read. Absent wherever `text_verdict` is.
+	 */
+	text_template_found?: boolean;
 };
 
 export type EcosystemHealthCategoryCounts = {

@@ -3,6 +3,7 @@ import type {
 	EcosystemHealthCategory,
 	EcosystemHealthItem,
 	PrStatus,
+	TextVerdict,
 } from "../types/ecosystem-health";
 import type { GetClassificationStatsByDateResults } from "./count-classification-by-date";
 import {
@@ -11,6 +12,7 @@ import {
 	createEmptyClassificationStats,
 } from "./count-classification-by-date";
 import { classifyByScore, formatPercentage } from "./health-stats";
+import { round } from "./numbers";
 
 // Lines changed by the PRs counted. Only present when every one of them was
 // sized: a partial sum would read as a smaller number, not a missing one.
@@ -25,15 +27,40 @@ export type DailyClassificationCounts = LineCounts & {
 	prStatusCounts: Record<PrStatus, number>;
 };
 
+// How the day's PR descriptions read to @unveil/interlinked. Only PRs with a
+// description count: an empty one has nothing to read.
+export type DailyTextSummary = {
+	count: number;
+	verdicts: Record<TextVerdict, number>;
+	/** The more frequent verdict; a tie reads as human. */
+	topVerdict: TextVerdict;
+	/** Mean confidence in each PR's own verdict, 0.5 to 1. */
+	avgConfidence: number;
+	/** Mean probability that a description is agent-written, 0 to 1. */
+	avgProbability: number;
+	/** How many of `count` were read with the repo's PR template. */
+	templateFoundCount: number;
+};
+
 export type DailyScanEntry = LineCounts & {
 	date: string;
 	createdAt: string;
 	hours: number;
 	classifications: Record<IdentityClassification, DailyClassificationCounts>;
+	/** Absent for days with no description read, older days included. */
+	text?: DailyTextSummary;
+};
+
+type TextTally = {
+	verdicts: Record<TextVerdict, number>;
+	confidenceSum: number;
+	probabilitySum: number;
+	templateFoundCount: number;
 };
 
 type DailyScanBucket = Pick<DailyScanEntry, "createdAt" | "classifications"> & {
 	hours: Set<string>;
+	text: TextTally;
 };
 
 function createClassificationCounts(): DailyClassificationCounts {
@@ -72,6 +99,12 @@ function collectBucketsByDate(
 			createdAt: result.created_at,
 			hours: new Set<string>(),
 			classifications: createClassifications(),
+			text: {
+				verdicts: { ai: 0, human: 0 },
+				confidenceSum: 0,
+				probabilitySum: 0,
+				templateFoundCount: 0,
+			},
 		};
 		const counts = bucket.classifications[classifyByScore(result.score)];
 		const isComplete = counts.count === 0 || counts.additions != null;
@@ -87,6 +120,17 @@ function collectBucketsByDate(
 		counts.count += 1;
 		counts.bountyCount += result.is_bounty ? 1 : 0;
 		counts.prStatusCounts[result.pr_status] += 1;
+
+		if (
+			result.text_verdict != null &&
+			result.text_confidence != null &&
+			result.text_probability != null
+		) {
+			bucket.text.verdicts[result.text_verdict] += 1;
+			bucket.text.confidenceSum += result.text_confidence;
+			bucket.text.probabilitySum += result.text_probability;
+			bucket.text.templateFoundCount += result.text_template_found ? 1 : 0;
+		}
 
 		bucket.hours.add(result.created_at);
 		bucket.createdAt =
@@ -127,17 +171,37 @@ function sumLineCounts(
 	};
 }
 
+function summarizeText(tally: TextTally): DailyTextSummary | undefined {
+	const count = tally.verdicts.ai + tally.verdicts.human;
+
+	if (count === 0) {
+		return undefined;
+	}
+
+	return {
+		count,
+		verdicts: tally.verdicts,
+		topVerdict: tally.verdicts.ai > tally.verdicts.human ? "ai" : "human",
+		avgConfidence: round(tally.confidenceSum / count, 3),
+		avgProbability: round(tally.probabilitySum / count, 3),
+		templateFoundCount: tally.templateFoundCount,
+	};
+}
+
 function toDailyEntry(
 	date: string,
 	bucket: DailyScanBucket,
 	hours: number,
 ): DailyScanEntry {
+	const text = summarizeText(bucket.text);
+
 	return {
 		date,
 		createdAt: bucket.createdAt,
 		hours,
 		...sumLineCounts(bucket.classifications),
 		classifications: bucket.classifications,
+		...(text && { text }),
 	};
 }
 

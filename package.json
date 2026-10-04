@@ -20,6 +20,7 @@
 	},
 	"dependencies": {
 		"@unveil/identity": "2.0.5-beta.1",
+		"@unveil/interlinked": "0.0.4",
 		"dayjs": "^1.11.19",
 		"nitro": "3.0.260610-beta",
 		"octokit": "^5.0.5"

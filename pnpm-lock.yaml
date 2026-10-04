@@ -11,6 +11,9 @@ importers:
       '@unveil/identity':
         specifier: 2.0.5-beta.1
         version: 2.0.5-beta.1
+      '@unveil/interlinked':
+        specifier: 0.0.4
+        version: 0.0.4
       dayjs:
         specifier: ^1.11.19
         version: 1.11.23
@@ -493,6 +496,9 @@ packages:
 
   '@unveil/identity@2.0.5-beta.1':
     resolution: {integrity: sha512-C5iReyszt607RliuAjO5Z7WtGZNpWVBWHsxJcEb4F34BkwK/4tu/4EYMZt+nkHcufIzFZZpk8mY09KsXGm68/A==}
+
+  '@unveil/interlinked@0.0.4':
+    resolution: {integrity: sha512-KV59e0ilN9aaqLm+Gi8AvN8ZzGy0X9/RY/VJfX9q02sU7sUxS+3CpFDfPNydHbNglnTqH81DVVXi1vIXmkUAUg==}
 
   '@vitest/expect@4.1.11':
     resolution: {integrity: sha512-VX2x5vNJXET47KAFzwERI+KRMtTTCSWTfSMKsW7JsUsXV4psq++e3DvZpuTDOpHcxytiDs6p2nhVb2tVDiiUYw==}
@@ -1372,6 +1378,8 @@ snapshots:
       undici-types: 8.3.0
 
   '@unveil/identity@2.0.5-beta.1': {}
+
+  '@unveil/interlinked@0.0.4': {}
 
   '@vitest/expect@4.1.11':
     dependencies:
