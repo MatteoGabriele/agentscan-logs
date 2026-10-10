@@ -30,6 +30,9 @@ importers:
       '@types/node':
         specifier: ^26.2.0
         version: 26.2.0
+      interlinked:
+        specifier: ^0.1.7
+        version: 0.1.7
       tsx:
         specifier: ^4.22.4
         version: 4.23.12
@@ -658,6 +661,9 @@ packages:
   httpxy@0.5.5:
     resolution: {integrity: sha512-uDjmnPyp1q4Sgzf3w+J/Fc6UqcCEj0x4Wjp7OqK5dGhNeDgpyrAmnS6ey8QWrX3SWDon2DMKf9sBa5X9+CVyMA==}
 
+  interlinked@0.1.7:
+    resolution: {integrity: sha512-2MqVrP7dHhMuOoigkyPYlXCnbdsHR3bt7g7sLek4luyYtOTsQlIOu0k6RivW5z4FvHLQyLJlV+7BVvSynTjN1g==}
+
   json-with-bigint@3.5.12:
     resolution: {integrity: sha512-uwbF/wSSuOgC7qqlq27Xp5B6a2MHVug3t0idZdTqu0JnlFvgJuH7ju+KAk/J06C7GfhoYy2gnb9wz2INqcne7w==}
 
@@ -816,6 +822,10 @@ packages:
   rou3@0.8.1:
     resolution: {integrity: sha512-ePa+XGk00/3HuCqrEnK3LxJW7I0SdNg6EFzKUJG73hMAdDcOUC/i/aSz7LSDwLrGr33kal/rqOGydzwl6U7zBA==}
 
+  rxjs@5.5.12:
+    resolution: {integrity: sha512-xx2itnL5sBbqeeiVgNPVuQQ1nC8Jp2WfNJhXWHmElW9YmrpS9UVnNzhP3EH3HFqexO5Tlp8GhYY+WEcqcVMvGw==}
+    engines: {npm: '>=2.0.0'}
+
   siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
 
@@ -833,6 +843,10 @@ packages:
 
   std-env@4.2.0:
     resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
+
+  symbol-observable@1.0.1:
+    resolution: {integrity: sha512-Kb3PrPYz4HanVF1LVGuAdW6LoVgIwjUYJGzFe7NDrBLCN4lsV/5J0MFurV+ygS4bRVwrCEt2c7MQ1R2a72oJDw==}
+    engines: {node: '>=0.10.0'}
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
@@ -1510,6 +1524,10 @@ snapshots:
 
   httpxy@0.5.5: {}
 
+  interlinked@0.1.7:
+    dependencies:
+      rxjs: 5.5.12
+
   json-with-bigint@3.5.12: {}
 
   lightningcss-android-arm64@1.33.0:
@@ -1677,6 +1695,10 @@ snapshots:
 
   rou3@0.8.1: {}
 
+  rxjs@5.5.12:
+    dependencies:
+      symbol-observable: 1.0.1
+
   siginfo@2.0.0: {}
 
   source-map-js@1.2.1: {}
@@ -1686,6 +1708,8 @@ snapshots:
   stackback@0.0.2: {}
 
   std-env@4.2.0: {}
+
+  symbol-observable@1.0.1: {}
 
   tinybench@2.9.0: {}
 
