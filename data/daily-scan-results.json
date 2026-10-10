@@ -5938,5 +5938,69 @@
       "avgProbability": 0.666,
       "templateFoundCount": 4944
     }
+  },
+  {
+    "date": "2026-10-09",
+    "createdAt": "2026-10-09T00:00:00.000Z",
+    "hours": 24,
+    "additions": 3910394,
+    "deletions": 1347697,
+    "classifications": {
+      "organic": {
+        "count": 3503,
+        "bountyCount": 163,
+        "prStatusCounts": {
+          "open": 3141,
+          "closed": 72,
+          "merged": 290
+        },
+        "additions": 2904651,
+        "deletions": 785749
+      },
+      "mixed": {
+        "count": 454,
+        "bountyCount": 18,
+        "prStatusCounts": {
+          "open": 406,
+          "closed": 10,
+          "merged": 38
+        },
+        "additions": 141240,
+        "deletions": 87503
+      },
+      "automation": {
+        "count": 1186,
+        "bountyCount": 60,
+        "prStatusCounts": {
+          "open": 912,
+          "closed": 24,
+          "merged": 250
+        },
+        "additions": 803208,
+        "deletions": 461395
+      },
+      "insufficient-data": {
+        "count": 258,
+        "bountyCount": 0,
+        "prStatusCounts": {
+          "open": 238,
+          "closed": 18,
+          "merged": 2
+        },
+        "additions": 61295,
+        "deletions": 13050
+      }
+    },
+    "text": {
+      "count": 5310,
+      "verdicts": {
+        "ai": 3377,
+        "human": 1933
+      },
+      "topVerdict": "ai",
+      "avgConfidence": 0.869,
+      "avgProbability": 0.648,
+      "templateFoundCount": 4664
+    }
   }
 ]
