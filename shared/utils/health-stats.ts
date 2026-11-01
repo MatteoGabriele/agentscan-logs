@@ -1,4 +1,4 @@
-import { type IdentityClassification, identityConfig } from "@unveil/identity";
+import { type ClassificationLabel, identityConfig } from "@unveil/identity";
 import type {
 	EcosystemHealthCategory,
 	EcosystemHealthItem,
@@ -7,7 +7,7 @@ import { round } from "./numbers";
 
 export const INSUFFICIENT_DATA_SCORE = -1;
 
-export function classifyByScore(score: number): IdentityClassification {
+export function classifyByScore(score: number): ClassificationLabel {
 	if (score === INSUFFICIENT_DATA_SCORE) {
 		return "insufficient-data";
 	} else if (score >= identityConfig.THRESHOLD_HUMAN) {
