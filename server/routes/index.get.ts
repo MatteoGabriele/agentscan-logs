@@ -39,7 +39,8 @@ const endpoints: Endpoint[] = [
 	},
 	{
 		path: "/api/libraries",
-		description: "Repositories included in the scan.",
+		description:
+			"Repositories included in the scan, flat and grouped by category.",
 	},
 ];
 
