@@ -103,6 +103,8 @@ export type RepoScoreDay = { date: string; repos: RepoScoreRow[] };
 /**
  * One row per repo per day, never folded into a total. A day is kept even
  * when `repo` filters it empty, so a quiet day reads as quiet, not as a gap.
+ * Stored names are lowercase (see `RepoName`), so `repo` is lowered to match:
+ * GitHub treats `TanStack/query` and `tanstack/query` as the same repo.
  */
 export function getRepoScoresPerDate({
 	scoresByDate,
@@ -113,10 +115,12 @@ export function getRepoScoresPerDate({
 	dates: string[];
 	repo?: string | null;
 }): RepoScoreDay[] {
+	const formatted = repo?.toLowerCase();
+
 	return dates.map((date) => ({
 		date,
 		repos: Object.entries(scoresByDate[date] ?? {})
-			.filter(([name]) => !repo || name === repo)
+			.filter(([name]) => !formatted || name === formatted)
 			.map(([name, [count, scoreSum]]) => ({ name, count, scoreSum }))
 			.sort((a, b) => b.count - a.count),
 	}));

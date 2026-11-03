@@ -189,6 +189,21 @@ describe("getRepoScoresPerDate", () => {
 		]);
 	});
 
+	it("matches `repo` regardless of casing, as GitHub does", () => {
+		expect(
+			getRepoScoresPerDate({
+				scoresByDate,
+				dates: ["2026-06-11"],
+				repo: "Nuxt/NUXT",
+			}),
+		).toEqual([
+			{
+				date: "2026-06-11",
+				repos: [{ name: "nuxt/nuxt", count: 1, scoreSum: 60 }],
+			},
+		]);
+	});
+
 	it("answers a day that was never measured as an empty day", () => {
 		expect(
 			getRepoScoresPerDate({ scoresByDate, dates: ["2026-06-30"] }),

@@ -1,3 +1,17 @@
+/**
+ * A repo is named `owner/repo` in lowercase, always. GitHub matches names
+ * case-insensitively but every file here keys on the exact string, so one
+ * recased entry (`tanstack/query` → `TanStack/query` once) splits a repo into
+ * two series. `Lowercase<string>` makes `tsc` reject a mixed-case entry.
+ */
+export type RepoName = Lowercase<`${string}/${string}`>;
+
+type LibraryCategory = {
+	name: string;
+	group: string;
+	repos: readonly RepoName[];
+};
+
 export const libraryCategories = [
 	{
 		name: "Languages, runtimes & systems",
@@ -9,11 +23,11 @@ export const libraryCategories = [
 			"nodejs/node",
 			"denoland/deno",
 			"oven-sh/bun",
-			"microsoft/TypeScript",
+			"microsoft/typescript",
 			"dotnet/runtime",
 			"bytecodealliance/wasmtime",
 			"emscripten-core/emscripten",
-			"SerenityOS/serenity",
+			"serenityos/serenity",
 			"dotnet/roslyn",
 		],
 	},
@@ -100,15 +114,15 @@ export const libraryCategories = [
 		name: "State management & data fetching",
 		group: "Frontend",
 		repos: [
-			"TanStack/query",
-			"TanStack/table",
-			"TanStack/router",
+			"tanstack/query",
+			"tanstack/table",
+			"tanstack/router",
 			"react-hook-form/react-hook-form",
 			"reduxjs/redux-toolkit",
 			"apollographql/apollo-client",
 			"vercel/swr",
 			"apollographql/router",
-			"TanStack/form",
+			"tanstack/form",
 		],
 	},
 	{
@@ -158,7 +172,7 @@ export const libraryCategories = [
 			"asdf-vm/asdf",
 			"astral-sh/uv",
 			"rust-lang/cargo",
-			"Homebrew/brew",
+			"homebrew/brew",
 			"pypa/pip",
 		],
 	},
@@ -172,7 +186,7 @@ export const libraryCategories = [
 			"cypress-io/cypress",
 			"microsoft/playwright",
 			"puppeteer/puppeteer",
-			"SeleniumHQ/selenium",
+			"seleniumhq/selenium",
 			"wiremock/wiremock",
 			"grafana/k6",
 			"robotframework/robotframework",
@@ -237,15 +251,15 @@ export const libraryCategories = [
 		repos: [
 			"redis/redis",
 			"valkey-io/valkey",
-			"MariaDB/server",
+			"mariadb/server",
 			"cockroachdb/cockroach",
 			"tikv/tikv",
 			"yugabyte/yugabyte-db",
 			"vitessio/vitess",
 			"influxdata/influxdb",
-			"ClickHouse/ClickHouse",
+			"clickhouse/clickhouse",
 			"duckdb/duckdb",
-			"StarRocks/starrocks",
+			"starrocks/starrocks",
 			"elastic/elasticsearch",
 			"pingcap/tidb",
 			"seaweedfs/seaweedfs",
@@ -263,7 +277,7 @@ export const libraryCategories = [
 			"sequelize/sequelize",
 			"typeorm/typeorm",
 			"drizzle-team/drizzle-orm",
-			"Automattic/mongoose",
+			"automattic/mongoose",
 			"diesel-rs/diesel",
 			"sqlalchemy/sqlalchemy",
 		],
@@ -337,14 +351,14 @@ export const libraryCategories = [
 			"open-telemetry/opentelemetry-collector",
 			"jaegertracing/jaeger",
 			"getsentry/sentry",
-			"PostHog/posthog",
+			"posthog/posthog",
 			"umami-software/umami",
 			"plausible/analytics",
 			"matomo-org/matomo",
-			"GoogleChrome/lighthouse",
+			"googlechrome/lighthouse",
 			"grafana/mimir",
 			"grafana/alloy",
-			"VictoriaMetrics/VictoriaMetrics",
+			"victoriametrics/victoriametrics",
 			"open-telemetry/opentelemetry-python",
 		],
 	},
@@ -382,7 +396,7 @@ export const libraryCategories = [
 			"huggingface/tokenizers",
 			"huggingface/datasets",
 			"huggingface/diffusers",
-			"deepspeedai/DeepSpeed",
+			"deepspeedai/deepspeed",
 		],
 	},
 	{
@@ -393,7 +407,7 @@ export const libraryCategories = [
 			"ggml-org/llama.cpp",
 			"vllm-project/vllm",
 			"sgl-project/sglang",
-			"BerriAI/litellm",
+			"berriai/litellm",
 		],
 	},
 	{
@@ -405,7 +419,7 @@ export const libraryCategories = [
 			"run-llama/llama_index",
 			"langgenius/dify",
 			"microsoft/autogen",
-			"crewAIInc/crewAI",
+			"crewaiinc/crewai",
 			"microsoft/semantic-kernel",
 			"browser-use/browser-use",
 			"getzep/graphiti",
@@ -419,7 +433,7 @@ export const libraryCategories = [
 			"vercel/ai",
 			"cline/cline",
 			"block/goose",
-			"All-Hands-AI/OpenHands",
+			"all-hands-ai/openhands",
 			"microsoft/markitdown",
 		],
 	},
@@ -439,10 +453,10 @@ export const libraryCategories = [
 		group: "AI & ML",
 		repos: [
 			"ggml-org/whisper.cpp",
-			"modelscope/FunASR",
+			"modelscope/funasr",
 			"espnet/espnet",
-			"Comfy-Org/ComfyUI",
-			"invoke-ai/InvokeAI",
+			"comfy-org/comfyui",
+			"invoke-ai/invokeai",
 			"vladmandic/sdnext",
 			"k2-fsa/sherpa-onnx",
 		],
@@ -468,11 +482,11 @@ export const libraryCategories = [
 		repos: [
 			"mrdoob/three.js",
 			"pixijs/pixijs",
-			"BabylonJS/Babylon.js",
+			"babylonjs/babylon.js",
 			"playcanvas/engine",
 			"pmndrs/react-three-fiber",
 			"pmndrs/drei",
-			"CesiumGS/cesium",
+			"cesiumgs/cesium",
 			"plotly/plotly.js",
 			"processing/p5.js",
 			"remotion-dev/remotion",
@@ -489,8 +503,8 @@ export const libraryCategories = [
 			"godotengine/godot",
 			"bevyengine/bevy",
 			"libgdx/libgdx",
-			"yairm210/Unciv",
-			"openrct2/OpenRCT2",
+			"yairm210/unciv",
+			"openrct2/openrct2",
 		],
 	},
 	{
@@ -504,7 +518,7 @@ export const libraryCategories = [
 			"ionic-team/capacitor",
 			"electron/electron",
 			"tauri-apps/tauri",
-			"NativeScript/NativeScript",
+			"nativescript/nativescript",
 			"rustdesk/rustdesk",
 		],
 	},
@@ -531,7 +545,7 @@ export const libraryCategories = [
 		repos: [
 			"sharkdp/bat",
 			"sharkdp/fd",
-			"ClementTsang/bottom",
+			"clementtsang/bottom",
 			"dandavison/delta",
 			"jesseduffield/lazygit",
 			"ajeetdsouza/zoxide",
@@ -567,9 +581,9 @@ export const libraryCategories = [
 		group: "Apps & more",
 		repos: [
 			"n8n-io/n8n",
-			"ToolJet/ToolJet",
+			"tooljet/tooljet",
 			"appsmithorg/appsmith",
-			"Budibase/budibase",
+			"budibase/budibase",
 			"nocodb/nocodb",
 			"windmill-labs/windmill",
 			"activepieces/activepieces",
@@ -592,7 +606,7 @@ export const libraryCategories = [
 			"gethomepage/homepage",
 			"home-assistant/core",
 			"outline/outline",
-			"toeverything/AFFiNE",
+			"toeverything/affine",
 			"makeplane/plane",
 			"calcom/cal.diy",
 			"simplex-chat/simplex-chat",
@@ -600,20 +614,20 @@ export const libraryCategories = [
 			"binwiederhier/ntfy",
 			"juanfont/headscale",
 			"nextcloud/server",
-			"Stirling-Tools/Stirling-PDF",
+			"stirling-tools/stirling-pdf",
 		],
 	},
 	{
 		name: "Learning resources & collections",
 		group: "Apps & more",
 		repos: [
-			"freeCodeCamp/freeCodeCamp",
+			"freecodecamp/freecodecamp",
 			"public-apis/public-apis",
 			"kamranahmedse/developer-roadmap",
-			"EbookFoundation/free-programming-books",
+			"ebookfoundation/free-programming-books",
 		],
 	},
-] as const;
+] as const satisfies readonly LibraryCategory[];
 
 export const libraries = libraryCategories.flatMap(
 	(category) => category.repos,
