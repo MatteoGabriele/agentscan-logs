@@ -5,8 +5,10 @@ import type { EcosystemHealthItem } from "../../shared/types/ecosystem-health";
 import { getCompletedDailyEntries } from "../../shared/utils/daily-rollup";
 import {
 	collectPrs,
+	isFirstScanOfWeek,
 	mergeAutomationIds,
 	previousHourWindow,
+	startOfUtcWeek,
 	trimToRecentScans,
 } from "../scan-users";
 
@@ -556,5 +558,70 @@ describe("mergeAutomationIds", () => {
 
 	it("starts a new id at its PR count in the same run", () => {
 		expect(mergeAutomationIds([], [BOB, BOB])).toEqual([[BOB, 2]]);
+	});
+});
+
+describe("startOfUtcWeek", () => {
+	it("lands on Monday midnight UTC", () => {
+		// 2026-11-08 is a Sunday, 2026-11-09 a Monday.
+		expect(new Date(startOfUtcWeek(new Date("2026-11-08T23:59:59Z")))).toEqual(
+			new Date("2026-11-02T00:00:00Z"),
+		);
+		expect(new Date(startOfUtcWeek(new Date("2026-11-09T00:00:00Z")))).toEqual(
+			new Date("2026-11-09T00:00:00Z"),
+		);
+	});
+
+	it("crosses month and year boundaries", () => {
+		// 2027-01-01 is a Friday.
+		expect(new Date(startOfUtcWeek(new Date("2027-01-01T12:00:00Z")))).toEqual(
+			new Date("2026-12-28T00:00:00Z"),
+		);
+	});
+});
+
+describe("isFirstScanOfWeek", () => {
+	const at = (created_at: string) =>
+		({ created_at }) as Parameters<typeof isFirstScanOfWeek>[0][number];
+
+	it("is true for the Monday 00:00 hour after a Sunday one", () => {
+		expect(
+			isFirstScanOfWeek(
+				[at("2026-11-08T22:00:00.000Z"), at("2026-11-08T23:00:00.000Z")],
+				new Date("2026-11-09T00:00:00Z"),
+			),
+		).toBe(true);
+	});
+
+	it("is false later in the same week", () => {
+		expect(
+			isFirstScanOfWeek(
+				[at("2026-11-09T00:00:00.000Z")],
+				new Date("2026-11-09T01:00:00Z"),
+			),
+		).toBe(false);
+	});
+
+	it("still resets when the first hours of the week were dropped", () => {
+		expect(
+			isFirstScanOfWeek(
+				[at("2026-11-08T23:00:00.000Z")],
+				new Date("2026-11-09T05:00:00Z"),
+			),
+		).toBe(true);
+	});
+
+	it("ignores the hour being scanned, so a rerun reads like the first run", () => {
+		// The caller skips the reset on reruns; this only checks history.
+		expect(
+			isFirstScanOfWeek(
+				[at("2026-11-08T23:00:00.000Z"), at("2026-11-09T00:00:00.000Z")],
+				new Date("2026-11-09T00:00:00Z"),
+			),
+		).toBe(true);
+	});
+
+	it("is false with no stored history", () => {
+		expect(isFirstScanOfWeek([], new Date("2026-11-09T00:00:00Z"))).toBe(false);
 	});
 });

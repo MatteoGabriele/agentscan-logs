@@ -120,7 +120,7 @@ jobs:
           run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           body=$(printf '%s\n\n%s\n\n%s\n' \
             "The hourly scan could not be committed to main automatically — the merge conflicted or the push was rejected. This branch holds the results so the scan is not lost." \
-            "**Read the conflict before merging.** The scan rewrites each data file whole rather than appending, so this branch goes stale the moment the next hourly scan lands on main. Resolving in this branch's favour drops every hour in between — permanently for data/daily-scan-results.json and data/automation-ids.json, which are never trimmed." \
+            "**Read the conflict before merging.** The scan rewrites each data file whole rather than appending, so this branch goes stale the moment the next hourly scan lands on main. Resolving in this branch's favour drops every hour in between — permanently for data/daily-scan-results.json, which is never trimmed, and for the current week of data/automation-ids.json." \
             "Run: $run_url")
 
           gh pr create \

@@ -85,8 +85,9 @@ interface ScanOptions {
 	repoScoresOutputFile?: string;
 	/**
 	 * Where the run records the accounts it scored as automations, as
-	 * `[hashedId, prCount]` pairs. Unlike every other output this one only
-	 * ever grows: it is a tally across scans, not a window over them.
+	 * `[hashedId, prCount]` pairs. It is a tally across scans, not a window
+	 * over them, and it starts over every UTC week so an account caught by
+	 * accident is not stuck with its count forever.
 	 */
 	automationIdsOutputFile?: string;
 }
@@ -280,6 +281,41 @@ export function mergeAutomationIds(
 	}
 
 	return merged;
+}
+
+/** Midnight UTC on the Monday of the week `date` falls in, as epoch ms. */
+export function startOfUtcWeek(date: Date): number {
+	const daysSinceMonday = (date.getUTCDay() + 6) % 7;
+	return Date.UTC(
+		date.getUTCFullYear(),
+		date.getUTCMonth(),
+		date.getUTCDate() - daysSinceMonday,
+	);
+}
+
+/**
+ * Whether the hour starting at `windowStart` is the first one scanned in its
+ * UTC week, judged against the hours already stored. It looks at the latest
+ * stored hour rather than at the clock, so a dropped Monday 00:00 run still
+ * resets the tally on whichever run comes next. With no history there is
+ * nothing to reset.
+ */
+export function isFirstScanOfWeek(
+	storedResults: ScanResult[],
+	windowStart: Date,
+): boolean {
+	const windowAt = windowStart.getTime();
+	let latest: number | undefined;
+	for (const result of storedResults) {
+		const at = new Date(result.created_at).getTime();
+		if (at < windowAt && (latest === undefined || at > latest)) {
+			latest = at;
+		}
+	}
+	return (
+		latest !== undefined &&
+		startOfUtcWeek(new Date(latest)) < startOfUtcWeek(windowStart)
+	);
 }
 
 // Drops the oldest scan runs so the file holds at most `maxScans` of them.
@@ -533,6 +569,11 @@ export async function main(options: ScanOptions) {
 		(result) => result.created_at === windowAt,
 	);
 
+	// The automation tally starts over each week. A rerun of that first hour
+	// keeps the tally it already reset rather than wiping it a second time.
+	const startsNewTallyWeek =
+		!isSameHourRerun && isFirstScanOfWeek(storedScanResults, window.start);
+
 	// Re-running the workflow inside the same hour rewrites that hour's bucket
 	// rather than appending a second copy of it.
 	const scanResults = storedScanResults.filter(
@@ -713,16 +754,22 @@ export async function main(options: ScanOptions) {
 	}
 
 	if (automationIdsOutputFile) {
-		const stored = dryRun ? [] : loadAutomationIds(automationIdsOutputFile);
+		const stored =
+			dryRun || startsNewTallyWeek
+				? []
+				: loadAutomationIds(automationIdsOutputFile);
 		const tallies = isSameHourRerun
 			? stored
 			: mergeAutomationIds(stored, automationIds);
 
 		saveAutomationIds(tallies, automationIdsOutputFile, dryRun);
+		if (startsNewTallyWeek) {
+			console.log(`Automations: new week from ${windowAt} — tally reset`);
+		}
 		console.log(
 			isSameHourRerun
-				? `Automations: rerun of ${windowAt} — tallies left at ${tallies.length} tracked overall`
-				: `Automations: ${automationIds.length} PR(s) from ${new Set(automationIds).size} account(s) this run, ${tallies.length} tracked overall`,
+				? `Automations: rerun of ${windowAt} — tallies left at ${tallies.length} tracked this week`
+				: `Automations: ${automationIds.length} PR(s) from ${new Set(automationIds).size} account(s) this run, ${tallies.length} tracked this week`,
 		);
 	}
 
