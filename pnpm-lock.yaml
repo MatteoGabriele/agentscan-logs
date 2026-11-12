@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@unveil/identity':
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: 3.2.0
+        version: 3.2.0
       dayjs:
         specifier: ^1.11.19
         version: 1.11.23
@@ -491,8 +491,8 @@ packages:
   '@types/node@26.2.0':
     resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
 
-  '@unveil/identity@3.1.0':
-    resolution: {integrity: sha512-/8Yc3kjUuiy2DpeIjnb93eMyr95+gFRHdwuGvyBDb8WvCTz7nMlGzbgGmqSIHToeKwgg87tExIg6zZ41A5PTUQ==}
+  '@unveil/identity@3.2.0':
+    resolution: {integrity: sha512-t7gw5I/t1RYPntr7ipXK/f2mhXxeqPFL0saj0nTSizTIW6MdMcVkoD63UDSWkZmTi5d23vnwAMTKgb49sjLcKg==}
 
   '@vitest/expect@4.1.11':
     resolution: {integrity: sha512-VX2x5vNJXET47KAFzwERI+KRMtTTCSWTfSMKsW7JsUsXV4psq++e3DvZpuTDOpHcxytiDs6p2nhVb2tVDiiUYw==}
@@ -1371,7 +1371,7 @@ snapshots:
     dependencies:
       undici-types: 8.3.0
 
-  '@unveil/identity@3.1.0': {}
+  '@unveil/identity@3.2.0': {}
 
   '@vitest/expect@4.1.11':
     dependencies:
