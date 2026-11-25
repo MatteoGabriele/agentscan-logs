@@ -8629,5 +8629,58 @@
         "deletions": 45591
       }
     }
+  },
+  {
+    "date": "2026-11-24",
+    "createdAt": "2026-11-24T00:00:00.000Z",
+    "hours": 24,
+    "additions": 11486794,
+    "deletions": 4578264,
+    "classifications": {
+      "organic": {
+        "count": 3766,
+        "bountyCount": 5,
+        "prStatusCounts": {
+          "open": 3387,
+          "closed": 63,
+          "merged": 316
+        },
+        "additions": 4095481,
+        "deletions": 1872354
+      },
+      "mixed": {
+        "count": 1361,
+        "bountyCount": 5,
+        "prStatusCounts": {
+          "open": 1171,
+          "closed": 30,
+          "merged": 160
+        },
+        "additions": 6307060,
+        "deletions": 2140727
+      },
+      "automation": {
+        "count": 1297,
+        "bountyCount": 10,
+        "prStatusCounts": {
+          "open": 1052,
+          "closed": 75,
+          "merged": 170
+        },
+        "additions": 314383,
+        "deletions": 82411
+      },
+      "insufficient-data": {
+        "count": 308,
+        "bountyCount": 0,
+        "prStatusCounts": {
+          "open": 283,
+          "closed": 21,
+          "merged": 4
+        },
+        "additions": 769870,
+        "deletions": 482772
+      }
+    }
   }
 ]
