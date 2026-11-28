@@ -7,6 +7,7 @@ import {
 } from "../../../shared/utils/count-classification-by-date";
 import { roundToClosestHour } from "../../../shared/utils/dates";
 import { WINDOW_MAX_HOURS } from "../../../shared/utils/health-history-window";
+import { getTopTimezoneByScanTime } from "../../../shared/utils/timezones";
 import { readTextAsset } from "../../utils/read-text-asset";
 
 export default defineHandler(async () => {
@@ -17,12 +18,19 @@ export default defineHandler(async () => {
 			created_at: roundToClosestHour(entry.created_at),
 		}));
 
-		const countsByScanTime = fillEmptyHourlyBuckets({
+		const filledCounts = fillEmptyHourlyBuckets({
 			countsByHour: getClassificationStatsByScanTime(results),
 			maxHours: WINDOW_MAX_HOURS,
 		});
-		const categoryProgression = applyCumulativeTrends(countsByScanTime);
-		const scanTimes = Object.keys(countsByScanTime).sort();
+		const categoryProgression = applyCumulativeTrends(filledCounts);
+		const scanTimes = Object.keys(filledCounts).sort();
+		const topTimezones = getTopTimezoneByScanTime(results);
+		const countsByScanTime = Object.fromEntries(
+			Object.entries(filledCounts).map(([scanTime, counts]) => [
+				scanTime,
+				{ ...counts, topTimezone: topTimezones.get(scanTime) ?? null },
+			]),
+		);
 
 		return {
 			results,

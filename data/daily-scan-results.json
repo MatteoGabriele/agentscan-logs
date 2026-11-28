@@ -5464,8 +5464,6 @@
     "date": "2026-10-01",
     "createdAt": "2026-10-01T00:00:00.000Z",
     "hours": 24,
-    "additions": 5563866,
-    "deletions": 2284787,
     "classifications": {
       "organic": {
         "count": 3532,
@@ -5474,9 +5472,7 @@
           "open": 3139,
           "closed": 84,
           "merged": 309
-        },
-        "additions": 4469426,
-        "deletions": 1709208
+        }
       },
       "mixed": {
         "count": 390,
@@ -5485,9 +5481,7 @@
           "open": 331,
           "closed": 20,
           "merged": 39
-        },
-        "additions": 537837,
-        "deletions": 147170
+        }
       },
       "automation": {
         "count": 977,
@@ -5496,9 +5490,7 @@
           "open": 826,
           "closed": 24,
           "merged": 127
-        },
-        "additions": 488737,
-        "deletions": 423398
+        }
       },
       "insufficient-data": {
         "count": 227,
@@ -5507,9 +5499,7 @@
           "open": 209,
           "closed": 18,
           "merged": 0
-        },
-        "additions": 67866,
-        "deletions": 5011
+        }
       }
     }
   },
@@ -5517,8 +5507,6 @@
     "date": "2026-10-02",
     "createdAt": "2026-10-02T00:00:00.000Z",
     "hours": 24,
-    "additions": 3839417,
-    "deletions": 1119869,
     "classifications": {
       "organic": {
         "count": 3263,
@@ -5527,9 +5515,7 @@
           "open": 2923,
           "closed": 75,
           "merged": 265
-        },
-        "additions": 3345848,
-        "deletions": 864459
+        }
       },
       "mixed": {
         "count": 355,
@@ -5538,9 +5524,7 @@
           "open": 307,
           "closed": 10,
           "merged": 38
-        },
-        "additions": 82047,
-        "deletions": 49366
+        }
       },
       "automation": {
         "count": 1076,
@@ -5549,9 +5533,7 @@
           "open": 873,
           "closed": 26,
           "merged": 177
-        },
-        "additions": 360710,
-        "deletions": 201391
+        }
       },
       "insufficient-data": {
         "count": 210,
@@ -5560,9 +5542,7 @@
           "open": 199,
           "closed": 9,
           "merged": 2
-        },
-        "additions": 50812,
-        "deletions": 4653
+        }
       }
     }
   },
@@ -5570,8 +5550,6 @@
     "date": "2026-10-03",
     "createdAt": "2026-10-03T00:00:00.000Z",
     "hours": 23,
-    "additions": 2459569,
-    "deletions": 884411,
     "classifications": {
       "organic": {
         "count": 1565,
@@ -5580,9 +5558,7 @@
           "open": 1389,
           "closed": 40,
           "merged": 136
-        },
-        "additions": 988778,
-        "deletions": 465758
+        }
       },
       "mixed": {
         "count": 210,
@@ -5591,9 +5567,7 @@
           "open": 195,
           "closed": 3,
           "merged": 12
-        },
-        "additions": 144489,
-        "deletions": 18019
+        }
       },
       "automation": {
         "count": 754,
@@ -5602,9 +5576,7 @@
           "open": 608,
           "closed": 21,
           "merged": 125
-        },
-        "additions": 423850,
-        "deletions": 342521
+        }
       },
       "insufficient-data": {
         "count": 150,
@@ -5613,9 +5585,7 @@
           "open": 141,
           "closed": 9,
           "merged": 0
-        },
-        "additions": 902452,
-        "deletions": 58113
+        }
       }
     }
   },
@@ -5623,8 +5593,6 @@
     "date": "2026-10-04",
     "createdAt": "2026-10-04T01:00:00.000Z",
     "hours": 23,
-    "additions": 5148785,
-    "deletions": 1284352,
     "classifications": {
       "organic": {
         "count": 1387,
@@ -5633,9 +5601,7 @@
           "open": 1262,
           "closed": 39,
           "merged": 86
-        },
-        "additions": 2028453,
-        "deletions": 412166
+        }
       },
       "mixed": {
         "count": 203,
@@ -5644,9 +5610,7 @@
           "open": 181,
           "closed": 18,
           "merged": 4
-        },
-        "additions": 163194,
-        "deletions": 7283
+        }
       },
       "automation": {
         "count": 596,
@@ -5655,9 +5619,7 @@
           "open": 467,
           "closed": 15,
           "merged": 114
-        },
-        "additions": 2919446,
-        "deletions": 862470
+        }
       },
       "insufficient-data": {
         "count": 152,
@@ -5666,9 +5628,7 @@
           "open": 139,
           "closed": 13,
           "merged": 0
-        },
-        "additions": 37692,
-        "deletions": 2433
+        }
       }
     },
     "text": {
@@ -5687,8 +5647,6 @@
     "date": "2026-10-05",
     "createdAt": "2026-10-05T00:00:00.000Z",
     "hours": 22,
-    "additions": 4199793,
-    "deletions": 2611761,
     "classifications": {
       "organic": {
         "count": 3018,
@@ -5697,9 +5655,7 @@
           "open": 2721,
           "closed": 65,
           "merged": 232
-        },
-        "additions": 3540507,
-        "deletions": 1065822
+        }
       },
       "mixed": {
         "count": 355,
@@ -5708,9 +5664,7 @@
           "open": 329,
           "closed": 2,
           "merged": 24
-        },
-        "additions": 110839,
-        "deletions": 102730
+        }
       },
       "automation": {
         "count": 808,
@@ -5719,9 +5673,7 @@
           "open": 673,
           "closed": 23,
           "merged": 112
-        },
-        "additions": 450774,
-        "deletions": 426614
+        }
       },
       "insufficient-data": {
         "count": 230,
@@ -5730,9 +5682,7 @@
           "open": 210,
           "closed": 15,
           "merged": 5
-        },
-        "additions": 97673,
-        "deletions": 1016595
+        }
       }
     },
     "text": {
@@ -5751,8 +5701,6 @@
     "date": "2026-10-06",
     "createdAt": "2026-10-06T00:00:00.000Z",
     "hours": 24,
-    "additions": 4443049,
-    "deletions": 2201806,
     "classifications": {
       "organic": {
         "count": 3580,
@@ -5761,9 +5709,7 @@
           "open": 3225,
           "closed": 79,
           "merged": 276
-        },
-        "additions": 3471338,
-        "deletions": 1879331
+        }
       },
       "mixed": {
         "count": 573,
@@ -5772,9 +5718,7 @@
           "open": 512,
           "closed": 11,
           "merged": 50
-        },
-        "additions": 334512,
-        "deletions": 34898
+        }
       },
       "automation": {
         "count": 891,
@@ -5783,9 +5727,7 @@
           "open": 790,
           "closed": 17,
           "merged": 84
-        },
-        "additions": 528694,
-        "deletions": 267997
+        }
       },
       "insufficient-data": {
         "count": 264,
@@ -5794,9 +5736,7 @@
           "open": 241,
           "closed": 20,
           "merged": 3
-        },
-        "additions": 108505,
-        "deletions": 19580
+        }
       }
     },
     "text": {
@@ -5815,8 +5755,6 @@
     "date": "2026-10-07",
     "createdAt": "2026-10-07T00:00:00.000Z",
     "hours": 24,
-    "additions": 7199691,
-    "deletions": 1121088,
     "classifications": {
       "organic": {
         "count": 3586,
@@ -5825,9 +5763,7 @@
           "open": 3256,
           "closed": 84,
           "merged": 246
-        },
-        "additions": 5055282,
-        "deletions": 640833
+        }
       },
       "mixed": {
         "count": 438,
@@ -5836,9 +5772,7 @@
           "open": 379,
           "closed": 27,
           "merged": 32
-        },
-        "additions": 1281040,
-        "deletions": 173353
+        }
       },
       "automation": {
         "count": 1037,
@@ -5847,9 +5781,7 @@
           "open": 860,
           "closed": 57,
           "merged": 120
-        },
-        "additions": 804740,
-        "deletions": 300719
+        }
       },
       "insufficient-data": {
         "count": 304,
@@ -5858,9 +5790,7 @@
           "open": 281,
           "closed": 20,
           "merged": 3
-        },
-        "additions": 58629,
-        "deletions": 6183
+        }
       }
     },
     "text": {
@@ -5879,8 +5809,6 @@
     "date": "2026-10-08",
     "createdAt": "2026-10-08T00:00:00.000Z",
     "hours": 24,
-    "additions": 7925050,
-    "deletions": 4417963,
     "classifications": {
       "organic": {
         "count": 3924,
@@ -5889,9 +5817,7 @@
           "open": 3544,
           "closed": 96,
           "merged": 284
-        },
-        "additions": 6360287,
-        "deletions": 3905994
+        }
       },
       "mixed": {
         "count": 525,
@@ -5900,9 +5826,7 @@
           "open": 461,
           "closed": 16,
           "merged": 48
-        },
-        "additions": 361499,
-        "deletions": 50954
+        }
       },
       "automation": {
         "count": 1037,
@@ -5911,9 +5835,7 @@
           "open": 853,
           "closed": 44,
           "merged": 140
-        },
-        "additions": 711617,
-        "deletions": 384600
+        }
       },
       "insufficient-data": {
         "count": 316,
@@ -5922,9 +5844,7 @@
           "open": 281,
           "closed": 32,
           "merged": 3
-        },
-        "additions": 491647,
-        "deletions": 76415
+        }
       }
     },
     "text": {
@@ -5943,8 +5863,6 @@
     "date": "2026-10-09",
     "createdAt": "2026-10-09T00:00:00.000Z",
     "hours": 24,
-    "additions": 3910394,
-    "deletions": 1347697,
     "classifications": {
       "organic": {
         "count": 3503,
@@ -5953,9 +5871,7 @@
           "open": 3141,
           "closed": 72,
           "merged": 290
-        },
-        "additions": 2904651,
-        "deletions": 785749
+        }
       },
       "mixed": {
         "count": 454,
@@ -5964,9 +5880,7 @@
           "open": 406,
           "closed": 10,
           "merged": 38
-        },
-        "additions": 141240,
-        "deletions": 87503
+        }
       },
       "automation": {
         "count": 1186,
@@ -5975,9 +5889,7 @@
           "open": 912,
           "closed": 24,
           "merged": 250
-        },
-        "additions": 803208,
-        "deletions": 461395
+        }
       },
       "insufficient-data": {
         "count": 258,
@@ -5986,9 +5898,7 @@
           "open": 238,
           "closed": 18,
           "merged": 2
-        },
-        "additions": 61295,
-        "deletions": 13050
+        }
       }
     },
     "text": {
@@ -6007,8 +5917,6 @@
     "date": "2026-10-10",
     "createdAt": "2026-10-10T00:00:00.000Z",
     "hours": 24,
-    "additions": 7384929,
-    "deletions": 1395135,
     "classifications": {
       "organic": {
         "count": 1847,
@@ -6017,9 +5925,7 @@
           "open": 1660,
           "closed": 48,
           "merged": 139
-        },
-        "additions": 5419372,
-        "deletions": 430038
+        }
       },
       "mixed": {
         "count": 243,
@@ -6028,9 +5934,7 @@
           "open": 219,
           "closed": 4,
           "merged": 20
-        },
-        "additions": 114556,
-        "deletions": 21794
+        }
       },
       "automation": {
         "count": 930,
@@ -6039,9 +5943,7 @@
           "open": 825,
           "closed": 18,
           "merged": 87
-        },
-        "additions": 1784964,
-        "deletions": 927295
+        }
       },
       "insufficient-data": {
         "count": 138,
@@ -6050,9 +5952,7 @@
           "open": 129,
           "closed": 9,
           "merged": 0
-        },
-        "additions": 66037,
-        "deletions": 16008
+        }
       }
     },
     "text": {
@@ -6071,8 +5971,6 @@
     "date": "2026-10-11",
     "createdAt": "2026-10-11T00:00:00.000Z",
     "hours": 24,
-    "additions": 6426103,
-    "deletions": 6721110,
     "classifications": {
       "organic": {
         "count": 1592,
@@ -6081,9 +5979,7 @@
           "open": 1441,
           "closed": 43,
           "merged": 108
-        },
-        "additions": 1223476,
-        "deletions": 466134
+        }
       },
       "mixed": {
         "count": 187,
@@ -6092,9 +5988,7 @@
           "open": 174,
           "closed": 1,
           "merged": 12
-        },
-        "additions": 42033,
-        "deletions": 8325
+        }
       },
       "automation": {
         "count": 849,
@@ -6103,9 +5997,7 @@
           "open": 747,
           "closed": 20,
           "merged": 82
-        },
-        "additions": 3027162,
-        "deletions": 2251873
+        }
       },
       "insufficient-data": {
         "count": 178,
@@ -6114,9 +6006,7 @@
           "open": 168,
           "closed": 10,
           "merged": 0
-        },
-        "additions": 2133432,
-        "deletions": 3994778
+        }
       }
     },
     "text": {
@@ -6135,8 +6025,6 @@
     "date": "2026-10-12",
     "createdAt": "2026-10-12T00:00:00.000Z",
     "hours": 24,
-    "additions": 4046160,
-    "deletions": 1438354,
     "classifications": {
       "organic": {
         "count": 3524,
@@ -6145,9 +6033,7 @@
           "open": 3199,
           "closed": 59,
           "merged": 266
-        },
-        "additions": 3183998,
-        "deletions": 960703
+        }
       },
       "mixed": {
         "count": 427,
@@ -6156,9 +6042,7 @@
           "open": 351,
           "closed": 15,
           "merged": 61
-        },
-        "additions": 248841,
-        "deletions": 177187
+        }
       },
       "automation": {
         "count": 1266,
@@ -6167,9 +6051,7 @@
           "open": 1087,
           "closed": 38,
           "merged": 141
-        },
-        "additions": 526768,
-        "deletions": 288056
+        }
       },
       "insufficient-data": {
         "count": 263,
@@ -6178,9 +6060,7 @@
           "open": 247,
           "closed": 11,
           "merged": 5
-        },
-        "additions": 86553,
-        "deletions": 12408
+        }
       }
     },
     "text": {
@@ -6199,8 +6079,6 @@
     "date": "2026-10-13",
     "createdAt": "2026-10-13T00:00:00.000Z",
     "hours": 24,
-    "additions": 3779833,
-    "deletions": 1201820,
     "classifications": {
       "organic": {
         "count": 3874,
@@ -6209,9 +6087,7 @@
           "open": 3527,
           "closed": 81,
           "merged": 266
-        },
-        "additions": 2978070,
-        "deletions": 972340
+        }
       },
       "mixed": {
         "count": 410,
@@ -6220,9 +6096,7 @@
           "open": 368,
           "closed": 8,
           "merged": 34
-        },
-        "additions": 176293,
-        "deletions": 96418
+        }
       },
       "automation": {
         "count": 1438,
@@ -6231,9 +6105,7 @@
           "open": 1181,
           "closed": 43,
           "merged": 214
-        },
-        "additions": 490092,
-        "deletions": 125546
+        }
       },
       "insufficient-data": {
         "count": 332,
@@ -6242,9 +6114,7 @@
           "open": 306,
           "closed": 24,
           "merged": 2
-        },
-        "additions": 135378,
-        "deletions": 7516
+        }
       }
     },
     "text": {
@@ -6263,8 +6133,6 @@
     "date": "2026-10-14",
     "createdAt": "2026-10-14T00:00:00.000Z",
     "hours": 24,
-    "additions": 3992659,
-    "deletions": 1197220,
     "classifications": {
       "organic": {
         "count": 4192,
@@ -6273,9 +6141,7 @@
           "open": 3816,
           "closed": 99,
           "merged": 277
-        },
-        "additions": 3074975,
-        "deletions": 853100
+        }
       },
       "mixed": {
         "count": 457,
@@ -6284,9 +6150,7 @@
           "open": 409,
           "closed": 10,
           "merged": 38
-        },
-        "additions": 174420,
-        "deletions": 43652
+        }
       },
       "automation": {
         "count": 1264,
@@ -6295,9 +6159,7 @@
           "open": 1101,
           "closed": 33,
           "merged": 130
-        },
-        "additions": 653814,
-        "deletions": 295175
+        }
       },
       "insufficient-data": {
         "count": 284,
@@ -6306,9 +6168,7 @@
           "open": 267,
           "closed": 16,
           "merged": 1
-        },
-        "additions": 89450,
-        "deletions": 5293
+        }
       }
     },
     "text": {
@@ -6327,8 +6187,6 @@
     "date": "2026-10-15",
     "createdAt": "2026-10-15T00:00:00.000Z",
     "hours": 24,
-    "additions": 9647322,
-    "deletions": 3720241,
     "classifications": {
       "organic": {
         "count": 4080,
@@ -6337,9 +6195,7 @@
           "open": 3688,
           "closed": 88,
           "merged": 304
-        },
-        "additions": 3922474,
-        "deletions": 1271034
+        }
       },
       "mixed": {
         "count": 626,
@@ -6348,9 +6204,7 @@
           "open": 574,
           "closed": 10,
           "merged": 42
-        },
-        "additions": 325954,
-        "deletions": 97378
+        }
       },
       "automation": {
         "count": 1329,
@@ -6359,9 +6213,7 @@
           "open": 1089,
           "closed": 42,
           "merged": 198
-        },
-        "additions": 5054690,
-        "deletions": 908221
+        }
       },
       "insufficient-data": {
         "count": 343,
@@ -6370,9 +6222,7 @@
           "open": 319,
           "closed": 22,
           "merged": 2
-        },
-        "additions": 344204,
-        "deletions": 1443608
+        }
       }
     },
     "text": {
@@ -6391,8 +6241,6 @@
     "date": "2026-10-16",
     "createdAt": "2026-10-16T00:00:00.000Z",
     "hours": 24,
-    "additions": 3928077,
-    "deletions": 1308818,
     "classifications": {
       "organic": {
         "count": 3803,
@@ -6401,9 +6249,7 @@
           "open": 3455,
           "closed": 79,
           "merged": 269
-        },
-        "additions": 2707976,
-        "deletions": 696515
+        }
       },
       "mixed": {
         "count": 520,
@@ -6412,9 +6258,7 @@
           "open": 467,
           "closed": 6,
           "merged": 47
-        },
-        "additions": 181197,
-        "deletions": 48281
+        }
       },
       "automation": {
         "count": 1537,
@@ -6423,9 +6267,7 @@
           "open": 1287,
           "closed": 48,
           "merged": 202
-        },
-        "additions": 743806,
-        "deletions": 539018
+        }
       },
       "insufficient-data": {
         "count": 315,
@@ -6434,9 +6276,7 @@
           "open": 293,
           "closed": 20,
           "merged": 2
-        },
-        "additions": 295098,
-        "deletions": 25004
+        }
       }
     },
     "text": {
@@ -6455,8 +6295,6 @@
     "date": "2026-10-17",
     "createdAt": "2026-10-17T00:00:00.000Z",
     "hours": 24,
-    "additions": 7898106,
-    "deletions": 2719437,
     "classifications": {
       "organic": {
         "count": 1948,
@@ -6465,9 +6303,7 @@
           "open": 1765,
           "closed": 43,
           "merged": 140
-        },
-        "additions": 1948789,
-        "deletions": 675094
+        }
       },
       "mixed": {
         "count": 289,
@@ -6476,9 +6312,7 @@
           "open": 236,
           "closed": 8,
           "merged": 45
-        },
-        "additions": 4950869,
-        "deletions": 1129632
+        }
       },
       "automation": {
         "count": 1168,
@@ -6487,9 +6321,7 @@
           "open": 959,
           "closed": 36,
           "merged": 173
-        },
-        "additions": 975849,
-        "deletions": 911959
+        }
       },
       "insufficient-data": {
         "count": 164,
@@ -6498,9 +6330,7 @@
           "open": 158,
           "closed": 6,
           "merged": 0
-        },
-        "additions": 22599,
-        "deletions": 2752
+        }
       }
     },
     "text": {
@@ -6519,8 +6349,6 @@
     "date": "2026-10-18",
     "createdAt": "2026-10-18T00:00:00.000Z",
     "hours": 24,
-    "additions": 1551156,
-    "deletions": 2962800,
     "classifications": {
       "organic": {
         "count": 1727,
@@ -6529,9 +6357,7 @@
           "open": 1544,
           "closed": 30,
           "merged": 153
-        },
-        "additions": 1028423,
-        "deletions": 314499
+        }
       },
       "mixed": {
         "count": 332,
@@ -6540,9 +6366,7 @@
           "open": 283,
           "closed": 6,
           "merged": 43
-        },
-        "additions": 201352,
-        "deletions": 92143
+        }
       },
       "automation": {
         "count": 871,
@@ -6551,9 +6375,7 @@
           "open": 740,
           "closed": 33,
           "merged": 98
-        },
-        "additions": 274802,
-        "deletions": 2543624
+        }
       },
       "insufficient-data": {
         "count": 202,
@@ -6562,9 +6384,7 @@
           "open": 191,
           "closed": 10,
           "merged": 1
-        },
-        "additions": 46579,
-        "deletions": 12534
+        }
       }
     },
     "text": {
@@ -6583,8 +6403,6 @@
     "date": "2026-10-19",
     "createdAt": "2026-10-19T00:00:00.000Z",
     "hours": 24,
-    "additions": 4233434,
-    "deletions": 1779983,
     "classifications": {
       "organic": {
         "count": 3842,
@@ -6593,9 +6411,7 @@
           "open": 3534,
           "closed": 76,
           "merged": 232
-        },
-        "additions": 2293522,
-        "deletions": 734859
+        }
       },
       "mixed": {
         "count": 460,
@@ -6604,9 +6420,7 @@
           "open": 380,
           "closed": 20,
           "merged": 60
-        },
-        "additions": 429286,
-        "deletions": 549484
+        }
       },
       "automation": {
         "count": 1485,
@@ -6615,9 +6429,7 @@
           "open": 1222,
           "closed": 37,
           "merged": 226
-        },
-        "additions": 1268015,
-        "deletions": 463941
+        }
       },
       "insufficient-data": {
         "count": 312,
@@ -6626,9 +6438,7 @@
           "open": 291,
           "closed": 20,
           "merged": 1
-        },
-        "additions": 242611,
-        "deletions": 31699
+        }
       }
     },
     "text": {
@@ -6647,8 +6457,6 @@
     "date": "2026-10-20",
     "createdAt": "2026-10-20T00:00:00.000Z",
     "hours": 24,
-    "additions": 5337743,
-    "deletions": 2486778,
     "classifications": {
       "organic": {
         "count": 4296,
@@ -6657,9 +6465,7 @@
           "open": 3880,
           "closed": 102,
           "merged": 314
-        },
-        "additions": 2552452,
-        "deletions": 783377
+        }
       },
       "mixed": {
         "count": 534,
@@ -6668,9 +6474,7 @@
           "open": 466,
           "closed": 12,
           "merged": 56
-        },
-        "additions": 371865,
-        "deletions": 135714
+        }
       },
       "automation": {
         "count": 1499,
@@ -6679,9 +6483,7 @@
           "open": 1201,
           "closed": 45,
           "merged": 253
-        },
-        "additions": 1064071,
-        "deletions": 710391
+        }
       },
       "insufficient-data": {
         "count": 301,
@@ -6690,9 +6492,7 @@
           "open": 287,
           "closed": 12,
           "merged": 2
-        },
-        "additions": 1349355,
-        "deletions": 857296
+        }
       }
     },
     "text": {
@@ -6711,8 +6511,6 @@
     "date": "2026-10-21",
     "createdAt": "2026-10-21T00:00:00.000Z",
     "hours": 24,
-    "additions": 19734786,
-    "deletions": 4224643,
     "classifications": {
       "organic": {
         "count": 4399,
@@ -6721,9 +6519,7 @@
           "open": 3942,
           "closed": 98,
           "merged": 359
-        },
-        "additions": 8075417,
-        "deletions": 1381964
+        }
       },
       "mixed": {
         "count": 501,
@@ -6732,9 +6528,7 @@
           "open": 410,
           "closed": 13,
           "merged": 78
-        },
-        "additions": 379783,
-        "deletions": 113868
+        }
       },
       "automation": {
         "count": 1565,
@@ -6743,9 +6537,7 @@
           "open": 1338,
           "closed": 57,
           "merged": 170
-        },
-        "additions": 11064094,
-        "deletions": 2712110
+        }
       },
       "insufficient-data": {
         "count": 301,
@@ -6754,9 +6546,7 @@
           "open": 270,
           "closed": 26,
           "merged": 5
-        },
-        "additions": 215492,
-        "deletions": 16701
+        }
       }
     },
     "text": {
@@ -6775,8 +6565,6 @@
     "date": "2026-10-22",
     "createdAt": "2026-10-22T00:00:00.000Z",
     "hours": 23,
-    "additions": 3640250,
-    "deletions": 1720442,
     "classifications": {
       "organic": {
         "count": 4011,
@@ -6785,9 +6573,7 @@
           "open": 3635,
           "closed": 95,
           "merged": 281
-        },
-        "additions": 2246318,
-        "deletions": 1015338
+        }
       },
       "mixed": {
         "count": 532,
@@ -6796,9 +6582,7 @@
           "open": 479,
           "closed": 13,
           "merged": 40
-        },
-        "additions": 301230,
-        "deletions": 65533
+        }
       },
       "automation": {
         "count": 1441,
@@ -6807,9 +6591,7 @@
           "open": 1160,
           "closed": 66,
           "merged": 215
-        },
-        "additions": 828741,
-        "deletions": 557417
+        }
       },
       "insufficient-data": {
         "count": 302,
@@ -6818,9 +6600,7 @@
           "open": 283,
           "closed": 19,
           "merged": 0
-        },
-        "additions": 263961,
-        "deletions": 82154
+        }
       }
     },
     "text": {
@@ -6839,8 +6619,6 @@
     "date": "2026-10-23",
     "createdAt": "2026-10-23T00:00:00.000Z",
     "hours": 23,
-    "additions": 9135857,
-    "deletions": 2233744,
     "classifications": {
       "organic": {
         "count": 3657,
@@ -6849,9 +6627,7 @@
           "open": 3270,
           "closed": 82,
           "merged": 305
-        },
-        "additions": 7329380,
-        "deletions": 1283713
+        }
       },
       "mixed": {
         "count": 500,
@@ -6860,9 +6636,7 @@
           "open": 437,
           "closed": 8,
           "merged": 55
-        },
-        "additions": 359486,
-        "deletions": 74038
+        }
       },
       "automation": {
         "count": 1275,
@@ -6871,9 +6645,7 @@
           "open": 1041,
           "closed": 39,
           "merged": 195
-        },
-        "additions": 1346925,
-        "deletions": 866919
+        }
       },
       "insufficient-data": {
         "count": 265,
@@ -6882,9 +6654,7 @@
           "open": 255,
           "closed": 9,
           "merged": 1
-        },
-        "additions": 100066,
-        "deletions": 9074
+        }
       }
     },
     "text": {
@@ -6903,8 +6673,6 @@
     "date": "2026-10-24",
     "createdAt": "2026-10-24T00:00:00.000Z",
     "hours": 24,
-    "additions": 3700630,
-    "deletions": 1626567,
     "classifications": {
       "organic": {
         "count": 1780,
@@ -6913,9 +6681,7 @@
           "open": 1613,
           "closed": 47,
           "merged": 120
-        },
-        "additions": 1765683,
-        "deletions": 352916
+        }
       },
       "mixed": {
         "count": 306,
@@ -6924,9 +6690,7 @@
           "open": 256,
           "closed": 12,
           "merged": 38
-        },
-        "additions": 111753,
-        "deletions": 21303
+        }
       },
       "automation": {
         "count": 968,
@@ -6935,9 +6699,7 @@
           "open": 804,
           "closed": 22,
           "merged": 142
-        },
-        "additions": 1653807,
-        "deletions": 1218549
+        }
       },
       "insufficient-data": {
         "count": 180,
@@ -6946,9 +6708,7 @@
           "open": 168,
           "closed": 12,
           "merged": 0
-        },
-        "additions": 169387,
-        "deletions": 33799
+        }
       }
     },
     "text": {
@@ -6967,8 +6727,6 @@
     "date": "2026-10-25",
     "createdAt": "2026-10-25T00:00:00.000Z",
     "hours": 24,
-    "additions": 4231452,
-    "deletions": 1853946,
     "classifications": {
       "organic": {
         "count": 1651,
@@ -6977,9 +6735,7 @@
           "open": 1500,
           "closed": 34,
           "merged": 117
-        },
-        "additions": 856092,
-        "deletions": 245325
+        }
       },
       "mixed": {
         "count": 299,
@@ -6988,9 +6744,7 @@
           "open": 225,
           "closed": 5,
           "merged": 69
-        },
-        "additions": 58749,
-        "deletions": 17506
+        }
       },
       "automation": {
         "count": 1084,
@@ -6999,9 +6753,7 @@
           "open": 867,
           "closed": 34,
           "merged": 183
-        },
-        "additions": 3271177,
-        "deletions": 1585887
+        }
       },
       "insufficient-data": {
         "count": 192,
@@ -7010,9 +6762,7 @@
           "open": 181,
           "closed": 10,
           "merged": 1
-        },
-        "additions": 45434,
-        "deletions": 5228
+        }
       }
     },
     "text": {
@@ -7031,8 +6781,6 @@
     "date": "2026-10-26",
     "createdAt": "2026-10-26T00:00:00.000Z",
     "hours": 24,
-    "additions": 9342819,
-    "deletions": 6173575,
     "classifications": {
       "organic": {
         "count": 3885,
@@ -7041,9 +6789,7 @@
           "open": 3490,
           "closed": 86,
           "merged": 309
-        },
-        "additions": 8445297,
-        "deletions": 5837073
+        }
       },
       "mixed": {
         "count": 522,
@@ -7052,9 +6798,7 @@
           "open": 422,
           "closed": 16,
           "merged": 84
-        },
-        "additions": 193139,
-        "deletions": 44046
+        }
       },
       "automation": {
         "count": 1129,
@@ -7063,9 +6807,7 @@
           "open": 888,
           "closed": 36,
           "merged": 205
-        },
-        "additions": 493243,
-        "deletions": 254184
+        }
       },
       "insufficient-data": {
         "count": 308,
@@ -7074,9 +6816,7 @@
           "open": 279,
           "closed": 27,
           "merged": 2
-        },
-        "additions": 211140,
-        "deletions": 38272
+        }
       }
     },
     "text": {
@@ -7095,8 +6835,6 @@
     "date": "2026-10-27",
     "createdAt": "2026-10-27T00:00:00.000Z",
     "hours": 23,
-    "additions": 15044143,
-    "deletions": 8426142,
     "classifications": {
       "organic": {
         "count": 3808,
@@ -7105,9 +6843,7 @@
           "open": 3446,
           "closed": 85,
           "merged": 277
-        },
-        "additions": 14185648,
-        "deletions": 8224725
+        }
       },
       "mixed": {
         "count": 489,
@@ -7116,9 +6852,7 @@
           "open": 394,
           "closed": 16,
           "merged": 79
-        },
-        "additions": 153358,
-        "deletions": 27248
+        }
       },
       "automation": {
         "count": 1290,
@@ -7127,9 +6861,7 @@
           "open": 1131,
           "closed": 21,
           "merged": 138
-        },
-        "additions": 396154,
-        "deletions": 143930
+        }
       },
       "insufficient-data": {
         "count": 268,
@@ -7138,9 +6870,7 @@
           "open": 253,
           "closed": 13,
           "merged": 2
-        },
-        "additions": 308983,
-        "deletions": 30239
+        }
       }
     },
     "text": {
@@ -7159,8 +6889,6 @@
     "date": "2026-10-28",
     "createdAt": "2026-10-28T00:00:00.000Z",
     "hours": 23,
-    "additions": 9847907,
-    "deletions": 7216262,
     "classifications": {
       "organic": {
         "count": 3994,
@@ -7169,9 +6897,7 @@
           "open": 3579,
           "closed": 89,
           "merged": 326
-        },
-        "additions": 5436767,
-        "deletions": 3798181
+        }
       },
       "mixed": {
         "count": 550,
@@ -7180,9 +6906,7 @@
           "open": 468,
           "closed": 9,
           "merged": 73
-        },
-        "additions": 2615471,
-        "deletions": 1783549
+        }
       },
       "automation": {
         "count": 1117,
@@ -7191,9 +6915,7 @@
           "open": 935,
           "closed": 30,
           "merged": 152
-        },
-        "additions": 1695912,
-        "deletions": 1624548
+        }
       },
       "insufficient-data": {
         "count": 313,
@@ -7202,9 +6924,7 @@
           "open": 299,
           "closed": 10,
           "merged": 4
-        },
-        "additions": 99757,
-        "deletions": 9984
+        }
       }
     },
     "text": {
@@ -7223,8 +6943,6 @@
     "date": "2026-10-29",
     "createdAt": "2026-10-29T00:00:00.000Z",
     "hours": 24,
-    "additions": 30785768,
-    "deletions": 6657623,
     "classifications": {
       "organic": {
         "count": 4339,
@@ -7233,9 +6951,7 @@
           "open": 3883,
           "closed": 112,
           "merged": 344
-        },
-        "additions": 29152180,
-        "deletions": 6174371
+        }
       },
       "mixed": {
         "count": 660,
@@ -7244,9 +6960,7 @@
           "open": 548,
           "closed": 27,
           "merged": 85
-        },
-        "additions": 185981,
-        "deletions": 52383
+        }
       },
       "automation": {
         "count": 1069,
@@ -7255,9 +6969,7 @@
           "open": 894,
           "closed": 33,
           "merged": 142
-        },
-        "additions": 1319263,
-        "deletions": 270846
+        }
       },
       "insufficient-data": {
         "count": 318,
@@ -7266,9 +6978,7 @@
           "open": 303,
           "closed": 10,
           "merged": 5
-        },
-        "additions": 128344,
-        "deletions": 160023
+        }
       }
     },
     "text": {
@@ -7287,8 +6997,6 @@
     "date": "2026-10-30",
     "createdAt": "2026-10-30T00:00:00.000Z",
     "hours": 24,
-    "additions": 4257824,
-    "deletions": 1181122,
     "classifications": {
       "organic": {
         "count": 3831,
@@ -7297,9 +7005,7 @@
           "open": 3453,
           "closed": 91,
           "merged": 287
-        },
-        "additions": 3364608,
-        "deletions": 826107
+        }
       },
       "mixed": {
         "count": 470,
@@ -7308,9 +7014,7 @@
           "open": 405,
           "closed": 11,
           "merged": 54
-        },
-        "additions": 193158,
-        "deletions": 178982
+        }
       },
       "automation": {
         "count": 1213,
@@ -7319,9 +7023,7 @@
           "open": 1035,
           "closed": 35,
           "merged": 143
-        },
-        "additions": 331910,
-        "deletions": 167737
+        }
       },
       "insufficient-data": {
         "count": 292,
@@ -7330,9 +7032,7 @@
           "open": 268,
           "closed": 22,
           "merged": 2
-        },
-        "additions": 368148,
-        "deletions": 8296
+        }
       }
     },
     "text": {
@@ -7351,8 +7051,6 @@
     "date": "2026-10-31",
     "createdAt": "2026-10-31T00:00:00.000Z",
     "hours": 24,
-    "additions": 2131647,
-    "deletions": 3997662,
     "classifications": {
       "organic": {
         "count": 1754,
@@ -7361,9 +7059,7 @@
           "open": 1574,
           "closed": 53,
           "merged": 127
-        },
-        "additions": 1415406,
-        "deletions": 3870581
+        }
       },
       "mixed": {
         "count": 234,
@@ -7372,9 +7068,7 @@
           "open": 215,
           "closed": 1,
           "merged": 18
-        },
-        "additions": 272304,
-        "deletions": 52474
+        }
       },
       "automation": {
         "count": 1347,
@@ -7383,9 +7077,7 @@
           "open": 1095,
           "closed": 21,
           "merged": 231
-        },
-        "additions": 276899,
-        "deletions": 69266
+        }
       },
       "insufficient-data": {
         "count": 181,
@@ -7394,9 +7086,7 @@
           "open": 174,
           "closed": 7,
           "merged": 0
-        },
-        "additions": 167038,
-        "deletions": 5341
+        }
       }
     },
     "text": {
@@ -7415,8 +7105,6 @@
     "date": "2026-11-01",
     "createdAt": "2026-11-01T00:00:00.000Z",
     "hours": 23,
-    "additions": 2103099,
-    "deletions": 3830468,
     "classifications": {
       "organic": {
         "count": 1856,
@@ -7425,9 +7113,7 @@
           "open": 1588,
           "closed": 63,
           "merged": 205
-        },
-        "additions": 1114024,
-        "deletions": 3561310
+        }
       },
       "mixed": {
         "count": 306,
@@ -7436,9 +7122,7 @@
           "open": 265,
           "closed": 4,
           "merged": 37
-        },
-        "additions": 358605,
-        "deletions": 47061
+        }
       },
       "automation": {
         "count": 888,
@@ -7447,9 +7131,7 @@
           "open": 717,
           "closed": 27,
           "merged": 144
-        },
-        "additions": 492200,
-        "deletions": 218732
+        }
       },
       "insufficient-data": {
         "count": 193,
@@ -7458,9 +7140,7 @@
           "open": 175,
           "closed": 16,
           "merged": 2
-        },
-        "additions": 138270,
-        "deletions": 3365
+        }
       }
     }
   },
@@ -7468,8 +7148,6 @@
     "date": "2026-11-02",
     "createdAt": "2026-11-02T00:00:00.000Z",
     "hours": 24,
-    "additions": 4176562,
-    "deletions": 799117,
     "classifications": {
       "organic": {
         "count": 4058,
@@ -7478,9 +7156,7 @@
           "open": 3639,
           "closed": 83,
           "merged": 336
-        },
-        "additions": 3327116,
-        "deletions": 641978
+        }
       },
       "mixed": {
         "count": 530,
@@ -7489,9 +7165,7 @@
           "open": 481,
           "closed": 8,
           "merged": 41
-        },
-        "additions": 281815,
-        "deletions": 42029
+        }
       },
       "automation": {
         "count": 1123,
@@ -7500,9 +7174,7 @@
           "open": 1001,
           "closed": 29,
           "merged": 93
-        },
-        "additions": 453505,
-        "deletions": 77164
+        }
       },
       "insufficient-data": {
         "count": 325,
@@ -7511,9 +7183,7 @@
           "open": 301,
           "closed": 22,
           "merged": 2
-        },
-        "additions": 114126,
-        "deletions": 37946
+        }
       }
     }
   },
@@ -7521,8 +7191,6 @@
     "date": "2026-11-03",
     "createdAt": "2026-11-03T00:00:00.000Z",
     "hours": 24,
-    "additions": 8770493,
-    "deletions": 856165,
     "classifications": {
       "organic": {
         "count": 4423,
@@ -7531,9 +7199,7 @@
           "open": 4008,
           "closed": 79,
           "merged": 336
-        },
-        "additions": 3243462,
-        "deletions": 596179
+        }
       },
       "mixed": {
         "count": 607,
@@ -7542,9 +7208,7 @@
           "open": 547,
           "closed": 23,
           "merged": 37
-        },
-        "additions": 4793999,
-        "deletions": 69615
+        }
       },
       "automation": {
         "count": 1702,
@@ -7553,9 +7217,7 @@
           "open": 1539,
           "closed": 50,
           "merged": 113
-        },
-        "additions": 622893,
-        "deletions": 181451
+        }
       },
       "insufficient-data": {
         "count": 324,
@@ -7564,9 +7226,7 @@
           "open": 309,
           "closed": 12,
           "merged": 3
-        },
-        "additions": 110139,
-        "deletions": 8920
+        }
       }
     }
   },
@@ -7574,8 +7234,6 @@
     "date": "2026-11-04",
     "createdAt": "2026-11-04T00:00:00.000Z",
     "hours": 22,
-    "additions": 4595160,
-    "deletions": 2640173,
     "classifications": {
       "organic": {
         "count": 3696,
@@ -7584,9 +7242,7 @@
           "open": 3345,
           "closed": 82,
           "merged": 269
-        },
-        "additions": 3732473,
-        "deletions": 2424932
+        }
       },
       "mixed": {
         "count": 473,
@@ -7595,9 +7251,7 @@
           "open": 429,
           "closed": 12,
           "merged": 32
-        },
-        "additions": 256944,
-        "deletions": 88768
+        }
       },
       "automation": {
         "count": 1198,
@@ -7606,9 +7260,7 @@
           "open": 1017,
           "closed": 57,
           "merged": 124
-        },
-        "additions": 481692,
-        "deletions": 103982
+        }
       },
       "insufficient-data": {
         "count": 268,
@@ -7617,9 +7269,7 @@
           "open": 244,
           "closed": 23,
           "merged": 1
-        },
-        "additions": 124051,
-        "deletions": 22491
+        }
       }
     }
   },
@@ -7627,8 +7277,6 @@
     "date": "2026-11-05",
     "createdAt": "2026-11-05T00:00:00.000Z",
     "hours": 24,
-    "additions": 3784523,
-    "deletions": 1329106,
     "classifications": {
       "organic": {
         "count": 4267,
@@ -7637,9 +7285,7 @@
           "open": 3877,
           "closed": 87,
           "merged": 303
-        },
-        "additions": 3099988,
-        "deletions": 1028463
+        }
       },
       "mixed": {
         "count": 544,
@@ -7648,9 +7294,7 @@
           "open": 480,
           "closed": 8,
           "merged": 56
-        },
-        "additions": 256115,
-        "deletions": 54597
+        }
       },
       "automation": {
         "count": 1193,
@@ -7659,9 +7303,7 @@
           "open": 1013,
           "closed": 49,
           "merged": 131
-        },
-        "additions": 295958,
-        "deletions": 231467
+        }
       },
       "insufficient-data": {
         "count": 295,
@@ -7670,9 +7312,7 @@
           "open": 277,
           "closed": 15,
           "merged": 3
-        },
-        "additions": 132462,
-        "deletions": 14579
+        }
       }
     }
   },
@@ -7680,8 +7320,6 @@
     "date": "2026-11-06",
     "createdAt": "2026-11-06T00:00:00.000Z",
     "hours": 24,
-    "additions": 5114392,
-    "deletions": 3407953,
     "classifications": {
       "organic": {
         "count": 3905,
@@ -7690,9 +7328,7 @@
           "open": 3568,
           "closed": 68,
           "merged": 269
-        },
-        "additions": 2770456,
-        "deletions": 1841080
+        }
       },
       "mixed": {
         "count": 515,
@@ -7701,9 +7337,7 @@
           "open": 416,
           "closed": 18,
           "merged": 81
-        },
-        "additions": 1247635,
-        "deletions": 1091648
+        }
       },
       "automation": {
         "count": 1160,
@@ -7712,9 +7346,7 @@
           "open": 1020,
           "closed": 46,
           "merged": 94
-        },
-        "additions": 1038343,
-        "deletions": 468244
+        }
       },
       "insufficient-data": {
         "count": 268,
@@ -7723,9 +7355,7 @@
           "open": 251,
           "closed": 15,
           "merged": 2
-        },
-        "additions": 57958,
-        "deletions": 6981
+        }
       }
     }
   },
@@ -7733,8 +7363,6 @@
     "date": "2026-11-07",
     "createdAt": "2026-11-07T00:00:00.000Z",
     "hours": 24,
-    "additions": 1981275,
-    "deletions": 346605,
     "classifications": {
       "organic": {
         "count": 1898,
@@ -7743,9 +7371,7 @@
           "open": 1732,
           "closed": 39,
           "merged": 127
-        },
-        "additions": 1514318,
-        "deletions": 220905
+        }
       },
       "mixed": {
         "count": 363,
@@ -7754,9 +7380,7 @@
           "open": 320,
           "closed": 10,
           "merged": 33
-        },
-        "additions": 77362,
-        "deletions": 15336
+        }
       },
       "automation": {
         "count": 829,
@@ -7765,9 +7389,7 @@
           "open": 728,
           "closed": 19,
           "merged": 82
-        },
-        "additions": 190890,
-        "deletions": 69061
+        }
       },
       "insufficient-data": {
         "count": 162,
@@ -7776,9 +7398,7 @@
           "open": 154,
           "closed": 8,
           "merged": 0
-        },
-        "additions": 198705,
-        "deletions": 41303
+        }
       }
     }
   },
@@ -7786,8 +7406,6 @@
     "date": "2026-11-08",
     "createdAt": "2026-11-08T00:00:00.000Z",
     "hours": 24,
-    "additions": 3894374,
-    "deletions": 1100822,
     "classifications": {
       "organic": {
         "count": 1640,
@@ -7796,9 +7414,7 @@
           "open": 1495,
           "closed": 51,
           "merged": 94
-        },
-        "additions": 3023709,
-        "deletions": 883476
+        }
       },
       "mixed": {
         "count": 274,
@@ -7807,9 +7423,7 @@
           "open": 245,
           "closed": 5,
           "merged": 24
-        },
-        "additions": 55227,
-        "deletions": 6697
+        }
       },
       "automation": {
         "count": 889,
@@ -7818,9 +7432,7 @@
           "open": 767,
           "closed": 31,
           "merged": 91
-        },
-        "additions": 209222,
-        "deletions": 60732
+        }
       },
       "insufficient-data": {
         "count": 167,
@@ -7829,9 +7441,7 @@
           "open": 155,
           "closed": 10,
           "merged": 2
-        },
-        "additions": 606216,
-        "deletions": 149917
+        }
       }
     }
   },
@@ -7839,8 +7449,6 @@
     "date": "2026-11-09",
     "createdAt": "2026-11-09T00:00:00.000Z",
     "hours": 24,
-    "additions": 3809106,
-    "deletions": 1223826,
     "classifications": {
       "organic": {
         "count": 3823,
@@ -7849,9 +7457,7 @@
           "open": 3473,
           "closed": 87,
           "merged": 263
-        },
-        "additions": 2881542,
-        "deletions": 899292
+        }
       },
       "mixed": {
         "count": 457,
@@ -7860,9 +7466,7 @@
           "open": 391,
           "closed": 7,
           "merged": 59
-        },
-        "additions": 174218,
-        "deletions": 206182
+        }
       },
       "automation": {
         "count": 1319,
@@ -7871,9 +7475,7 @@
           "open": 1177,
           "closed": 45,
           "merged": 97
-        },
-        "additions": 441155,
-        "deletions": 64253
+        }
       },
       "insufficient-data": {
         "count": 240,
@@ -7882,9 +7484,7 @@
           "open": 224,
           "closed": 13,
           "merged": 3
-        },
-        "additions": 312191,
-        "deletions": 54099
+        }
       }
     }
   },
@@ -7892,8 +7492,6 @@
     "date": "2026-11-10",
     "createdAt": "2026-11-10T00:00:00.000Z",
     "hours": 24,
-    "additions": 90310129,
-    "deletions": 1464606,
     "classifications": {
       "organic": {
         "count": 4454,
@@ -7902,9 +7500,7 @@
           "open": 4049,
           "closed": 87,
           "merged": 318
-        },
-        "additions": 2859147,
-        "deletions": 1080906
+        }
       },
       "mixed": {
         "count": 667,
@@ -7913,9 +7509,7 @@
           "open": 595,
           "closed": 31,
           "merged": 41
-        },
-        "additions": 85766905,
-        "deletions": 141521
+        }
       },
       "automation": {
         "count": 1250,
@@ -7924,9 +7518,7 @@
           "open": 1060,
           "closed": 54,
           "merged": 136
-        },
-        "additions": 902988,
-        "deletions": 81367
+        }
       },
       "insufficient-data": {
         "count": 297,
@@ -7935,9 +7527,7 @@
           "open": 276,
           "closed": 19,
           "merged": 2
-        },
-        "additions": 781089,
-        "deletions": 160812
+        }
       }
     }
   },
@@ -7945,8 +7535,6 @@
     "date": "2026-11-11",
     "createdAt": "2026-11-11T00:00:00.000Z",
     "hours": 24,
-    "additions": 5404010,
-    "deletions": 838739,
     "classifications": {
       "organic": {
         "count": 4075,
@@ -7955,9 +7543,7 @@
           "open": 3705,
           "closed": 65,
           "merged": 305
-        },
-        "additions": 3581221,
-        "deletions": 539468
+        }
       },
       "mixed": {
         "count": 650,
@@ -7966,9 +7552,7 @@
           "open": 575,
           "closed": 30,
           "merged": 45
-        },
-        "additions": 424936,
-        "deletions": 59252
+        }
       },
       "automation": {
         "count": 1008,
@@ -7977,9 +7561,7 @@
           "open": 873,
           "closed": 36,
           "merged": 99
-        },
-        "additions": 1292373,
-        "deletions": 233845
+        }
       },
       "insufficient-data": {
         "count": 296,
@@ -7988,9 +7570,7 @@
           "open": 280,
           "closed": 12,
           "merged": 4
-        },
-        "additions": 105480,
-        "deletions": 6174
+        }
       }
     }
   },
@@ -7998,8 +7578,6 @@
     "date": "2026-11-12",
     "createdAt": "2026-11-12T00:00:00.000Z",
     "hours": 24,
-    "additions": 5097855,
-    "deletions": 1906413,
     "classifications": {
       "organic": {
         "count": 4385,
@@ -8008,9 +7586,7 @@
           "open": 3975,
           "closed": 84,
           "merged": 326
-        },
-        "additions": 3334319,
-        "deletions": 1346723
+        }
       },
       "mixed": {
         "count": 632,
@@ -8019,9 +7595,7 @@
           "open": 532,
           "closed": 23,
           "merged": 77
-        },
-        "additions": 759687,
-        "deletions": 252372
+        }
       },
       "automation": {
         "count": 1153,
@@ -8030,9 +7604,7 @@
           "open": 987,
           "closed": 44,
           "merged": 122
-        },
-        "additions": 541125,
-        "deletions": 98007
+        }
       },
       "insufficient-data": {
         "count": 302,
@@ -8041,9 +7613,7 @@
           "open": 280,
           "closed": 19,
           "merged": 3
-        },
-        "additions": 462724,
-        "deletions": 209311
+        }
       }
     }
   },
@@ -8051,8 +7621,6 @@
     "date": "2026-11-13",
     "createdAt": "2026-11-13T00:00:00.000Z",
     "hours": 24,
-    "additions": 4147612,
-    "deletions": 1175235,
     "classifications": {
       "organic": {
         "count": 3996,
@@ -8061,9 +7629,7 @@
           "open": 3640,
           "closed": 77,
           "merged": 279
-        },
-        "additions": 3302347,
-        "deletions": 898252
+        }
       },
       "mixed": {
         "count": 683,
@@ -8072,9 +7638,7 @@
           "open": 622,
           "closed": 14,
           "merged": 47
-        },
-        "additions": 441555,
-        "deletions": 81404
+        }
       },
       "automation": {
         "count": 986,
@@ -8083,9 +7647,7 @@
           "open": 845,
           "closed": 42,
           "merged": 99
-        },
-        "additions": 312125,
-        "deletions": 73915
+        }
       },
       "insufficient-data": {
         "count": 267,
@@ -8094,9 +7656,7 @@
           "open": 247,
           "closed": 17,
           "merged": 3
-        },
-        "additions": 91585,
-        "deletions": 121664
+        }
       }
     }
   },
@@ -8104,8 +7664,6 @@
     "date": "2026-11-14",
     "createdAt": "2026-11-14T00:00:00.000Z",
     "hours": 24,
-    "additions": 2041521,
-    "deletions": 1720703,
     "classifications": {
       "organic": {
         "count": 1868,
@@ -8114,9 +7672,7 @@
           "open": 1705,
           "closed": 46,
           "merged": 117
-        },
-        "additions": 1234877,
-        "deletions": 335044
+        }
       },
       "mixed": {
         "count": 494,
@@ -8125,9 +7681,7 @@
           "open": 448,
           "closed": 17,
           "merged": 29
-        },
-        "additions": 145055,
-        "deletions": 73926
+        }
       },
       "automation": {
         "count": 1054,
@@ -8136,9 +7690,7 @@
           "open": 912,
           "closed": 34,
           "merged": 108
-        },
-        "additions": 181141,
-        "deletions": 1206733
+        }
       },
       "insufficient-data": {
         "count": 186,
@@ -8147,9 +7699,7 @@
           "open": 171,
           "closed": 15,
           "merged": 0
-        },
-        "additions": 480448,
-        "deletions": 105000
+        }
       }
     }
   },
@@ -8157,8 +7707,6 @@
     "date": "2026-11-15",
     "createdAt": "2026-11-15T00:00:00.000Z",
     "hours": 24,
-    "additions": 1695542,
-    "deletions": 408377,
     "classifications": {
       "organic": {
         "count": 1413,
@@ -8167,9 +7715,7 @@
           "open": 1322,
           "closed": 27,
           "merged": 64
-        },
-        "additions": 1121442,
-        "deletions": 248269
+        }
       },
       "mixed": {
         "count": 614,
@@ -8178,9 +7724,7 @@
           "open": 572,
           "closed": 7,
           "merged": 35
-        },
-        "additions": 297089,
-        "deletions": 119414
+        }
       },
       "automation": {
         "count": 684,
@@ -8189,9 +7733,7 @@
           "open": 612,
           "closed": 16,
           "merged": 56
-        },
-        "additions": 154723,
-        "deletions": 38247
+        }
       },
       "insufficient-data": {
         "count": 174,
@@ -8200,9 +7742,7 @@
           "open": 167,
           "closed": 7,
           "merged": 0
-        },
-        "additions": 122288,
-        "deletions": 2447
+        }
       }
     }
   },
@@ -8210,8 +7750,6 @@
     "date": "2026-11-16",
     "createdAt": "2026-11-16T00:00:00.000Z",
     "hours": 24,
-    "additions": 3786082,
-    "deletions": 1155610,
     "classifications": {
       "organic": {
         "count": 3534,
@@ -8220,9 +7758,7 @@
           "open": 3199,
           "closed": 73,
           "merged": 262
-        },
-        "additions": 2096703,
-        "deletions": 700400
+        }
       },
       "mixed": {
         "count": 1234,
@@ -8231,9 +7767,7 @@
           "open": 1073,
           "closed": 41,
           "merged": 120
-        },
-        "additions": 1014259,
-        "deletions": 256240
+        }
       },
       "automation": {
         "count": 971,
@@ -8242,9 +7776,7 @@
           "open": 865,
           "closed": 38,
           "merged": 68
-        },
-        "additions": 424347,
-        "deletions": 126453
+        }
       },
       "insufficient-data": {
         "count": 236,
@@ -8253,9 +7785,7 @@
           "open": 219,
           "closed": 13,
           "merged": 4
-        },
-        "additions": 250773,
-        "deletions": 72517
+        }
       }
     }
   },
@@ -8263,8 +7793,6 @@
     "date": "2026-11-17",
     "createdAt": "2026-11-17T00:00:00.000Z",
     "hours": 24,
-    "additions": 7164723,
-    "deletions": 2430687,
     "classifications": {
       "organic": {
         "count": 3627,
@@ -8273,9 +7801,7 @@
           "open": 3290,
           "closed": 68,
           "merged": 269
-        },
-        "additions": 4600897,
-        "deletions": 1493958
+        }
       },
       "mixed": {
         "count": 1353,
@@ -8284,9 +7810,7 @@
           "open": 1233,
           "closed": 24,
           "merged": 96
-        },
-        "additions": 774210,
-        "deletions": 220561
+        }
       },
       "automation": {
         "count": 1280,
@@ -8295,9 +7819,7 @@
           "open": 1076,
           "closed": 45,
           "merged": 159
-        },
-        "additions": 1597323,
-        "deletions": 597621
+        }
       },
       "insufficient-data": {
         "count": 277,
@@ -8306,9 +7828,7 @@
           "open": 255,
           "closed": 20,
           "merged": 2
-        },
-        "additions": 192293,
-        "deletions": 118547
+        }
       }
     }
   },
@@ -8316,8 +7836,6 @@
     "date": "2026-11-18",
     "createdAt": "2026-11-18T00:00:00.000Z",
     "hours": 23,
-    "additions": 3488474,
-    "deletions": 1026006,
     "classifications": {
       "organic": {
         "count": 3580,
@@ -8326,9 +7844,7 @@
           "open": 3258,
           "closed": 71,
           "merged": 251
-        },
-        "additions": 1971467,
-        "deletions": 627597
+        }
       },
       "mixed": {
         "count": 1211,
@@ -8337,9 +7853,7 @@
           "open": 1069,
           "closed": 28,
           "merged": 114
-        },
-        "additions": 897874,
-        "deletions": 203329
+        }
       },
       "automation": {
         "count": 1246,
@@ -8348,9 +7862,7 @@
           "open": 1085,
           "closed": 33,
           "merged": 128
-        },
-        "additions": 538068,
-        "deletions": 188764
+        }
       },
       "insufficient-data": {
         "count": 272,
@@ -8359,9 +7871,7 @@
           "open": 251,
           "closed": 19,
           "merged": 2
-        },
-        "additions": 81065,
-        "deletions": 6316
+        }
       }
     }
   },
@@ -8369,8 +7879,6 @@
     "date": "2026-11-19",
     "createdAt": "2026-11-19T00:00:00.000Z",
     "hours": 24,
-    "additions": 5093883,
-    "deletions": 1355891,
     "classifications": {
       "organic": {
         "count": 3638,
@@ -8379,9 +7887,7 @@
           "open": 3288,
           "closed": 69,
           "merged": 281
-        },
-        "additions": 2026708,
-        "deletions": 833115
+        }
       },
       "mixed": {
         "count": 1334,
@@ -8390,9 +7896,7 @@
           "open": 1184,
           "closed": 32,
           "merged": 118
-        },
-        "additions": 2101754,
-        "deletions": 256948
+        }
       },
       "automation": {
         "count": 1040,
@@ -8401,9 +7905,7 @@
           "open": 838,
           "closed": 43,
           "merged": 159
-        },
-        "additions": 351380,
-        "deletions": 107258
+        }
       },
       "insufficient-data": {
         "count": 314,
@@ -8412,9 +7914,7 @@
           "open": 283,
           "closed": 28,
           "merged": 3
-        },
-        "additions": 614041,
-        "deletions": 158570
+        }
       }
     }
   },
@@ -8422,8 +7922,6 @@
     "date": "2026-11-20",
     "createdAt": "2026-11-20T00:00:00.000Z",
     "hours": 24,
-    "additions": 3722900,
-    "deletions": 920770,
     "classifications": {
       "organic": {
         "count": 3302,
@@ -8432,9 +7930,7 @@
           "open": 3022,
           "closed": 58,
           "merged": 222
-        },
-        "additions": 1827849,
-        "deletions": 500212
+        }
       },
       "mixed": {
         "count": 1185,
@@ -8443,9 +7939,7 @@
           "open": 1093,
           "closed": 19,
           "merged": 73
-        },
-        "additions": 1380137,
-        "deletions": 280860
+        }
       },
       "automation": {
         "count": 1245,
@@ -8454,9 +7948,7 @@
           "open": 1048,
           "closed": 39,
           "merged": 158
-        },
-        "additions": 445714,
-        "deletions": 125317
+        }
       },
       "insufficient-data": {
         "count": 246,
@@ -8465,9 +7957,7 @@
           "open": 228,
           "closed": 17,
           "merged": 1
-        },
-        "additions": 69200,
-        "deletions": 14381
+        }
       }
     }
   },
@@ -8475,8 +7965,6 @@
     "date": "2026-11-21",
     "createdAt": "2026-11-21T00:00:00.000Z",
     "hours": 24,
-    "additions": 1641251,
-    "deletions": 457926,
     "classifications": {
       "organic": {
         "count": 1314,
@@ -8485,9 +7973,7 @@
           "open": 1216,
           "closed": 25,
           "merged": 73
-        },
-        "additions": 738927,
-        "deletions": 158898
+        }
       },
       "mixed": {
         "count": 775,
@@ -8496,9 +7982,7 @@
           "open": 680,
           "closed": 10,
           "merged": 85
-        },
-        "additions": 328113,
-        "deletions": 72316
+        }
       },
       "automation": {
         "count": 1003,
@@ -8507,9 +7991,7 @@
           "open": 885,
           "closed": 38,
           "merged": 80
-        },
-        "additions": 523669,
-        "deletions": 221805
+        }
       },
       "insufficient-data": {
         "count": 221,
@@ -8518,9 +8000,7 @@
           "open": 209,
           "closed": 12,
           "merged": 0
-        },
-        "additions": 50542,
-        "deletions": 4907
+        }
       }
     }
   },
@@ -8528,8 +8008,6 @@
     "date": "2026-11-22",
     "createdAt": "2026-11-22T00:00:00.000Z",
     "hours": 24,
-    "additions": 1497411,
-    "deletions": 2607500,
     "classifications": {
       "organic": {
         "count": 1383,
@@ -8538,9 +8016,7 @@
           "open": 1257,
           "closed": 39,
           "merged": 87
-        },
-        "additions": 792695,
-        "deletions": 2435807
+        }
       },
       "mixed": {
         "count": 577,
@@ -8549,9 +8025,7 @@
           "open": 512,
           "closed": 11,
           "merged": 54
-        },
-        "additions": 337238,
-        "deletions": 89456
+        }
       },
       "automation": {
         "count": 820,
@@ -8560,9 +8034,7 @@
           "open": 695,
           "closed": 54,
           "merged": 71
-        },
-        "additions": 183184,
-        "deletions": 56356
+        }
       },
       "insufficient-data": {
         "count": 206,
@@ -8571,9 +8043,7 @@
           "open": 193,
           "closed": 13,
           "merged": 0
-        },
-        "additions": 184294,
-        "deletions": 25881
+        }
       }
     }
   },
@@ -8581,8 +8051,6 @@
     "date": "2026-11-23",
     "createdAt": "2026-11-23T00:00:00.000Z",
     "hours": 24,
-    "additions": 3132232,
-    "deletions": 1203485,
     "classifications": {
       "organic": {
         "count": 3481,
@@ -8591,9 +8059,7 @@
           "open": 3136,
           "closed": 67,
           "merged": 278
-        },
-        "additions": 1669814,
-        "deletions": 897943
+        }
       },
       "mixed": {
         "count": 1295,
@@ -8602,9 +8068,7 @@
           "open": 1150,
           "closed": 20,
           "merged": 125
-        },
-        "additions": 602906,
-        "deletions": 135480
+        }
       },
       "automation": {
         "count": 1143,
@@ -8613,9 +8077,7 @@
           "open": 946,
           "closed": 78,
           "merged": 119
-        },
-        "additions": 595360,
-        "deletions": 124471
+        }
       },
       "insufficient-data": {
         "count": 303,
@@ -8624,9 +8086,7 @@
           "open": 285,
           "closed": 14,
           "merged": 4
-        },
-        "additions": 264152,
-        "deletions": 45591
+        }
       }
     }
   },
@@ -8634,8 +8094,6 @@
     "date": "2026-11-24",
     "createdAt": "2026-11-24T00:00:00.000Z",
     "hours": 24,
-    "additions": 11486794,
-    "deletions": 4578264,
     "classifications": {
       "organic": {
         "count": 3766,
@@ -8644,9 +8102,7 @@
           "open": 3387,
           "closed": 63,
           "merged": 316
-        },
-        "additions": 4095481,
-        "deletions": 1872354
+        }
       },
       "mixed": {
         "count": 1361,
@@ -8655,9 +8111,7 @@
           "open": 1171,
           "closed": 30,
           "merged": 160
-        },
-        "additions": 6307060,
-        "deletions": 2140727
+        }
       },
       "automation": {
         "count": 1297,
@@ -8666,9 +8120,7 @@
           "open": 1052,
           "closed": 75,
           "merged": 170
-        },
-        "additions": 314383,
-        "deletions": 82411
+        }
       },
       "insufficient-data": {
         "count": 308,
@@ -8677,9 +8129,7 @@
           "open": 283,
           "closed": 21,
           "merged": 4
-        },
-        "additions": 769870,
-        "deletions": 482772
+        }
       }
     }
   },
@@ -8687,8 +8137,6 @@
     "date": "2026-11-25",
     "createdAt": "2026-11-25T00:00:00.000Z",
     "hours": 24,
-    "additions": 10000976,
-    "deletions": 1858569,
     "classifications": {
       "organic": {
         "count": 3692,
@@ -8697,9 +8145,7 @@
           "open": 3384,
           "closed": 52,
           "merged": 256
-        },
-        "additions": 3411799,
-        "deletions": 887339
+        }
       },
       "mixed": {
         "count": 1243,
@@ -8708,9 +8154,7 @@
           "open": 1088,
           "closed": 27,
           "merged": 128
-        },
-        "additions": 3064087,
-        "deletions": 518059
+        }
       },
       "automation": {
         "count": 1343,
@@ -8719,9 +8163,7 @@
           "open": 1140,
           "closed": 44,
           "merged": 159
-        },
-        "additions": 469787,
-        "deletions": 113464
+        }
       },
       "insufficient-data": {
         "count": 297,
@@ -8730,9 +8172,7 @@
           "open": 278,
           "closed": 15,
           "merged": 4
-        },
-        "additions": 3055303,
-        "deletions": 339707
+        }
       }
     }
   },
@@ -8740,8 +8180,6 @@
     "date": "2026-11-26",
     "createdAt": "2026-11-26T00:00:00.000Z",
     "hours": 24,
-    "additions": 4831959,
-    "deletions": 1056865,
     "classifications": {
       "organic": {
         "count": 3295,
@@ -8750,9 +8188,7 @@
           "open": 2989,
           "closed": 76,
           "merged": 230
-        },
-        "additions": 3832465,
-        "deletions": 843235
+        }
       },
       "mixed": {
         "count": 1113,
@@ -8761,9 +8197,7 @@
           "open": 989,
           "closed": 23,
           "merged": 101
-        },
-        "additions": 553169,
-        "deletions": 127896
+        }
       },
       "automation": {
         "count": 1190,
@@ -8772,9 +8206,7 @@
           "open": 967,
           "closed": 87,
           "merged": 136
-        },
-        "additions": 380219,
-        "deletions": 80166
+        }
       },
       "insufficient-data": {
         "count": 276,
@@ -8783,9 +8215,7 @@
           "open": 254,
           "closed": 21,
           "merged": 1
-        },
-        "additions": 66106,
-        "deletions": 5568
+        }
       }
     }
   },

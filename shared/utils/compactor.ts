@@ -5,18 +5,14 @@ import type { EcosystemHealthItem, PrStatus } from "../types/ecosystem-health";
 // Compact CSV format for scan results — ~72% smaller than pretty-printed JSON.
 //
 // Line 0:  REPOS:<comma-separated repo names>   (index lookup)
-// Lines 1+: <created_ts>,<score>,<pr>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<additions>,<deletions>]
+// Lines 1+: <created_ts>,<score>,<pr>,<status>,<user_ts>,<repos>,<events>,<repo_idx>,<is_bounty>[,<timezone>]
 //
 //   created_ts / user_ts : unix seconds (drops sub-second precision)
 //   pr                   : PR number (empty when unknown, unpacks as null)
 //   status               : "o" = open | "c" = closed | "m" = merged
 //   repo_idx             : index into the REPOS header
 //   is_bounty            : 1 = bounty hunter | 0 = not
-//   additions/deletions  : lines changed by the PR
-//
-// Rows written before 2026-11-01 may carry @unveil/interlinked's read of the PR
-// description after the line counts. Those columns are ignored on read and
-// dropped on the next write.
+//   timezone             : estimated UTC offset in whole hours
 
 const STATUS_ENCODE: Record<string, string> = {
 	open: "o",
@@ -28,6 +24,17 @@ const STATUS_DECODE: Record<string, string> = {
 	c: "closed",
 	m: "merged",
 };
+
+const OFFSET_PATTERN = /^-?\d+$/;
+
+function readTimezone(
+	value: string | undefined,
+): Pick<EcosystemHealthItem, "timezone"> {
+	if (value && OFFSET_PATTERN.test(value)) {
+		return { timezone: Number(value) };
+	}
+	return {};
+}
 
 function toUnixSecs(isoDate: string): number {
 	return Math.floor(new Date(isoDate).getTime() / 1000);
@@ -73,8 +80,8 @@ function packRow(
 		row.is_bounty ? 1 : 0,
 	];
 
-	if (row.additions != null && row.deletions != null) {
-		fields.push(row.additions, row.deletions);
+	if (row.timezone != null) {
+		fields.push(row.timezone);
 	}
 
 	return fields.join(",");
@@ -110,8 +117,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			events,
 			repoIdx,
 			isBounty,
-			additions,
-			deletions,
+			timezone,
 		] = fields;
 
 		const numCreatedTs = Number(createdTs);
@@ -140,11 +146,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			events_count: numEvents,
 			repo_name: repos[numRepoIdx] ?? "",
 			is_bounty: isBounty === "1",
-			...(additions &&
-				deletions && {
-					additions: Number(additions),
-					deletions: Number(deletions),
-				}),
+			...readTimezone(timezone),
 		});
 	}
 

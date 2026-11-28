@@ -3,6 +3,7 @@ import { applyCumulativeTrends } from "../../../shared/utils/count-classificatio
 import type { DailyScanEntry } from "../../../shared/utils/daily-rollup";
 import { getDailyCountsByDate } from "../../../shared/utils/daily-rollup";
 import { getRecentDailyEntries } from "../../../shared/utils/health-history-window";
+import { getTimezoneSummary } from "../../../shared/utils/timezones";
 import { readTextAsset } from "../../utils/read-text-asset";
 
 export default defineHandler(async (event) => {
@@ -29,6 +30,7 @@ export default defineHandler(async (event) => {
 			countsByDate,
 			dates,
 			scanTimes,
+			timezones: getTimezoneSummary(entries),
 		};
 	} catch (error) {
 		console.error("Daily scan fetch error:", error);

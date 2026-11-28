@@ -11,15 +11,18 @@ import {
 	createEmptyClassificationStats,
 } from "./count-classification-by-date";
 import { classifyByScore, formatPercentage } from "./health-stats";
+import type { LocalHours, TimezoneCounts } from "./timezones";
+import {
+	addToTimezoneCounts,
+	createEmptyLocalHours,
+	createTimezoneCounts,
+	getLocalHour,
+	getOffsetKey,
+	getTopTimezone,
+	UNKNOWN_OFFSET_KEY,
+} from "./timezones";
 
-// Lines changed by the PRs counted. Only present when every one of them was
-// sized: a partial sum would read as a smaller number, not a missing one.
-type LineCounts = {
-	additions?: number;
-	deletions?: number;
-};
-
-export type DailyClassificationCounts = LineCounts & {
+export type DailyClassificationCounts = {
 	count: number;
 	bountyCount: number;
 	prStatusCounts: Record<PrStatus, number>;
@@ -28,15 +31,22 @@ export type DailyClassificationCounts = LineCounts & {
 // Days stored from 2026-10-04 to 2026-10-31 also carry a `text` summary of
 // @unveil/interlinked's read of the PR descriptions, no longer measured. Stored
 // days are kept as they are, so it stays in the data without being typed here.
-export type DailyScanEntry = LineCounts & {
+export type DailyScanEntry = {
 	date: string;
 	createdAt: string;
 	hours: number;
 	classifications: Record<ClassificationLabel, DailyClassificationCounts>;
+	timezones?: Record<string, TimezoneCounts>;
+	/** The offset most of the day's scored PRs were guessed to come from. */
+	topTimezone?: string;
+	localHours?: LocalHours;
 };
 
 type DailyScanBucket = Pick<DailyScanEntry, "createdAt" | "classifications"> & {
 	hours: Set<string>;
+	timezones: Map<string, TimezoneCounts>;
+	localHours: LocalHours;
+	hasOffsets: boolean;
 };
 
 function createClassificationCounts(): DailyClassificationCounts {
@@ -53,6 +63,55 @@ function createClassifications(): DailyScanEntry["classifications"] {
 		mixed: createClassificationCounts(),
 		automation: createClassificationCounts(),
 		"insufficient-data": createClassificationCounts(),
+	};
+}
+
+function countTimezone(
+	bucket: DailyScanBucket,
+	result: EcosystemHealthItem,
+	classification: ClassificationLabel,
+) {
+	const key = getOffsetKey(result.timezone);
+	const counts = bucket.timezones.get(key) ?? createTimezoneCounts();
+	addToTimezoneCounts(counts, classification);
+	bucket.timezones.set(key, counts);
+
+	if (result.timezone == null) {
+		return;
+	}
+
+	bucket.hasOffsets = true;
+
+	if (
+		classification !== "insufficient-data" &&
+		typeof result.timezone === "number"
+	) {
+		const hour = getLocalHour(result.created_at, result.timezone);
+		bucket.localHours[classification][hour] += 1;
+	}
+}
+
+function offsetRank(key: string): number {
+	return key === UNKNOWN_OFFSET_KEY ? Number.POSITIVE_INFINITY : Number(key);
+}
+
+function byOffset([a]: [string, unknown], [b]: [string, unknown]): number {
+	return offsetRank(a) - offsetRank(b);
+}
+
+function getTimezoneFields(
+	bucket: DailyScanBucket,
+): Pick<DailyScanEntry, "timezones" | "topTimezone" | "localHours"> {
+	if (!bucket.hasOffsets) {
+		return {};
+	}
+
+	const topTimezone = getTopTimezone(bucket.timezones);
+
+	return {
+		timezones: Object.fromEntries([...bucket.timezones].sort(byOffset)),
+		...(topTimezone && { topTimezone }),
+		localHours: bucket.localHours,
 	};
 }
 
@@ -75,17 +134,14 @@ function collectBucketsByDate(
 			createdAt: result.created_at,
 			hours: new Set<string>(),
 			classifications: createClassifications(),
+			timezones: new Map(),
+			localHours: createEmptyLocalHours(),
+			hasOffsets: false,
 		};
-		const counts = bucket.classifications[classifyByScore(result.score)];
-		const isComplete = counts.count === 0 || counts.additions != null;
+		const classification = classifyByScore(result.score);
+		const counts = bucket.classifications[classification];
 
-		if (isComplete && result.additions != null && result.deletions != null) {
-			counts.additions = (counts.additions ?? 0) + result.additions;
-			counts.deletions = (counts.deletions ?? 0) + result.deletions;
-		} else {
-			delete counts.additions;
-			delete counts.deletions;
-		}
+		countTimezone(bucket, result, classification);
 
 		counts.count += 1;
 		counts.bountyCount += result.is_bounty ? 1 : 0;
@@ -103,33 +159,6 @@ function collectBucketsByDate(
 	return bucketsByDate;
 }
 
-// The whole day across every classification, insufficient data included.
-function sumLineCounts(
-	classifications: DailyScanEntry["classifications"],
-): LineCounts {
-	const counted = Object.values(classifications).filter(
-		(counts) => counts.count > 0,
-	);
-
-	if (
-		counted.length === 0 ||
-		counted.some((counts) => counts.additions == null)
-	) {
-		return {};
-	}
-
-	return {
-		additions: counted.reduce(
-			(sum, counts) => sum + (counts.additions ?? 0),
-			0,
-		),
-		deletions: counted.reduce(
-			(sum, counts) => sum + (counts.deletions ?? 0),
-			0,
-		),
-	};
-}
-
 function toDailyEntry(
 	date: string,
 	bucket: DailyScanBucket,
@@ -139,8 +168,8 @@ function toDailyEntry(
 		date,
 		createdAt: bucket.createdAt,
 		hours,
-		...sumLineCounts(bucket.classifications),
 		classifications: bucket.classifications,
+		...getTimezoneFields(bucket),
 	};
 }
 
@@ -272,4 +301,13 @@ export function mergeDailyEntries(
 	});
 
 	return [...byDateEntries.values()].sort(byDate);
+}
+
+export function stringifyDailyEntries(entries: DailyScanEntry[]): string {
+	const json = JSON.stringify(entries, null, 2).replace(
+		/\[\s*(-?\d+(?:,\s*-?\d+)*)\s*\]/g,
+		(_, numbers: string) => `[${numbers.replace(/\s+/g, "")}]`,
+	);
+
+	return `${json}\n`;
 }
