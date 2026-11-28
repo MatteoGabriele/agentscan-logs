@@ -19,14 +19,7 @@ import {
 	UNKNOWN_OFFSET_KEY,
 } from "./timezones";
 
-// Lines changed by the PRs counted. Only present when every one of them was
-// sized: a partial sum would read as a smaller number, not a missing one.
-type LineCounts = {
-	additions?: number;
-	deletions?: number;
-};
-
-export type DailyClassificationCounts = LineCounts & {
+export type DailyClassificationCounts = {
 	count: number;
 	bountyCount: number;
 	prStatusCounts: Record<PrStatus, number>;
@@ -35,7 +28,7 @@ export type DailyClassificationCounts = LineCounts & {
 // Days stored from 2026-10-04 to 2026-10-31 also carry a `text` summary of
 // @unveil/interlinked's read of the PR descriptions, no longer measured. Stored
 // days are kept as they are, so it stays in the data without being typed here.
-export type DailyScanEntry = LineCounts & {
+export type DailyScanEntry = {
 	date: string;
 	createdAt: string;
 	hours: number;
@@ -149,15 +142,6 @@ function collectBucketsByDate(
 		const counts = bucket.classifications[classification];
 
 		countTimezone(bucket, result, classification);
-		const isComplete = counts.count === 0 || counts.additions != null;
-
-		if (isComplete && result.additions != null && result.deletions != null) {
-			counts.additions = (counts.additions ?? 0) + result.additions;
-			counts.deletions = (counts.deletions ?? 0) + result.deletions;
-		} else {
-			delete counts.additions;
-			delete counts.deletions;
-		}
 
 		counts.count += 1;
 		counts.bountyCount += result.is_bounty ? 1 : 0;
@@ -175,33 +159,6 @@ function collectBucketsByDate(
 	return bucketsByDate;
 }
 
-// The whole day across every classification, insufficient data included.
-function sumLineCounts(
-	classifications: DailyScanEntry["classifications"],
-): LineCounts {
-	const counted = Object.values(classifications).filter(
-		(counts) => counts.count > 0,
-	);
-
-	if (
-		counted.length === 0 ||
-		counted.some((counts) => counts.additions == null)
-	) {
-		return {};
-	}
-
-	return {
-		additions: counted.reduce(
-			(sum, counts) => sum + (counts.additions ?? 0),
-			0,
-		),
-		deletions: counted.reduce(
-			(sum, counts) => sum + (counts.deletions ?? 0),
-			0,
-		),
-	};
-}
-
 function toDailyEntry(
 	date: string,
 	bucket: DailyScanBucket,
@@ -211,7 +168,6 @@ function toDailyEntry(
 		date,
 		createdAt: bucket.createdAt,
 		hours,
-		...sumLineCounts(bucket.classifications),
 		classifications: bucket.classifications,
 		...getTimezoneFields(bucket),
 	};

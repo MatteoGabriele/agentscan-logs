@@ -61,40 +61,19 @@ describe("pack / unpack", () => {
 		expect(unpack(pack(items))).toEqual(items);
 	});
 
-	it("ignores the description columns of rows written before 2026-11-01", () => {
-		const packed = pack([{ ...ITEMS[0], additions: 12, deletions: 3 }]);
-		const [header, row] = packed.split("\n");
-		const items = unpack(`${header}\n${row},a,0.897,0.897,1`);
-
-		expect(items).toEqual([{ ...ITEMS[0], additions: 12, deletions: 3 }]);
-		expect(pack(items)).toBe(packed);
-	});
-
-	it("writes the line counts as the last columns", () => {
+	it("round-trips a timezone as the last column", () => {
 		const items: EcosystemHealthItem[] = [
-			{ ...ITEMS[0], additions: 5, deletions: 2 },
+			{ ...ITEMS[0], timezone: -300 },
+			{ ...ITEMS[1], timezone: 0 },
+			{ ...ITEMS[2], timezone: 330 },
 		];
 
 		expect(unpack(pack(items))).toEqual(items);
-		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(11);
-	});
-
-	it("round-trips a timezone after the line counts", () => {
-		const items: EcosystemHealthItem[] = [
-			{ ...ITEMS[0], additions: 5, deletions: 2, timezone: -300 },
-			{ ...ITEMS[1], additions: 0, deletions: 0, timezone: 0 },
-			{ ...ITEMS[2], additions: 1, deletions: 1, timezone: 330 },
-		];
-
-		expect(unpack(pack(items))).toEqual(items);
-		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(12);
+		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(10);
 		expect(pack(items).split("\n")[3]?.endsWith(",330")).toBe(true);
 	});
 
-	it("keeps a timezone on a row that was never sized", () => {
-		const items: EcosystemHealthItem[] = [{ ...ITEMS[0], timezone: 330 }];
-
-		expect(pack(items).split("\n")[1]?.endsWith(",,,330")).toBe(true);
-		expect(unpack(pack(items))).toEqual(items);
+	it("leaves the timezone column out when there is none", () => {
+		expect(pack([ITEMS[0]]).split("\n")[1]?.split(",")).toHaveLength(9);
 	});
 });

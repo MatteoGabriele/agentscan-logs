@@ -60,8 +60,6 @@ interface ScanResult {
 	pr: number;
 	pr_status: PrStatus;
 	is_bounty: boolean;
-	additions?: number;
-	deletions?: number;
 	timezone?: number;
 }
 
@@ -652,26 +650,10 @@ export async function main(options: ScanOptions) {
 		return scored;
 	}
 
-	// The PR list leaves out line counts, so each PR costs one more call.
-	async function fetchPrSize(pr: CollectedPr) {
-		const [owner, repo] = pr.repo_name.split("/");
-		const { data } = await withRetry(
-			() => octokit.rest.pulls.get({ owner, repo, pull_number: pr.pr_number }),
-			`${pr.repo_name}: fetch PR details`,
-		);
-
-		await new Promise((resolve) =>
-			setTimeout(resolve, DELAY_BETWEEN_GITHUB_CALLS),
-		);
-
-		return { additions: data.additions, deletions: data.deletions };
-	}
-
 	function toResult(
 		pr: CollectedPr,
 		createdAt: string,
 		scored: Awaited<ReturnType<typeof scoreUser>>,
-		size: Awaited<ReturnType<typeof fetchPrSize>>,
 	): ScanResult {
 		return {
 			created_at: createdAt,
@@ -683,7 +665,6 @@ export async function main(options: ScanOptions) {
 			events_count: scored.events_count,
 			repo_name: pr.repo_name,
 			is_bounty: scored.is_bounty,
-			...size,
 			...(scored.timezone != null && { timezone: scored.timezone }),
 		};
 	}
@@ -709,9 +690,7 @@ export async function main(options: ScanOptions) {
 			continue;
 		}
 
-		const size = await fetchPrSize(pr);
-
-		scanResults.push(toResult(pr, windowAt, scored, size));
+		scanResults.push(toResult(pr, windowAt, scored));
 		recordAutomationPr(pr, scored.score);
 
 		if (scored.score !== INSUFFICIENT_DATA_SCORE) {
