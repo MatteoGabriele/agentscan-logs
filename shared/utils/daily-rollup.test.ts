@@ -288,26 +288,27 @@ describe("timezones in the daily rollup", () => {
 	const day = "2026-06-10";
 	const scannedHour = `${day}T23:00:00.000Z`;
 
-	it("leaves both fields out of a day measured before offsets existed", () => {
+	it("leaves the timezone fields out of a day measured before offsets existed", () => {
 		const [entry] = getCompletedDailyEntries(
 			createFullDay(day, 90),
 			scannedHour,
 		);
 
 		expect(entry).not.toHaveProperty("timezones");
+		expect(entry).not.toHaveProperty("topTimezone");
 		expect(entry).not.toHaveProperty("localHours");
 	});
 
 	it("tallies PRs per offset, west to east, unknown last", () => {
 		const rows = createFullDay(day, 90).map((row, hour) => ({
 			...row,
-			...(hour < 20 && { timezone: hour < 10 ? 60 : -300 }),
+			...(hour < 20 && { timezone: hour < 10 ? 1 : -5 }),
 		}));
 		rows.push(
 			createEcosystemHealthItem({
 				created_at: `${day}T05:00:00.000Z`,
 				score: 10,
-				timezone: 540,
+				timezone: 9,
 			}),
 			createEcosystemHealthItem({
 				created_at: `${day}T05:00:00.000Z`,
@@ -317,26 +318,39 @@ describe("timezones in the daily rollup", () => {
 			createEcosystemHealthItem({
 				created_at: `${day}T05:00:00.000Z`,
 				score: -1,
-				timezone: 60,
+				timezone: 1,
 			}),
 		);
 
 		const [entry] = getCompletedDailyEntries(rows, scannedHour);
 
 		expect(entry?.timezones).toEqual({
-			"-300": [10, 0, 0, 0],
+			"-5": [10, 0, 0, 0],
 			"+0": [0, 0, 0, 1],
-			"+60": [10, 0, 0, 1],
-			"+540": [0, 0, 1, 0],
+			"+1": [10, 0, 0, 1],
+			"+9": [0, 0, 1, 0],
 			unknown: [4, 0, 0, 0],
 		});
 		expect(Object.keys(entry?.timezones ?? {})).toEqual([
-			"-300",
+			"-5",
 			"+0",
-			"+60",
-			"+540",
+			"+1",
+			"+9",
 			"unknown",
 		]);
+		// -5 and +1 tie on 10 scored PRs each; the westernmost wins.
+		expect(entry?.topTimezone).toBe("-5");
+	});
+
+	it("names the offset with the most scored PRs as the top timezone", () => {
+		const rows = createFullDay(day, 90).map((row, hour) => ({
+			...row,
+			timezone: hour < 15 ? 5 : -5,
+		}));
+
+		const [entry] = getCompletedDailyEntries(rows, scannedHour);
+
+		expect(entry?.topTimezone).toBe("+5");
 	});
 
 	it("counts local hours only for PRs with an offset", () => {
@@ -344,7 +358,7 @@ describe("timezones in the daily rollup", () => {
 			createEcosystemHealthItem({
 				created_at: `${day}T08:00:00.000Z`,
 				score: 90,
-				timezone: 60,
+				timezone: 1,
 			}),
 			createEcosystemHealthItem({
 				created_at: `${day}T08:00:00.000Z`,
@@ -370,12 +384,12 @@ describe("timezones in the daily rollup", () => {
 	it("writes number arrays on a single line", () => {
 		const rows = createFullDay(day, 90).map((row) => ({
 			...row,
-			timezone: 60,
+			timezone: 1,
 		}));
 		const entries = getCompletedDailyEntries(rows, scannedHour);
 		const written = stringifyDailyEntries(entries);
 
-		expect(written).toContain('"+60": [24,0,0,0]');
+		expect(written).toContain('"+1": [24,0,0,0]');
 		expect(written).toContain('"organic": [1,1,1,');
 		expect(JSON.parse(written)).toEqual(entries);
 	});

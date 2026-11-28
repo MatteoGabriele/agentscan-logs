@@ -63,14 +63,14 @@ describe("pack / unpack", () => {
 
 	it("round-trips a timezone as the last column", () => {
 		const items: EcosystemHealthItem[] = [
-			{ ...ITEMS[0], timezone: -300 },
+			{ ...ITEMS[0], timezone: -5 },
 			{ ...ITEMS[1], timezone: 0 },
-			{ ...ITEMS[2], timezone: 330 },
+			{ ...ITEMS[2], timezone: 5 },
 		];
 
 		expect(unpack(pack(items))).toEqual(items);
 		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(10);
-		expect(pack(items).split("\n")[3]?.endsWith(",330")).toBe(true);
+		expect(pack(items).split("\n")[3]?.endsWith(",5")).toBe(true);
 	});
 
 	it("leaves the timezone column out when there is none", () => {

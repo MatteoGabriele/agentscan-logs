@@ -11,11 +11,14 @@ import {
 	createEmptyClassificationStats,
 } from "./count-classification-by-date";
 import { classifyByScore, formatPercentage } from "./health-stats";
-import type { TimezoneCounts } from "./timezones";
+import type { LocalHours, TimezoneCounts } from "./timezones";
 import {
+	addToTimezoneCounts,
+	createEmptyLocalHours,
+	createTimezoneCounts,
 	getLocalHour,
 	getOffsetKey,
-	TIMEZONE_COUNT_ORDER,
+	getTopTimezone,
 	UNKNOWN_OFFSET_KEY,
 } from "./timezones";
 
@@ -34,13 +37,15 @@ export type DailyScanEntry = {
 	hours: number;
 	classifications: Record<ClassificationLabel, DailyClassificationCounts>;
 	timezones?: Record<string, TimezoneCounts>;
-	localHours?: Record<EcosystemHealthCategory, number[]>;
+	/** The offset most of the day's scored PRs were guessed to come from. */
+	topTimezone?: string;
+	localHours?: LocalHours;
 };
 
 type DailyScanBucket = Pick<DailyScanEntry, "createdAt" | "classifications"> & {
 	hours: Set<string>;
 	timezones: Map<string, TimezoneCounts>;
-	localHours: Record<EcosystemHealthCategory, number[]>;
+	localHours: LocalHours;
 	hasOffsets: boolean;
 };
 
@@ -61,22 +66,14 @@ function createClassifications(): DailyScanEntry["classifications"] {
 	};
 }
 
-function createLocalHours(): Record<EcosystemHealthCategory, number[]> {
-	return {
-		organic: Array(24).fill(0),
-		mixed: Array(24).fill(0),
-		automation: Array(24).fill(0),
-	};
-}
-
 function countTimezone(
 	bucket: DailyScanBucket,
 	result: EcosystemHealthItem,
 	classification: ClassificationLabel,
 ) {
 	const key = getOffsetKey(result.timezone);
-	const counts = bucket.timezones.get(key) ?? [0, 0, 0, 0];
-	counts[TIMEZONE_COUNT_ORDER.indexOf(classification)] += 1;
+	const counts = bucket.timezones.get(key) ?? createTimezoneCounts();
+	addToTimezoneCounts(counts, classification);
 	bucket.timezones.set(key, counts);
 
 	if (result.timezone == null) {
@@ -104,13 +101,16 @@ function byOffset([a]: [string, unknown], [b]: [string, unknown]): number {
 
 function getTimezoneFields(
 	bucket: DailyScanBucket,
-): Pick<DailyScanEntry, "timezones" | "localHours"> {
+): Pick<DailyScanEntry, "timezones" | "topTimezone" | "localHours"> {
 	if (!bucket.hasOffsets) {
 		return {};
 	}
 
+	const topTimezone = getTopTimezone(bucket.timezones);
+
 	return {
 		timezones: Object.fromEntries([...bucket.timezones].sort(byOffset)),
+		...(topTimezone && { topTimezone }),
 		localHours: bucket.localHours,
 	};
 }
@@ -135,7 +135,7 @@ function collectBucketsByDate(
 			hours: new Set<string>(),
 			classifications: createClassifications(),
 			timezones: new Map(),
-			localHours: createLocalHours(),
+			localHours: createEmptyLocalHours(),
 			hasOffsets: false,
 		};
 		const classification = classifyByScore(result.score);

@@ -12,7 +12,7 @@ import type { EcosystemHealthItem, PrStatus } from "../types/ecosystem-health";
 //   status               : "o" = open | "c" = closed | "m" = merged
 //   repo_idx             : index into the REPOS header
 //   is_bounty            : 1 = bounty hunter | 0 = not
-//   timezone             : estimated UTC offset in minutes
+//   timezone             : estimated UTC offset in whole hours
 
 const STATUS_ENCODE: Record<string, string> = {
 	open: "o",
