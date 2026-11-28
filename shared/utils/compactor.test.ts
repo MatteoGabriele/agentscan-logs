@@ -78,4 +78,23 @@ describe("pack / unpack", () => {
 		expect(unpack(pack(items))).toEqual(items);
 		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(11);
 	});
+
+	it("round-trips a timezone after the line counts", () => {
+		const items: EcosystemHealthItem[] = [
+			{ ...ITEMS[0], additions: 5, deletions: 2, timezone: -300 },
+			{ ...ITEMS[1], additions: 0, deletions: 0, timezone: 0 },
+			{ ...ITEMS[2], additions: 1, deletions: 1, timezone: 330 },
+		];
+
+		expect(unpack(pack(items))).toEqual(items);
+		expect(pack(items).split("\n")[1]?.split(",")).toHaveLength(12);
+		expect(pack(items).split("\n")[3]?.endsWith(",330")).toBe(true);
+	});
+
+	it("keeps a timezone on a row that was never sized", () => {
+		const items: EcosystemHealthItem[] = [{ ...ITEMS[0], timezone: 330 }];
+
+		expect(pack(items).split("\n")[1]?.endsWith(",,,330")).toBe(true);
+		expect(unpack(pack(items))).toEqual(items);
+	});
 });

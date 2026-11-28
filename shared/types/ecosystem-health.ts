@@ -23,6 +23,7 @@ export type EcosystemHealthItem = {
 	is_bounty: boolean;
 	additions?: number;
 	deletions?: number;
+	timezone?: number;
 };
 
 export type EcosystemHealthCategoryCounts = {

@@ -6,6 +6,7 @@ import {
 	getCompletedDailyEntries,
 	getDailyCountsByDate,
 	mergeDailyEntries,
+	stringifyDailyEntries,
 } from "./daily-rollup";
 import { classifyByScore } from "./health-stats";
 
@@ -357,5 +358,113 @@ describe("mergeDailyEntries", () => {
 			["2026-06-10", 24],
 		]);
 		expect(result[0]?.createdAt).toBe("2026-06-10T00:00:00.000Z");
+	});
+});
+
+describe("timezones in the daily rollup", () => {
+	const day = "2026-06-10";
+	const scannedHour = `${day}T23:00:00.000Z`;
+
+	it("leaves both fields out of a day measured before offsets existed", () => {
+		const [entry] = getCompletedDailyEntries(
+			createFullDay(day, 90),
+			scannedHour,
+		);
+
+		expect(entry).not.toHaveProperty("timezones");
+		expect(entry).not.toHaveProperty("localHours");
+	});
+
+	it("tallies PRs per offset, west to east, unknown last", () => {
+		const rows = createFullDay(day, 90).map((row, hour) => ({
+			...row,
+			...(hour < 20 && { timezone: hour < 10 ? 60 : -300 }),
+		}));
+		rows.push(
+			createEcosystemHealthItem({
+				created_at: `${day}T05:00:00.000Z`,
+				score: 10,
+				timezone: 540,
+			}),
+			createEcosystemHealthItem({
+				created_at: `${day}T05:00:00.000Z`,
+				score: -1,
+				timezone: 0,
+			}),
+			createEcosystemHealthItem({
+				created_at: `${day}T05:00:00.000Z`,
+				score: -1,
+				timezone: 60,
+			}),
+		);
+
+		const [entry] = getCompletedDailyEntries(rows, scannedHour);
+
+		expect(entry?.timezones).toEqual({
+			"-300": [10, 0, 0, 0],
+			"+0": [0, 0, 0, 1],
+			"+60": [10, 0, 0, 1],
+			"+540": [0, 0, 1, 0],
+			unknown: [4, 0, 0, 0],
+		});
+		expect(Object.keys(entry?.timezones ?? {})).toEqual([
+			"-300",
+			"+0",
+			"+60",
+			"+540",
+			"unknown",
+		]);
+	});
+
+	it("counts local hours only for PRs with an offset", () => {
+		const rows = [
+			createEcosystemHealthItem({
+				created_at: `${day}T08:00:00.000Z`,
+				score: 90,
+				timezone: 60,
+			}),
+			createEcosystemHealthItem({
+				created_at: `${day}T08:00:00.000Z`,
+				score: 10,
+			}),
+			createEcosystemHealthItem({
+				created_at: `${day}T23:00:00.000Z`,
+				score: 10,
+			}),
+			createEcosystemHealthItem({
+				created_at: `${day}T00:00:00.000Z`,
+				score: 90,
+			}),
+		];
+
+		const [entry] = getCompletedDailyEntries(rows, scannedHour);
+
+		expect(entry?.localHours?.organic[9]).toBe(1);
+		expect(entry?.localHours?.organic.reduce((a, b) => a + b)).toBe(1);
+		expect(entry?.localHours?.automation.reduce((a, b) => a + b)).toBe(0);
+	});
+
+	it("writes number arrays on a single line", () => {
+		const rows = createFullDay(day, 90).map((row) => ({
+			...row,
+			timezone: 60,
+		}));
+		const entries = getCompletedDailyEntries(rows, scannedHour);
+		const written = stringifyDailyEntries(entries);
+
+		expect(written).toContain('"+60": [24,0,0,0]');
+		expect(written).toContain('"organic": [1,1,1,');
+		expect(JSON.parse(written)).toEqual(entries);
+	});
+
+	it("writes days without offsets exactly as before", () => {
+		const entries = getCompletedDailyEntries(
+			createFullDay(day, 90),
+			scannedHour,
+		);
+
+		expect(stringifyDailyEntries(entries)).toBe(
+			`${JSON.stringify(entries, null, 2)}\n`,
+		);
 	});
 });

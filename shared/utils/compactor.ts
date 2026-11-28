@@ -29,6 +29,17 @@ const STATUS_DECODE: Record<string, string> = {
 	m: "merged",
 };
 
+const OFFSET_PATTERN = /^-?\d+$/;
+
+function readTimezone(
+	value: string | undefined,
+): Pick<EcosystemHealthItem, "timezone"> {
+	if (value && OFFSET_PATTERN.test(value)) {
+		return { timezone: Number(value) };
+	}
+	return {};
+}
+
 function toUnixSecs(isoDate: string): number {
 	return Math.floor(new Date(isoDate).getTime() / 1000);
 }
@@ -73,8 +84,14 @@ function packRow(
 		row.is_bounty ? 1 : 0,
 	];
 
-	if (row.additions != null && row.deletions != null) {
-		fields.push(row.additions, row.deletions);
+	const isSized = row.additions != null && row.deletions != null;
+
+	if (isSized || row.timezone != null) {
+		fields.push(isSized ? row.additions : "", isSized ? row.deletions : "");
+	}
+
+	if (row.timezone != null) {
+		fields.push(row.timezone);
 	}
 
 	return fields.join(",");
@@ -112,6 +129,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 			isBounty,
 			additions,
 			deletions,
+			timezone,
 		] = fields;
 
 		const numCreatedTs = Number(createdTs);
@@ -145,6 +163,7 @@ export function unpack(content: string): EcosystemHealthItem[] {
 					additions: Number(additions),
 					deletions: Number(deletions),
 				}),
+			...readTimezone(timezone),
 		});
 	}
 

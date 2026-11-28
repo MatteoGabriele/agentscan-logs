@@ -11,6 +11,13 @@ import {
 	createEmptyClassificationStats,
 } from "./count-classification-by-date";
 import { classifyByScore, formatPercentage } from "./health-stats";
+import type { TimezoneCounts } from "./timezones";
+import {
+	getLocalHour,
+	getOffsetKey,
+	TIMEZONE_COUNT_ORDER,
+	UNKNOWN_OFFSET_KEY,
+} from "./timezones";
 
 // Lines changed by the PRs counted. Only present when every one of them was
 // sized: a partial sum would read as a smaller number, not a missing one.
@@ -33,10 +40,15 @@ export type DailyScanEntry = LineCounts & {
 	createdAt: string;
 	hours: number;
 	classifications: Record<ClassificationLabel, DailyClassificationCounts>;
+	timezones?: Record<string, TimezoneCounts>;
+	localHours?: Record<EcosystemHealthCategory, number[]>;
 };
 
 type DailyScanBucket = Pick<DailyScanEntry, "createdAt" | "classifications"> & {
 	hours: Set<string>;
+	timezones: Map<string, TimezoneCounts>;
+	localHours: Record<EcosystemHealthCategory, number[]>;
+	hasOffsets: boolean;
 };
 
 function createClassificationCounts(): DailyClassificationCounts {
@@ -53,6 +65,60 @@ function createClassifications(): DailyScanEntry["classifications"] {
 		mixed: createClassificationCounts(),
 		automation: createClassificationCounts(),
 		"insufficient-data": createClassificationCounts(),
+	};
+}
+
+function createLocalHours(): Record<EcosystemHealthCategory, number[]> {
+	return {
+		organic: Array(24).fill(0),
+		mixed: Array(24).fill(0),
+		automation: Array(24).fill(0),
+	};
+}
+
+function countTimezone(
+	bucket: DailyScanBucket,
+	result: EcosystemHealthItem,
+	classification: ClassificationLabel,
+) {
+	const key = getOffsetKey(result.timezone);
+	const counts = bucket.timezones.get(key) ?? [0, 0, 0, 0];
+	counts[TIMEZONE_COUNT_ORDER.indexOf(classification)] += 1;
+	bucket.timezones.set(key, counts);
+
+	if (result.timezone == null) {
+		return;
+	}
+
+	bucket.hasOffsets = true;
+
+	if (
+		classification !== "insufficient-data" &&
+		typeof result.timezone === "number"
+	) {
+		const hour = getLocalHour(result.created_at, result.timezone);
+		bucket.localHours[classification][hour] += 1;
+	}
+}
+
+function offsetRank(key: string): number {
+	return key === UNKNOWN_OFFSET_KEY ? Number.POSITIVE_INFINITY : Number(key);
+}
+
+function byOffset([a]: [string, unknown], [b]: [string, unknown]): number {
+	return offsetRank(a) - offsetRank(b);
+}
+
+function getTimezoneFields(
+	bucket: DailyScanBucket,
+): Pick<DailyScanEntry, "timezones" | "localHours"> {
+	if (!bucket.hasOffsets) {
+		return {};
+	}
+
+	return {
+		timezones: Object.fromEntries([...bucket.timezones].sort(byOffset)),
+		localHours: bucket.localHours,
 	};
 }
 
@@ -75,8 +141,14 @@ function collectBucketsByDate(
 			createdAt: result.created_at,
 			hours: new Set<string>(),
 			classifications: createClassifications(),
+			timezones: new Map(),
+			localHours: createLocalHours(),
+			hasOffsets: false,
 		};
-		const counts = bucket.classifications[classifyByScore(result.score)];
+		const classification = classifyByScore(result.score);
+		const counts = bucket.classifications[classification];
+
+		countTimezone(bucket, result, classification);
 		const isComplete = counts.count === 0 || counts.additions != null;
 
 		if (isComplete && result.additions != null && result.deletions != null) {
@@ -141,6 +213,7 @@ function toDailyEntry(
 		hours,
 		...sumLineCounts(bucket.classifications),
 		classifications: bucket.classifications,
+		...getTimezoneFields(bucket),
 	};
 }
 
@@ -272,4 +345,13 @@ export function mergeDailyEntries(
 	});
 
 	return [...byDateEntries.values()].sort(byDate);
+}
+
+export function stringifyDailyEntries(entries: DailyScanEntry[]): string {
+	const json = JSON.stringify(entries, null, 2).replace(
+		/\[\s*(-?\d+(?:,\s*-?\d+)*)\s*\]/g,
+		(_, numbers: string) => `[${numbers.replace(/\s+/g, "")}]`,
+	);
+
+	return `${json}\n`;
 }

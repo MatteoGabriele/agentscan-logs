@@ -24,12 +24,14 @@ import type { DailyScanEntry } from "../shared/utils/daily-rollup";
 import {
 	getCompletedDailyEntries,
 	mergeDailyEntries,
+	stringifyDailyEntries,
 } from "../shared/utils/daily-rollup";
 import { encryptValue } from "../shared/utils/encrypt-values";
 import {
 	classifyByScore,
 	INSUFFICIENT_DATA_SCORE,
 } from "../shared/utils/health-stats";
+import { estimateUtcOffset } from "../shared/utils/timezones";
 
 // Configuration
 const DELAY_BETWEEN_SCANS = 1000;
@@ -60,6 +62,7 @@ interface ScanResult {
 	is_bounty: boolean;
 	additions?: number;
 	deletions?: number;
+	timezone?: number;
 }
 
 interface ScanOptions {
@@ -212,7 +215,7 @@ function saveDailyEntries(
 		return;
 	}
 	const filePath = join(process.cwd(), "data", outputFile);
-	writeFileSync(filePath, `${JSON.stringify(entries, null, 2)}\n`);
+	writeFileSync(filePath, stringifyDailyEntries(entries));
 }
 
 function loadRepoScores(outputFile: string): DailyRepoScores {
@@ -589,6 +592,7 @@ export async function main(options: ScanOptions) {
 			events_count: number;
 			is_bounty: boolean;
 			is_github_app: boolean;
+			timezone: number | undefined;
 		}
 	>();
 
@@ -639,6 +643,7 @@ export async function main(options: ScanOptions) {
 			// GitHub's own label, not a score: an app is not a person having a
 			// good or bad day, so it is left out of the measurement entirely.
 			is_github_app: analysis.isGitHubApp,
+			timezone: estimateUtcOffset(events.map((event) => event.created_at)),
 		};
 		scoredUsers.set(pr.login, scored);
 
@@ -679,6 +684,7 @@ export async function main(options: ScanOptions) {
 			repo_name: pr.repo_name,
 			is_bounty: scored.is_bounty,
 			...size,
+			...(scored.timezone != null && { timezone: scored.timezone }),
 		};
 	}
 
